@@ -1,5 +1,7 @@
 # source https://raw.githubusercontent.com/django/django/main/.gitignore
 .idea
+*.markdown
+*.pdf
 *.egg-info
 *.pot
 *.py[co]
