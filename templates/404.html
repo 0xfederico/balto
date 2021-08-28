@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block title %}404 Not Found{% endblock %}
+
+{% block content %}
+    <h1>404 Not Found</h1>
+    <p>Resource not found in server.</p>
+    <br>
+    <p>Back to <a href="{% url 'homepage' %}">Homepage</a></p>
+{% endblock %}
