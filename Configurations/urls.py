@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('404-not-found', FourZeroFour.as_view(), name='404-not-found'),
     path('', Homepage.as_view(), name='homepage'),
+    path('animals/', include('animals.urls')),
 ]

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}Register Animal{% endblock %}
+
+{% block content %}
+    <h1>Register New Animal</h1>
+    <br><br>
+    {% crispy form %}
+{% endblock %}

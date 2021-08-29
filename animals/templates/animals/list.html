@@ -1,0 +1,35 @@
+{% extends 'base_list.html' %}
+
+{% block list_title %}Animals{% endblock %}
+{% block content_title %}Of Animals{% endblock %}
+
+{% block thead %}
+    <th>Photo</th>
+    <th>Name</th>
+    <th>Breed</th>
+    <th>Sex</th>
+    <th>Actions</th>
+{% endblock %}
+
+{% block tbody %}
+    {% for animal in object_list %}
+        <tr>
+
+            <td><img src="{{ animal.photo }}"/></td>
+            <td>{{ animal.name }}</td>
+            <td>{{ animal.breed }}</td>
+            <td>{{ animal.sex }}</td>
+            <td>
+                <a href="{% url 'animals:animal-info' animal.pk %}">info</a>
+                <br>
+                <a href="{% url 'animals:animal-update' animal.pk %}">update</a>
+                <br>
+                <a href="{% url 'animals:animal-remove' animal.pk %}">delete</a>
+            </td>
+        </tr>
+    {% endfor %}
+{% endblock %}
+
+{% block table_after %}
+    <a href="{% url 'animals:animal-register' %}" class="btn btn-primary">Register new Animal</a>
+{% endblock %}

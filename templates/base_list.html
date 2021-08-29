@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}List {% block list_title %}{% endblock %}{% endblock %}
+
+{% block content %}
+  <h1>List: {% block content_title %}{% endblock %}</h1>
+  <table class="table">
+    <thead>
+      <tr>
+        {% block thead %}{% endblock %}
+      </tr>
+    </thead>
+    <tbody>
+      {% block tbody %}{% endblock %}
+    </tbody>
+  </table>
+  {% block table_after %}{% endblock %}
+{% endblock %}

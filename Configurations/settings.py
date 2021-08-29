@@ -38,6 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'crispy_forms',
+#    'users',
+    'animals',
+#    'activities',
+#    'notifications',
+#    'facility',
 ]
 
 MIDDLEWARE = [
@@ -127,3 +132,6 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+MEDIA_ROOT = BASE_DIR / 'static' / 'images' / 'apps'
+
