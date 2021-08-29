@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}User registration{% endblock %}
+
+{% block content %}
+    <h1>User registration</h1>
+    {% crispy form %}
+{% endblock %}

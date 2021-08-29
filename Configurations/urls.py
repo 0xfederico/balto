@@ -16,10 +16,21 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from Configurations.views import FourZeroFour, Homepage
+from django.contrib.auth import views as auth_views
+from users.views import UserCreationView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('404-not-found', FourZeroFour.as_view(), name='404-not-found'),
     path('', Homepage.as_view(), name='homepage'),
     path('animals/', include('animals.urls')),
+    path('register/', UserCreationView.as_view(), name='users-register'),
+    path('login/', auth_views.LoginView.as_view(), name='users-login'),
+    path('logout', auth_views.LogoutView.as_view(), name='users-logout'),
+    path('password-reset', auth_views.PasswordResetView.as_view(), name='users-password-reset'),
+#   path('password-reset-done', auth_views.PasswordResetDoneView.as_view(), name='users-password-reset-done'),
+#   path('password-reset-confirm', auth_views.PasswordResetConfirmView.as_view(), name='users-password-reset-confirm'),
+#   path('password-reset-complete', auth_views.PasswordResetCompleteView.as_view(), name='users-password-reset-complete'),
+    path('password-change', auth_views.PasswordChangeView.as_view(), name='users-password-change'),
+#   path('password-change-done', auth_views.PasswordChangeDoneView.as_view(), name='users-password-change-done'),
 ]

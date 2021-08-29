@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'crispy_forms',
-#    'users',
+    'users',
     'animals',
 #    'activities',
 #    'notifications',
@@ -134,4 +134,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MEDIA_ROOT = BASE_DIR / 'static' / 'images' / 'apps'
+
+AUTH_USER_MODEL = 'users.UserModel'
+
+LOGIN_URL = "users-login"
+
+LOGIN_REDIRECT_URL = "homepage"
 
