@@ -1,4 +1,26 @@
 /* <GENERIC> */
-form { padding: 0 2%; }
+form {
+  padding: 0 2%;
+}
 /* </GENERIC> */
 
+/* <FULLCALENDAR> */
+#calendar-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.fc-header-toolbar { /* the calendar will be butting up against the edges, but let's scoot in the header's buttons */
+  padding: 1%;
+}
+.fc-daygrid-day-number {
+  text-decoration: none !important;
+}
+.fc-col-header-cell-cushion, .fc-col-header-cell-cushion:hover {
+  text-decoration: none;
+  color: black;
+  cursor: default !important;
+}
+/* </FULLCALENDAR> */

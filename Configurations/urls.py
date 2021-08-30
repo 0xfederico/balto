@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from Configurations.views import FourZeroFour, Homepage
+from Configurations.views import FourZeroFour, Homepage, Calendar
 from django.contrib.auth import views as auth_views
 from users.views import UserCreationView
 
@@ -23,6 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('404-not-found', FourZeroFour.as_view(), name='404-not-found'),
     path('', Homepage.as_view(), name='homepage'),
+    path('calendar', Calendar.as_view(), name='calendar'),
     path('animals/', include('animals.urls')),
     path('register/', UserCreationView.as_view(), name='users-register'),
     path('login/', auth_views.LoginView.as_view(), name='users-login'),
