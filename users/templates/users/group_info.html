@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Group Info{% endblock %}
+
+{% block content %}
+    <h1>Group Info</h1>
+    <h3>Group Name: {{ group_name }}</h3>
+    <br>
+    <h3>Group Permissions:</h3>
+    <ul>
+    {% for permission in group_permissions %}
+        <li><p class="lead">{{ permission }}</p></li><br>
+    {% endfor %}
+    </ul>
+{% endblock %}

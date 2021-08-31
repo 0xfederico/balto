@@ -18,6 +18,7 @@ class UserModel(AbstractUser):
     class Meta:
         verbose_name = 'Generic User'
         verbose_name_plural = 'Users'
+        ordering = ['last_name']
 
 
 # voluntary = Group.objects.create(name='Voluntary')

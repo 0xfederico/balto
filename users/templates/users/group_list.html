@@ -1,0 +1,28 @@
+{% extends 'base_list.html' %}
+
+{% load static %}
+
+{% block list_title %}Groups {% endblock %}
+{% block content_title %}Of Groups{% endblock %}
+
+{% block thead %}
+    <th>Name</th>
+    <th>Actions</th>
+{% endblock %}
+
+{% block tbody %}
+    {% for group in object_list %}
+        <tr>
+            <td>{{ group.name }}</td>
+            <td>
+                <a href="{% url 'users:group-info' group.pk %}"><img src="{% static 'images/info.png' %}" alt="Info" width="16" height="16"></a>
+                <a href="{% url 'users:group-update' group.pk %}"><img src="{% static 'images/pencil.png' %}" alt="Update" width="16" height="16"></a>
+                <a href="{% url 'users:group-delete' group.pk %}"><img src="{% static 'images/remove.png' %}" alt="Delete" width="16" height="16"></a>
+            </td>
+        </tr>
+    {% endfor %}
+{% endblock %}
+
+{% block table_after %}
+    <a href="{% url 'users:group-create' %}" class="btn btn-primary">Create new Group</a>
+{% endblock %}

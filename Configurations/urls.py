@@ -25,6 +25,7 @@ urlpatterns = [
     path('', Homepage.as_view(), name='homepage'),
     path('calendar', Calendar.as_view(), name='calendar'),
     path('animals/', include('animals.urls')),
+    path('users/', include('users.urls')),
     path('register/', UserCreationView.as_view(), name='users-register'),
     path('login/', auth_views.LoginView.as_view(), name='users-login'),
     path('logout', auth_views.LogoutView.as_view(), name='users-logout'),
