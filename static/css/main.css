@@ -2,6 +2,9 @@
 form {
   padding: 0 2%;
 }
+h1 {
+  text-align: center;
+}
 /* </GENERIC> */
 
 /* <FULLCALENDAR> */
