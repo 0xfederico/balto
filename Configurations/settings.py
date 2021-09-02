@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import netifaces
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,8 +26,18 @@ SECRET_KEY = 'django-insecure-sdv=@5@l(ml+&odwd@@4o^a&o5vhv3u8pac5xg@s=zmn-fs^d$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+# ----------- if you don't want to see the site on other devices inside your LAN remove this block of code -----------
+allowed = ""
+for i in netifaces.interfaces():
+    if i != 'lo':
+        try:
+            ip = str(netifaces.ifaddresses(i)[netifaces.AF_INET][0]['addr'])
+            if str(ip).startswith("192.168."):
+                allowed = ip
+        except KeyError:
+            pass
+ALLOWED_HOSTS = [allowed if DEBUG else ""]  # run on terminal: python manage.py runserver 0.0.0.0:8000
+# ----------- delete to here and set: ALLOWED_HOSTS = []  -----------
 
 # Application definition
 
