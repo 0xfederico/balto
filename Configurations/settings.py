@@ -137,7 +137,7 @@ MEDIA_ROOT = BASE_DIR / 'static' / 'images' / 'apps'
 
 AUTH_USER_MODEL = 'users.UserModel'
 
-LOGIN_URL = "users-login"
+LOGIN_URL = "users:user-login"
 
 LOGIN_REDIRECT_URL = "homepage"
 

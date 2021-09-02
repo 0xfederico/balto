@@ -1,0 +1,30 @@
+{% extends 'page_list.html' %}
+
+{% load static %}
+
+{% block list_title %}Users{% endblock %}
+{% block content_title %}Of Users{% endblock %}
+
+{% block thead %}
+    <th>Photo</th>
+    <th>Username</th>
+    <th>Actions</th>
+{% endblock %}
+
+{% block tbody %}
+    {% for user in object_list %}
+        <tr>
+            <td><img src="{{ user.photo }}"/></td>
+            <td>{{ user.username }}</td>
+            <td>
+                <a href="{% url 'users:user-info' user.pk %}"><img src="{% static 'images/info.png' %}" alt="Info" width="24" height="24"></a>
+                <a href="{% url 'users:user-update' user.pk %}"><img src="{% static 'images/pencil.png' %}" alt="Update" width="24" height="24"></a>
+                <a href="{% url 'users:user-delete' user.pk %}"><img src="{% static 'images/remove.png' %}" alt="Delete" width="24" height="24"></a>
+            </td>
+        </tr>
+    {% endfor %}
+{% endblock %}
+
+{% block table_before %}
+    <a href="{% url 'users:user-create' %}" class="btn btn-primary w-100">Register new User</a>
+{% endblock %}

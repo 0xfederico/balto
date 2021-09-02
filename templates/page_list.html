@@ -1,0 +1,21 @@
+{% extends 'page.html' %}
+
+{% block title %}List {% block list_title %}{% endblock %}{% endblock %}
+
+{% block content %}
+  <main role="main" class="flex-shrink-0">
+    <h1>List: {% block content_title %}{% endblock %}</h1>
+    {% block table_before %}{% endblock %}
+    <table class="table">
+      <thead>
+        <tr>
+          {% block thead %}{% endblock %}
+        </tr>
+      </thead>
+      <tbody>
+        {% block tbody %}{% endblock %}
+      </tbody>
+    </table>
+    {% block table_after %}{% endblock %}
+  </main>
+{% endblock %}

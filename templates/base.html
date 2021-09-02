@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="h-100">
   <head>
     {% load static %}
 
@@ -26,7 +26,7 @@
 
     {% block extra_head %}{% endblock %}
   </head>
-  <body>
+  <body class="d-flex flex-column h-100">
     {% for message in messages %}
         <div class="alert
           {% if message.level == 10 %}
@@ -50,36 +50,11 @@
         </div>
     {% endfor %}
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="{% url 'homepage' %}">
-        <img src="{% static 'images/logo.png' %}" alt="Balto" width="35" height="35" class="d-inline-block align-text-center">
-        Balto
-      </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item active">
-            <a class="nav-link text-center" href="#">Home <span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-center" href="#">My profile</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-center" href="#">Animals</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-center" href="#">About us</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-center" href="#">Calendar</a>
-          </li>
-        </ul>
-      </div>
-    </nav>
+    {% block header %}{% endblock %}
 
     {% block content %}{% endblock %}
+
+    {% block footer %}{% endblock %}
 
     <!-- jQuery and Bootstrap Bundle (includes Popper) -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"

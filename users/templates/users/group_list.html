@@ -1,4 +1,4 @@
-{% extends 'base_list.html' %}
+{% extends 'page_list.html' %}
 
 {% load static %}
 
@@ -15,14 +15,16 @@
         <tr>
             <td>{{ group.name }}</td>
             <td>
-                <a href="{% url 'users:group-info' group.pk %}"><img src="{% static 'images/info.png' %}" alt="Info" width="16" height="16"></a>
-                <a href="{% url 'users:group-update' group.pk %}"><img src="{% static 'images/pencil.png' %}" alt="Update" width="16" height="16"></a>
-                <a href="{% url 'users:group-delete' group.pk %}"><img src="{% static 'images/remove.png' %}" alt="Delete" width="16" height="16"></a>
+                <a href="{% url 'users:group-info' group.pk %}"><img src="{% static 'images/info.png' %}" alt="Info" width="24" height="24"></a>
+                <a href="{% url 'users:group-update' group.pk %}"><img src="{% static 'images/pencil.png' %}" alt="Update" width="24" height="24"></a>
+                <a href="{% url 'users:group-delete' group.pk %}"><img src="{% static 'images/remove.png' %}" alt="Delete" width="24" height="24"></a>
             </td>
         </tr>
     {% endfor %}
 {% endblock %}
 
 {% block table_after %}
-    <a href="{% url 'users:group-create' %}" class="btn btn-primary">Create new Group</a>
+    <div class="d-flex justify-content-center">
+        <a href="{% url 'users:group-create' %}" class="btn btn-primary w-75">Create new Group</a>
+    </div>
 {% endblock %}

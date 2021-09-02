@@ -1,4 +1,4 @@
-{% extends 'base_list.html' %}
+{% extends 'page_list.html' %}
 
 {% block list_title %}Animals{% endblock %}
 {% block content_title %}Of Animals{% endblock %}
@@ -31,5 +31,7 @@
 {% endblock %}
 
 {% block table_after %}
-    <a href="{% url 'animals:animal-register' %}" class="btn btn-primary">Register new Animal</a>
+    <div class="d-flex justify-content-center">
+        <a href="{% url 'animals:animal-register' %}" class="btn btn-primary w-75">Register new Animal</a>
+    </div>
 {% endblock %}
