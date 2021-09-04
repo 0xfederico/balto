@@ -1,7 +1,7 @@
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
-from users.forms import UserForm, GroupForm
+from users.forms import UserForm, GroupForm, UserUpdateForm
 from users.mixins import IsResponsibleMixin, ItIsHimself, IsSuperuserMixin
 from users.models import UserModel
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView, DetailView
@@ -52,7 +52,7 @@ class UserUpdateView(LoginRequiredMixin, IsResponsibleMixin, IsSuperuserMixin, I
                      UpdateView):
 
     model = UserModel
-    form_class = UserForm
+    form_class = UserUpdateForm
     template_name = 'users/user_update.html'
     success_message = 'User updated correctly!'
 
