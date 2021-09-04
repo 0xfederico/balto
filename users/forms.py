@@ -15,7 +15,7 @@ class UserForm(UserCreationForm):
 
     class Meta:
         model = UserModel
-        fields = ["username", "first_name", "last_name", "email", "phone", "photo"]
+        fields = ["username", "first_name", "last_name", "email", "phone", "photo", "groups"]
 
 
 class UserUpdateForm(UserChangeForm):
@@ -29,7 +29,7 @@ class UserUpdateForm(UserChangeForm):
 
     class Meta:
         model = UserModel
-        fields = ["username", "first_name", "last_name", "email", "phone", "photo"]
+        fields = ["username", "first_name", "last_name", "email", "phone", "photo", "groups"]
 
 
 class GroupForm(forms.ModelForm):
@@ -42,4 +42,3 @@ class GroupForm(forms.ModelForm):
     class Meta:
         model = Group
         fields = ["name", "permissions"]
-

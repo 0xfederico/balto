@@ -18,6 +18,7 @@
                 <a href="{% url 'users:group-info' group.pk %}"><img src="{% static 'images/info.png' %}" alt="Info" width="24" height="24"></a>
                 <a href="{% url 'users:group-update' group.pk %}"><img src="{% static 'images/pencil.png' %}" alt="Update" width="24" height="24"></a>
                 <a href="{% url 'users:group-delete' group.pk %}"><img src="{% static 'images/remove.png' %}" alt="Delete" width="24" height="24"></a>
+                <a href="{% url 'users:group-members' group.pk %}"><img src="{% static 'images/members.png' %}" alt="Delete" width="24" height="24"></a>
             </td>
         </tr>
     {% endfor %}

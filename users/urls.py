@@ -1,7 +1,8 @@
 from django.urls import path
 
 from users.views import GroupCreateView, GroupUpdateView, GroupDeleteView, GroupListView, \
-    GroupInfoView, UserInfoView, UserDeleteView, UserListView, UserUpdateView, UserCreateView
+    GroupInfoView, UserInfoView, UserDeleteView, UserListView, UserUpdateView, UserCreateView, GroupMembersView, \
+    GroupDeleteUserView
 
 from django.contrib.auth import views as auth_views
 
@@ -11,8 +12,10 @@ urlpatterns = [
     # GROUP
     path('group-create', GroupCreateView.as_view(), name='group-create'),
     path('<int:pk>/group-delete', GroupDeleteView.as_view(), name='group-delete'),
+    path('<int:pk>/<int:upk>/group-delete-user', GroupDeleteUserView.as_view(), name='group-delete-user'),
     path('<int:pk>/group-info', GroupInfoView.as_view(), name='group-info'),
     path('groups-list/', GroupListView.as_view(), name='groups-list'),
+    path('<int:pk>/group-members', GroupMembersView.as_view(), name='group-members'),
     path('<int:pk>/group-update', GroupUpdateView.as_view(), name='group-update'),
     # USER
     path('user-create', UserCreateView.as_view(template_name='users/user_create.html'), name='user-create'),

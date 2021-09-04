@@ -1,0 +1,30 @@
+{% extends 'page_list.html' %}
+
+{% load static %}
+
+{% block list_title %}Group Members {% endblock %}
+{% block content_title %}Of Group Members{% endblock %}
+
+{% block thead %}
+    <th>Photo</th>
+    <th>Username</th>
+    <th>Actions</th>
+{% endblock %}
+
+{% block tbody %}
+    {% for user in members %}
+        <tr>
+            <td><img src="{{ user.photo }}"/></td>
+            <td>{{ user.username }}</td>
+            <td>
+                <a href="{% url 'users:group-delete-user' group.pk user.pk %}"><img src="{% static 'images/remove.png' %}" alt="Delete" width="24" height="24"></a>
+            </td>
+        </tr>
+    {% endfor %}
+{% endblock %}
+
+{% block table_before %}
+    <div class="d-flex flex-column align-items-center">
+        <input type="search" class="form-control my-2 w-75" aria-label="Search" placeholder="Search" oninput="filterElements(this)">
+    </div>
+{% endblock %}

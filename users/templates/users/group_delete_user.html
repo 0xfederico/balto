@@ -1,0 +1,15 @@
+{% extends 'page.html' %}
+
+{% block title %}Delete User From Group{% endblock %}
+
+{% block content %}
+    <h1>Delete User From Group</h1>
+    <br>
+    <form method="post">{% csrf_token %}
+        <p class="text-danger">You are going to remove <strong>{{ delete_user }}</strong> from
+            <strong>{{ group.name }}</strong> group, are you sure?</p>
+        <a href="{% url 'users:group-members' group.pk %}">Cancel</a>
+        <input type="submit" value="Confirm">
+    </form>
+
+{% endblock %}

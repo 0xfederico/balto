@@ -1,3 +1,4 @@
+from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
@@ -81,6 +82,29 @@ class GroupDeleteView(LoginRequiredMixin, IsResponsibleMixin, IsSuperuserMixin, 
     success_url = reverse_lazy('users:groups-list')
 
 
+class GroupDeleteUserView(LoginRequiredMixin, IsResponsibleMixin, IsSuperuserMixin, SuccessMessageMixin, DeleteView):
+
+    model = Group
+    form_class = GroupForm
+    template_name = 'users/group_delete_user.html'
+    success_message = 'User removed from Group correctly!'
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        context = {"group": self.object,
+                   "delete_user": UserModel.objects.get(pk=kwargs["upk"])}
+        return self.render_to_response(context)
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        self.object.user_set.remove(kwargs["upk"])
+        return HttpResponseRedirect(success_url)
+
+    def get_success_url(self):
+        return reverse_lazy('users:group-members', kwargs={"pk": self.object.pk})
+
+
 class GroupInfoView(LoginRequiredMixin, SuccessMessageMixin, DetailView):
 
     model = Group
@@ -90,6 +114,18 @@ class GroupInfoView(LoginRequiredMixin, SuccessMessageMixin, DetailView):
         self.object = self.get_object()
         context = {"group_name": self.object.name,
                    "group_permissions": [i.name for i in self.object.permissions.all()]}
+        return self.render_to_response(context)
+
+
+class GroupMembersView(LoginRequiredMixin, SuccessMessageMixin, DetailView):
+
+    model = Group
+    template_name = 'users/group_members.html'
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        context = {"group": self.object,
+                   "members": UserModel.objects.filter(groups__name=self.object.name)}
         return self.render_to_response(context)
 
 
@@ -108,4 +144,3 @@ class GroupUpdateView(LoginRequiredMixin, IsResponsibleMixin, IsSuperuserMixin, 
 
     def get_success_url(self):
         return reverse_lazy('users:group-info', kwargs={"pk": self.object.pk})
-
