@@ -25,4 +25,3 @@ urlpatterns = [
     path('animals/', include('animals.urls')),
     path('users/', include('users.urls')),
 ]
-

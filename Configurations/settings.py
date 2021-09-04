@@ -151,4 +151,3 @@ AUTH_USER_MODEL = 'users.UserModel'
 LOGIN_URL = "users:user-login"
 
 LOGIN_REDIRECT_URL = "homepage"
-

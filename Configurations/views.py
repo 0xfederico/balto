@@ -15,4 +15,3 @@ class Homepage(TemplateView):
 class Calendar(LoginRequiredMixin, TemplateView):
 
     template_name = 'calendar.html'
-
