@@ -23,8 +23,9 @@
     {% endfor %}
 {% endblock %}
 
-{% block table_after %}
-    <div class="d-flex justify-content-center">
+{% block table_before %}
+    <div class="d-flex flex-column align-items-center">
         <a href="{% url 'users:group-create' %}" class="btn btn-primary w-75">Create new Group</a>
+        <input type="search" class="form-control my-2 w-75" aria-label="Search" placeholder="Search" oninput="filterElements(this)">
     </div>
 {% endblock %}
