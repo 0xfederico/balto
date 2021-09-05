@@ -25,6 +25,7 @@
 
 {% block table_before %}
     <div class="d-flex flex-column align-items-center">
+        <a href="{% url 'users:group-add-user' group.pk %}" class="btn btn-primary w-75">Add User</a>
         <input type="search" class="form-control my-2 w-75" aria-label="Search" placeholder="Search" oninput="filterElements(this)">
     </div>
 {% endblock %}

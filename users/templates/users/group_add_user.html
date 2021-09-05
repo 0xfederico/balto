@@ -1,0 +1,11 @@
+{% extends 'page.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}Choose The User{% endblock %}
+
+{% block content %}
+    <h1>Select the users to add to the {{ group.name }} group</h1>
+    {% crispy form %}
+{% endblock %}
+

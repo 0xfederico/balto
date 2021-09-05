@@ -42,3 +42,19 @@ class GroupForm(forms.ModelForm):
     class Meta:
         model = Group
         fields = ["name", "permissions"]
+
+
+class GroupAddUserForm(forms.Form):
+
+    helper = FormHelper()
+    helper.form_id = "group_add_user_crispy_form"
+    helper.form_method = "POST"
+    helper.add_input(Submit("save", "Add"))
+
+    users = forms.ModelMultipleChoiceField(
+        widget=forms.SelectMultiple(),
+        queryset=UserModel.objects.all().order_by('last_name'))
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['users'].queryset = UserModel.objects.all()
