@@ -39,7 +39,7 @@ class UserInfoView(LoginRequiredMixin, SuccessMessageMixin, DetailView):
     def get(self, request: HttpRequest, *args, **kwargs):
         self.object = self.get_object()
         context = {"object": self.object,
-                   "groups": [el.name for el in self.object.groups.all()]}
+                   "groups": list(self.object.groups.all())}
         return self.render_to_response(context)
 
 
