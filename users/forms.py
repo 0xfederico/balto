@@ -40,13 +40,9 @@ class GroupForm(forms.ModelForm):
     helper.form_method = "POST"
     helper.add_input(Submit("save", "Save"))
 
-    perms = []
-    for p in Permission.objects.all():
-        if p.codename not in prohibited_permissions:
-            perms.append(tuple([p.id, p.name]))
-
-    permissions = forms.MultipleChoiceField(
-        choices=tuple(perms),
+    permissions = forms.ModelMultipleChoiceField(
+        widget=forms.SelectMultiple(),
+        queryset=Permission.objects.all().exclude(codename__in=prohibited_permissions),
         help_text='Select the permissions for the members of this group'
     )
 
