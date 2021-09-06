@@ -7,12 +7,26 @@ from users.models import UserModel
 from django.contrib.auth.models import Group, Permission
 
 
-class UserForm(UserCreationForm):
+class UserAdminResponsibleCreateForm(UserCreationForm):
 
     helper = FormHelper()
     helper.form_id = "users_crispy_form"
     helper.form_method = "POST"
     helper.add_input(Submit("save", "Save"))
+
+    class Meta:
+        model = UserModel
+        fields = ["username", "first_name", "last_name", "email", "phone", "photo", "groups"]
+
+
+class UserAdminResponsibleUpdateForm(UserChangeForm):
+
+    helper = FormHelper()
+    helper.form_id = "user_update_crispy_form"
+    helper.form_method = "POST"
+    helper.add_input(Submit("save", "Save"))
+
+    password = None
 
     class Meta:
         model = UserModel
@@ -30,7 +44,7 @@ class UserUpdateForm(UserChangeForm):
 
     class Meta:
         model = UserModel
-        fields = ["username", "first_name", "last_name", "email", "phone", "photo", "groups"]
+        fields = ["username", "first_name", "last_name", "email", "phone", "photo"]
 
 
 class GroupForm(forms.ModelForm):
@@ -60,7 +74,8 @@ class GroupAddUserForm(forms.Form):
 
     users = forms.ModelMultipleChoiceField(
         widget=forms.SelectMultiple(),
-        queryset=UserModel.objects.all().order_by('last_name'))
+        queryset=UserModel.objects.all().order_by('last_name')
+    )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

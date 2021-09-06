@@ -5,8 +5,8 @@ from django.urls import reverse_lazy, reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views import View
-from users.forms import UserForm, GroupForm, UserUpdateForm, GroupAddUserForm
-from users.mixins import IsResponsibleMixin, ItIsHimself, IsSuperuserMixin
+from users.forms import UserAdminResponsibleCreateForm, GroupForm, GroupAddUserForm, UserAdminResponsibleUpdateForm
+from users.mixins import IsResponsibleMixin, ItIsHimselfMixin, IsSuperuserMixin, ItIsHimselfUpdateMixin
 from users.models import UserModel
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView, DetailView
 from django.contrib.auth.models import Group
@@ -14,9 +14,8 @@ from django.contrib.auth.models import Group
 
 # ------------------- USER -------------------
 class UserCreateView(LoginRequiredMixin, IsResponsibleMixin, IsSuperuserMixin, SuccessMessageMixin, CreateView):
-
     model = UserModel
-    form_class = UserForm
+    form_class = UserAdminResponsibleCreateForm
     template_name = 'users/registration/user_create.html'
     success_message = 'User created correctly!'
 
@@ -24,18 +23,16 @@ class UserCreateView(LoginRequiredMixin, IsResponsibleMixin, IsSuperuserMixin, S
         return reverse_lazy('users:user-info', kwargs={"pk": self.object.pk})
 
 
-class UserDeleteView(LoginRequiredMixin, IsResponsibleMixin, IsSuperuserMixin, ItIsHimself, SuccessMessageMixin,
+class UserDeleteView(LoginRequiredMixin, IsResponsibleMixin, IsSuperuserMixin, ItIsHimselfMixin, SuccessMessageMixin,
                      DeleteView):
-
     model = UserModel
-    form_class = UserForm
+    form_class = UserAdminResponsibleCreateForm
     template_name = 'users/user_delete.html'
     success_message = 'User deleted correctly!'
     success_url = reverse_lazy('users:users-list')
 
 
 class UserInfoView(LoginRequiredMixin, SuccessMessageMixin, DetailView):
-
     model = UserModel
     template_name = 'users/user_info.html'
 
@@ -47,16 +44,13 @@ class UserInfoView(LoginRequiredMixin, SuccessMessageMixin, DetailView):
 
 
 class UserListView(LoginRequiredMixin, SuccessMessageMixin, ListView):
-
     model = UserModel
     template_name = 'users/user_list.html'
 
 
-class UserUpdateView(LoginRequiredMixin, IsResponsibleMixin, IsSuperuserMixin, ItIsHimself, SuccessMessageMixin,
-                     UpdateView):
-
+class UserUpdateView(LoginRequiredMixin, SuccessMessageMixin, ItIsHimselfUpdateMixin, UpdateView):
     model = UserModel
-    form_class = UserUpdateForm
+    form_class = UserAdminResponsibleUpdateForm
     template_name = 'users/user_update.html'
     success_message = 'User updated correctly!'
 
@@ -66,7 +60,6 @@ class UserUpdateView(LoginRequiredMixin, IsResponsibleMixin, IsSuperuserMixin, I
 
 # ------------------- GROUP -------------------
 class GroupCreateView(LoginRequiredMixin, IsResponsibleMixin, IsSuperuserMixin, SuccessMessageMixin, CreateView):
-
     model = Group
     form_class = GroupForm
     template_name = 'users/group_create.html'
@@ -77,7 +70,6 @@ class GroupCreateView(LoginRequiredMixin, IsResponsibleMixin, IsSuperuserMixin, 
 
 
 class GroupDeleteView(LoginRequiredMixin, IsResponsibleMixin, IsSuperuserMixin, SuccessMessageMixin, DeleteView):
-
     model = Group
     form_class = GroupForm
     template_name = 'users/group_delete.html'
@@ -86,7 +78,6 @@ class GroupDeleteView(LoginRequiredMixin, IsResponsibleMixin, IsSuperuserMixin, 
 
 
 class GroupDeleteUserView(LoginRequiredMixin, IsResponsibleMixin, IsSuperuserMixin, SuccessMessageMixin, DeleteView):
-
     model = Group
     form_class = GroupForm
     template_name = 'users/group_delete_user.html'
@@ -134,7 +125,6 @@ class GroupAddUserView(LoginRequiredMixin, IsResponsibleMixin, IsSuperuserMixin,
 
 
 class GroupInfoView(LoginRequiredMixin, SuccessMessageMixin, DetailView):
-
     model = Group
     template_name = "users/group_info.html"
 
@@ -146,7 +136,6 @@ class GroupInfoView(LoginRequiredMixin, SuccessMessageMixin, DetailView):
 
 
 class GroupMembersView(LoginRequiredMixin, SuccessMessageMixin, DetailView):
-
     model = Group
     template_name = 'users/group_members.html'
 
@@ -158,13 +147,11 @@ class GroupMembersView(LoginRequiredMixin, SuccessMessageMixin, DetailView):
 
 
 class GroupListView(LoginRequiredMixin, SuccessMessageMixin, ListView):
-
     model = Group
     template_name = 'users/group_list.html'
 
 
 class GroupUpdateView(LoginRequiredMixin, IsResponsibleMixin, IsSuperuserMixin, SuccessMessageMixin, UpdateView):
-
     model = Group
     form_class = GroupForm
     template_name = 'users/group_update.html'

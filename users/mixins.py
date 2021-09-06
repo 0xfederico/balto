@@ -1,6 +1,8 @@
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.core.exceptions import ObjectDoesNotExist
+
+from users.forms import UserUpdateForm
 from users.models import UserModel
 
 
@@ -25,7 +27,7 @@ class IsSuperuserMixin(object):
             return redirect('homepage')
 
 
-class ItIsHimself(object):
+class ItIsHimselfMixin(object):
 
     def dispatch(self, request, *args, **kwargs):
         try:
@@ -38,3 +40,19 @@ class ItIsHimself(object):
         else:
             messages.error(request, "You are not authorized to change the accounts of other users!")
             return redirect('homepage')
+
+
+class ItIsHimselfUpdateMixin:
+
+    def dispatch(self, request, *args, **kwargs):
+        try:
+            selected_user = UserModel.objects.get(pk=kwargs['pk'])
+        except ObjectDoesNotExist:
+            return redirect('404-not-found')
+        if not (request.user.is_responsible or request.user.is_superuser):
+            if request.user == selected_user:
+                self.__class__.form_class = UserUpdateForm
+            else:
+                messages.error(request, "You are not authorized to change the accounts of other users!")
+                return redirect('homepage')
+        return super().dispatch(request, *args, **kwargs)
