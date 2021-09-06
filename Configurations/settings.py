@@ -142,12 +142,44 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Crispy form
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
+# Images upload
 MEDIA_ROOT = BASE_DIR / 'static' / 'images' / 'apps'
 
+# Login and Users
 AUTH_USER_MODEL = 'users.UserModel'
 
 LOGIN_URL = "users:user-login"
 
 LOGIN_REDIRECT_URL = "homepage"
+
+# Prohibited permissions for users managed by the "users" app
+prohibited_permissions = [
+    # -- logentry --
+    "add_logentry",
+    "change_logentry",
+    "delete_logentry",
+    "view_logentry",
+    # -- group --
+    "add_group",
+    "change_group",
+    "delete_group",
+    # "view_group",
+    # -- permission --
+    "add_permission",
+    "change_permission",
+    "delete_permission",
+    "view_permission",
+    # -- contenttype --
+    "add_contenttype",
+    "change_contenttype",
+    "delete_contenttype",
+    "view_contenttype",
+    # -- session --
+    "add_session",
+    "change_session",
+    "delete_session",
+    "view_session",
+]

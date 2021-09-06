@@ -1,7 +1,6 @@
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.core.exceptions import ObjectDoesNotExist
-
 from users.models import UserModel
 
 
@@ -39,4 +38,3 @@ class ItIsHimself(object):
         else:
             messages.error(request, "You are not authorized to change the accounts of other users!")
             return redirect('homepage')
-

@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpRequest
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -39,7 +39,7 @@ class UserInfoView(LoginRequiredMixin, SuccessMessageMixin, DetailView):
     model = UserModel
     template_name = 'users/user_info.html'
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request: HttpRequest, *args, **kwargs):
         self.object = self.get_object()
         context = {"username": self.object.username,
                    "user_photo": self.object.photo}
@@ -92,13 +92,13 @@ class GroupDeleteUserView(LoginRequiredMixin, IsResponsibleMixin, IsSuperuserMix
     template_name = 'users/group_delete_user.html'
     success_message = 'User removed from Group correctly!'
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request: HttpRequest, *args, **kwargs):
         self.object = self.get_object()
         context = {"group": self.object,
                    "delete_user": UserModel.objects.get(pk=kwargs["upk"])}
         return self.render_to_response(context)
 
-    def delete(self, request, *args, **kwargs):
+    def delete(self, request: HttpRequest, *args, **kwargs):
         self.object = self.get_object()
         success_url = self.get_success_url()
         self.object.user_set.remove(kwargs["upk"])
@@ -110,17 +110,17 @@ class GroupDeleteUserView(LoginRequiredMixin, IsResponsibleMixin, IsSuperuserMix
 
 class GroupAddUserView(LoginRequiredMixin, IsResponsibleMixin, IsSuperuserMixin, View):
 
-    def dispatch(self, request, *args, **kwargs):
+    def dispatch(self, request: HttpRequest, *args, **kwargs):
         self.group = Group.objects.filter(pk=kwargs["pk"])[0]
         del kwargs["pk"]  # we just need it to retrieve the group
         return super().dispatch(self.request, *args, **kwargs)
 
-    def get(self, request):
+    def get(self, request: HttpRequest):
         context = {"group": self.group,
                    "form": GroupAddUserForm(request.GET)}
         return render(request, "users/group_add_user.html", context)
 
-    def post(self, request):
+    def post(self, request: HttpRequest):
         form = GroupAddUserForm(request.POST)
         if form.is_valid():
             users = form.cleaned_data.get("users")
@@ -138,7 +138,7 @@ class GroupInfoView(LoginRequiredMixin, SuccessMessageMixin, DetailView):
     model = Group
     template_name = "users/group_info.html"
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request: HttpRequest, *args, **kwargs):
         self.object = self.get_object()
         context = {"group_name": self.object.name,
                    "group_permissions": [i.name for i in self.object.permissions.all()]}
@@ -150,7 +150,7 @@ class GroupMembersView(LoginRequiredMixin, SuccessMessageMixin, DetailView):
     model = Group
     template_name = 'users/group_members.html'
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request: HttpRequest, *args, **kwargs):
         self.object = self.get_object()
         context = {"group": self.object,
                    "members": UserModel.objects.filter(groups__name=self.object.name)}
