@@ -5,17 +5,55 @@
 {% block title %}Group Info{% endblock %}
 
 {% block content %}
-    <h1>Group Info</h1>
-    <h3>Group Name: {{ group_name }}</h3>
-    <br>
-    <h3>Group Permissions:</h3>
-    <ul>
-    {% for permission in group_permissions %}
-        <li><p class="lead">{{ permission }}</p></li><br>
-    {% endfor %}
-    </ul>
-    <br>
-    <h3>Actions:</h3>
-    <a href="{% url 'users:group-update' user.pk %}"><img src="{% static 'images/pencil.png' %}" alt="Update" width="24" height="24"></a>
-    <a href="{% url 'users:group-delete' user.pk %}"><img src="{% static 'images/remove.png' %}" alt="Delete" width="24" height="24"></a>
+<h1>Group Info</h1>
+<div class="container py-3 d-flex justify-content-center">
+    <div class="row justify-content-center w-100">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="container">
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <h2 class="mb-2 text-primary">{{ group_name }}</h2>
+                        </div>
+                        <hr>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-3 mb-2 align-items-end">
+                                <img src="{% static 'images/permissions.png' %}" alt="Permissions" width="32"
+                                     height="32">
+                            </div>
+                            <div class="col-9 mb-2 justify-content-start">
+                                {% for permission in group_permissions %}
+                                <span class="badge badge-success">{{ permission }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% if user.is_superuser or user.is_responsible %}
+                        <hr>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-6">
+                                <a href="{% url 'users:group-update' group_pk %}">
+                                    <button type="button" class="btn btn-outline-secondary">
+                                        Edit Profile
+                                        <img src="{% static 'images/pencil.png' %}" alt="Update" width="24" height="24">
+                                    </button>
+                                </a>
+                            </div>
+                            <div class="col-6">
+                                <a href="{% url 'users:group-delete' group_pk %}">
+                                    <button type="button" class="btn btn-outline-secondary">
+                                        Delete
+                                        <img src="{% static 'images/remove.png' %}" alt="Delete" width="24" height="24">
+                                    </button>
+                                </a>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
+
+

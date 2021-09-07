@@ -131,6 +131,7 @@ class GroupInfoView(LoginRequiredMixin, SuccessMessageMixin, DetailView):
     def get(self, request: HttpRequest, *args, **kwargs):
         self.object = self.get_object()
         context = {"group_name": self.object.name,
+                   "group_pk": self.object.pk,
                    "group_permissions": [i.name for i in self.object.permissions.all()]}
         return self.render_to_response(context)
 
