@@ -19,3 +19,15 @@ function filterElements(input) {
         }
     }
 }
+
+//zoom image
+function zoomImage(img) {
+    let modalImg = document.querySelector("#imgmodal");
+    modal.style.display = "block";
+    modalImg.src = img.src;
+}
+
+function closeModal() {
+    let modal = document.querySelector("#modal");
+    modal.style.display = "none";
+}

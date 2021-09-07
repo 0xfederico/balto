@@ -14,7 +14,8 @@
                     <div class="mt-3 mb-2">
                         {% if object.photo %}
                         <img src="{{ object.photo.url }}" alt="Propic"
-                             class="border border-dark rounded-circle img-fluid p-1" height="150" width="150"/>
+                             class="border border-dark rounded-circle img-fluid p-1" height="150" width="150"
+                             onclick="zoomImage(this);"/>
                         {% else %}
                         <img src="{% static 'images/no-pic-user.png' %}" alt="Propic"
                              class="border border-dark rounded-circle img-fluid p-1" height="150" width="150"/>

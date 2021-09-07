@@ -14,7 +14,15 @@
 {% block tbody %}
     {% for user in object_list %}
         <tr>
-            <td class="text-center"><img src="{{ user.photo }}"/></td>
+            {% if user.photo %}
+            <td class="text-center">
+                <img src="{{ user.photo.url }}" alt="Propic" class="img-fluid" height="32" width="32" onclick="zoomImage(this);"/>
+            </td>
+            {% else %}
+            <td class="text-center">
+                <img src="{% static 'images/no-pic-user.png' %}" alt="Propic" class="img-fluid" height="32" width="32"/>
+            </td>
+            {% endif %}
             <td class="text-center">{{ user.username }}</td>
             <td class="text-center">
                 <a href="{% url 'users:user-info' user.pk %}"><img src="{% static 'images/info.png' %}" alt="Info" width="24" height="24"></a>

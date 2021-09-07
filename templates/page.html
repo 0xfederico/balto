@@ -3,96 +3,112 @@
 {% load static %}
 
 {% block header %}
-  <header>
+<header>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="{% url 'homepage' %}">
-        <img src="{% static 'images/logo.png' %}" alt="Balto" width="35" height="35" class="d-inline-block align-text-center">
-        Balto
-      </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item active">
-            <a class="nav-link text-center" href="#">Home <span class="sr-only">(current)</span></a>
-          </li>
-          {% if user.is_authenticated %}
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle text-center" href="#" id="navbarDropdownAccount" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Account
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item text-center" href="{% url 'users:user-info' user.pk %}">My Profile</a>
-                <a class="dropdown-item text-center" href="{% url 'users:users-list' %}">All Users</a>
-                <a class="dropdown-item text-center" href="{% url 'users:user-update' user.pk %}">Update</a>
-                <a class="dropdown-item text-center" href="{% url 'users:user-password-change' %}">Change Password</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item text-center" href="{% url 'users:user-delete' user.pk %}">Delete</a>
-                <a class="dropdown-item text-center" href="{% url 'users:user-logout' %}">Logout</a>
-              </div>
-            </li>
-          {% else %}
-            <li class="nav-item">
-              <a class="nav-link text-center" href="{% url 'users:user-login' %}">Login</a>
-            </li>
-          {% endif %}
-          {% if user.is_superuser or user.is_responsible %}
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle text-center" href="#" id="navbarDropdownManagement" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Management
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item text-center" href="{% url 'users:group-create' %}">Create Group</a>
-                <a class="dropdown-item text-center" href="{% url 'users:groups-list' %}">All Groups</a>
-              </div>
-            </li>
-          {% endif %}
-          <li class="nav-item">
-            <a class="nav-link text-center" href="#">Animals</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-center" href="{% url 'calendar' %}">Calendar</a>
-          </li>
-        </ul>
-      </div>
+        <a class="navbar-brand" href="{% url 'homepage' %}">
+            <img src="{% static 'images/logo.png' %}" alt="Balto" width="35" height="35"
+                 class="d-inline-block align-text-center">
+            Balto
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link text-center" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                {% if user.is_authenticated %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-center" href="#" id="navbarDropdownAccount" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Account
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item text-center" href="{% url 'users:user-info' user.pk %}">My Profile</a>
+                        <a class="dropdown-item text-center" href="{% url 'users:users-list' %}">All Users</a>
+                        <a class="dropdown-item text-center" href="{% url 'users:user-update' user.pk %}">Update</a>
+                        <a class="dropdown-item text-center" href="{% url 'users:user-password-change' %}">Change
+                            Password</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item text-center" href="{% url 'users:user-delete' user.pk %}">Delete</a>
+                        <a class="dropdown-item text-center" href="{% url 'users:user-logout' %}">Logout</a>
+                    </div>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link text-center" href="{% url 'users:user-login' %}">Login</a>
+                </li>
+                {% endif %}
+                {% if user.is_superuser or user.is_responsible %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-center" href="#" id="navbarDropdownManagement" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Management
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item text-center" href="{% url 'users:group-create' %}">Create Group</a>
+                        <a class="dropdown-item text-center" href="{% url 'users:groups-list' %}">All Groups</a>
+                    </div>
+                </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link text-center" href="#">Animals</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-center" href="{% url 'calendar' %}">Calendar</a>
+                </li>
+            </ul>
+        </div>
     </nav>
-  </header>
+</header>
 {% endblock %}
 
+
+{% block modal %}
+<div id="modal">
+    <button type="button" class="close" aria-label="Close" id="close" onclick="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <img id="imgmodal" alt="Modal Image">
+</div>
+{% endblock %}
+
+
 {% block footer %}
-  <footer class="footer d-flex justify-content-center flex-column flex-md-row mt-auto py-3 bg-light">
+<footer class="footer d-flex justify-content-center flex-column flex-md-row mt-auto py-3 bg-light">
     <div class="row text-center mr-0 ml-0">
-      <div class="col-md-4">
-        <h5>Features</h5>
-        <ul class="list-unstyled text-small">
-          <li><a class="text-muted" href="#">Cool stuff</a></li>
-          <li><a class="text-muted" href="#">Random feature</a></li>
-          <li><a class="text-muted" href="#">Team feature</a></li>
-          <li><a class="text-muted" href="#">Stuff for developers</a></li>
-          <li><a class="text-muted" href="#">Another one</a></li>
-          <li><a class="text-muted" href="#">Last time</a></li>
-        </ul>
-      </div>
-      <div class="col-md-4">
-        <h5>Resources</h5>
-        <ul class="list-unstyled text-small">
-          <li><a class="text-muted" href="#">Resource</a></li>
-          <li><a class="text-muted" href="#">Resource name</a></li>
-          <li><a class="text-muted" href="#">Another resource</a></li>
-          <li><a class="text-muted" href="#">Final resource</a></li>
-        </ul>
-      </div>
-      <div class="col-md-4">
-        <h5>About</h5>
-        <ul class="list-unstyled text-small">
-          <li><a class="text-muted" href="#">Team</a></li>
-          <li><a class="text-muted" href="#">Locations</a></li>
-          <li><a class="text-muted" href="#">Privacy</a></li>
-          <li><a class="text-muted" href="#">Terms</a></li>
-        </ul>
-      </div>
+        <div class="col-md-4">
+            <h5>Features</h5>
+            <ul class="list-unstyled text-small">
+                <li><a class="text-muted" href="#">Cool stuff</a></li>
+                <li><a class="text-muted" href="#">Random feature</a></li>
+                <li><a class="text-muted" href="#">Team feature</a></li>
+                <li><a class="text-muted" href="#">Stuff for developers</a></li>
+                <li><a class="text-muted" href="#">Another one</a></li>
+                <li><a class="text-muted" href="#">Last time</a></li>
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <h5>Resources</h5>
+            <ul class="list-unstyled text-small">
+                <li><a class="text-muted" href="#">Resource</a></li>
+                <li><a class="text-muted" href="#">Resource name</a></li>
+                <li><a class="text-muted" href="#">Another resource</a></li>
+                <li><a class="text-muted" href="#">Final resource</a></li>
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <h5>About</h5>
+            <ul class="list-unstyled text-small">
+                <li><a class="text-muted" href="#">Team</a></li>
+                <li><a class="text-muted" href="#">Locations</a></li>
+                <li><a class="text-muted" href="#">Privacy</a></li>
+                <li><a class="text-muted" href="#">Terms</a></li>
+            </ul>
+        </div>
     </div>
-  </footer>
+</footer>
 {% endblock %}
 

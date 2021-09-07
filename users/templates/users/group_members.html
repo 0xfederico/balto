@@ -6,17 +6,26 @@
 {% block content_title %}Of Group Members{% endblock %}
 
 {% block thead %}
-    <th>Photo</th>
-    <th>Username</th>
-    <th>Actions</th>
+    <th class="text-center">Photo</th>
+    <th class="text-center">Username</th>
+    <th class="text-center">Actions</th>
 {% endblock %}
 
 {% block tbody %}
     {% for user in members %}
         <tr>
-            <td><img src="{{ user.photo }}"/></td>
-            <td>{{ user.username }}</td>
-            <td>
+            {% if user.photo %}
+            <td class="text-center">
+                <img src="{{ user.photo.url }}" alt="Propic" class="img-fluid" height="32" width="32" onclick="zoomImage(this);"/>
+            </td>
+            {% else %}
+            <td class="text-center">
+                <img src="{% static 'images/no-pic-user.png' %}" alt="Propic" class="img-fluid" height="32" width="32"/>
+            </td>
+            {% endif %}
+            <td class="text-center">{{ user.username }}</td>
+            <td class="text-center">
+                <a href="{% url 'users:user-info' user.pk %}"><img src="{% static 'images/info.png' %}" alt="Info" width="24" height="24"></a>
                 <a href="{% url 'users:group-delete-user' group.pk user.pk %}"><img src="{% static 'images/remove.png' %}" alt="Delete" width="24" height="24"></a>
             </td>
         </tr>
