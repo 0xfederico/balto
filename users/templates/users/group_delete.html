@@ -3,11 +3,18 @@
 {% block title %}Delete Group{% endblock %}
 
 {% block content %}
-<h1>Delete Group</h1>
-<br>
 <form method="post">{% csrf_token %}
-    <p class="text-danger">You are going to delete <strong>{{ object.name }}</strong> group, are you sure?</p>
-    <a href="{% url 'users:groups-list' %}">Cancel</a>
-    <input type="submit" value="Confirm">
+    <h1>Delete Group</h1>
+    <div class="text-center pt-3 d-flex flex-column justify-content-center">
+        <p>You are going to delete <strong>{{ object.name }}</strong> group, are you sure?</p>
+        <div class="d-flex justify-content-around">
+            <a href="{% url 'users:groups-list' %}" class="text-decoration-none">
+                <button type="button" class="btn btn-lg btn-secondary">
+                    Cancel
+                </button>
+            </a>
+            <input class="btn btn-lg btn-danger" type="submit" value="Delete">
+        </div>
+    </div>
 </form>
 {% endblock %}

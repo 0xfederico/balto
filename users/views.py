@@ -46,6 +46,7 @@ class UserInfoView(LoginRequiredMixin, SuccessMessageMixin, DetailView):
 class UserListView(LoginRequiredMixin, SuccessMessageMixin, ListView):
     model = UserModel
     template_name = 'users/user_list.html'
+    ordering = ['username']
 
 
 class UserUpdateView(LoginRequiredMixin, SuccessMessageMixin, ItIsHimselfUpdateMixin, UpdateView):
@@ -127,6 +128,7 @@ class GroupAddUserView(LoginRequiredMixin, IsResponsibleMixin, IsSuperuserMixin,
 class GroupInfoView(LoginRequiredMixin, SuccessMessageMixin, DetailView):
     model = Group
     template_name = "users/group_info.html"
+    ordering = ['name']
 
     def get(self, request: HttpRequest, *args, **kwargs):
         self.object = self.get_object()

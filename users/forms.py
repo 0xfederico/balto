@@ -7,6 +7,7 @@ from users.models import UserModel
 from django.contrib.auth.models import Group, Permission
 
 
+# ------------------- USER -------------------
 class UserAdminResponsibleCreateForm(UserCreationForm):
 
     helper = FormHelper()
@@ -47,6 +48,7 @@ class UserUpdateForm(UserChangeForm):
         fields = ["username", "first_name", "last_name", "email", "phone", "photo"]
 
 
+# ------------------- GROUP -------------------
 class GroupForm(forms.ModelForm):
 
     helper = FormHelper()
@@ -74,7 +76,7 @@ class GroupAddUserForm(forms.Form):
 
     users = forms.ModelMultipleChoiceField(
         widget=forms.SelectMultiple(),
-        queryset=UserModel.objects.all().order_by('last_name')
+        queryset=UserModel.objects.all().order_by('username')
     )
 
     def __init__(self, *args, **kwargs):

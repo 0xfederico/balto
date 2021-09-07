@@ -8,8 +8,8 @@
 <h1>Login</h1>
 <form method="post">{% csrf_token %}
     {{ form|crispy }}
-    <input type="submit" value="Confirm">
-    <a href="{% url 'users:user-password-reset' %}">Did you forget your password? </a>
+    <input type="submit" value="Login">
+    <!--<a href="{% url 'users:user-password-reset' %}">Did you forget your password? </a>-->
 </form>
 {% endblock %}
 
