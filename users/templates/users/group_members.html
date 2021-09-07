@@ -2,8 +2,8 @@
 
 {% load static %}
 
-{% block list_title %}Group Members {% endblock %}
-{% block content_title %}Of Group Members{% endblock %}
+{% block list_title %}{{ group.name }} Members{% endblock %}
+{% block content_title %}{{ group.name }} Members{% endblock %}
 
 {% block thead %}
 <th class="text-center">Photo</th>
@@ -12,11 +12,11 @@
 {% endblock %}
 
 {% block tbody %}
-{% for user in members %}
+{% for member in members %}
 <tr>
-    {% if user.photo %}
+    {% if member.photo %}
     <td class="text-center">
-        <img src="{{ user.photo.url }}" alt="Propic" class="img-fluid" height="32" width="32"
+        <img src="{{ member.photo.url }}" alt="Propic" class="img-fluid" height="32" width="32"
              onclick="zoomImage(this);"/>
     </td>
     {% else %}
@@ -24,11 +24,11 @@
         <img src="{% static 'images/no-pic-user.png' %}" alt="Propic" class="img-fluid" height="32" width="32"/>
     </td>
     {% endif %}
-    <td class="text-center">{{ user.username }}</td>
+    <td class="text-center">{{ member.username }}</td>
     <td class="text-center">
-        <a href="{% url 'users:user-info' user.pk %}"><img src="{% static 'images/info.png' %}" alt="Info" width="24"
+        <a href="{% url 'users:user-info' member.pk %}"><img src="{% static 'images/info.png' %}" alt="Info" width="24"
                                                            height="24"></a>
-        <a href="{% url 'users:group-delete-user' group.pk user.pk %}"><img src="{% static 'images/remove.png' %}"
+        <a href="{% url 'users:group-delete-user' group.pk member.pk %}"><img src="{% static 'images/remove.png' %}"
                                                                             alt="Delete" width="24" height="24"></a>
     </td>
 </tr>

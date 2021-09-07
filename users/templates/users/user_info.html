@@ -63,7 +63,7 @@
                         <hr>
                         <div class="row d-flex justify-content-center align-items-center">
                             <div class="col-6">
-                                <a href="{% url 'users:user-update' user.pk %}">
+                                <a href="{% url 'users:user-update' object.pk %}">
                                     <button type="button" class="btn btn-outline-secondary">
                                         Edit Profile
                                         <img src="{% static 'images/pencil.png' %}" alt="Update" width="24" height="24">
@@ -71,7 +71,7 @@
                                 </a>
                             </div>
                             <div class="col-6">
-                                <a href="{% url 'users:user-delete' user.pk %}">
+                                <a href="{% url 'users:user-delete' object.pk %}">
                                     <button type="button" class="btn btn-outline-secondary">
                                         Delete
                                         <img src="{% static 'images/remove.png' %}" alt="Delete" width="24" height="24">

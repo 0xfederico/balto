@@ -5,7 +5,7 @@
 {% block content %}
 <h1>Delete User</h1>
 <form method="post">{% csrf_token %}
-    <p class="text-danger">You are going to delete <strong>{{ object.name }}</strong> user, are you sure?</p>
+    <p class="text-danger">You are going to delete <strong>{{ object.username }}</strong> user, are you sure?</p>
     <a href="{% url 'users:users-list' %}">Cancel</a>
     <input type="submit" value="Confirm">
 </form>

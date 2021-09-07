@@ -42,7 +42,7 @@ class ItIsHimselfMixin(object):
             return redirect('homepage')
 
 
-class ItIsHimselfUpdateMixin:
+class ItIsHimselfUpdateMixin(object):
 
     def dispatch(self, request, *args, **kwargs):
         try:
