@@ -3,19 +3,19 @@
 {% block title %}Calendar{% endblock %}
 
 {% block other_css_libs %}
-  <!-- FullCalendar CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/main.min.css">
+<!-- FullCalendar CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/main.min.css">
 {% endblock %}
 
 {% block extra_head %}
-  <!-- FullCalendar JS -->
-  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/main.min.js"></script>
+<!-- FullCalendar JS -->
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/main.min.js"></script>
 
-  <!-- FullCalendar JS Locales -->
-  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/locales-all.min.js"></script>
+<!-- FullCalendar JS Locales -->
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/locales-all.min.js"></script>
 
-  <!-- FullCalendar Init -->
-  <script>
+<!-- FullCalendar Init -->
+<script>
     document.addEventListener('DOMContentLoaded', function() {
       var calendarEl = document.getElementById('calendar');
 
@@ -63,11 +63,13 @@
 
       calendar.render();
     });
-  </script>
+
+
+</script>
 {% endblock %}
 
 {% block content %}
-  <div id='calendar-container'>
+<div id='calendar-container'>
     <div id='calendar'></div>
-  </div>
+</div>
 {% endblock %}

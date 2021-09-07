@@ -3,12 +3,12 @@
 {% block title %}404 Not Found{% endblock %}
 
 {% block content %}
-    <h1>404 Not Found</h1>
-    <p>Resource not found in server.</p>
-    <br>
-    <p>redirecting to <a href="{% url 'homepage' %}">Homepage</a></p>
+<h1>404 Not Found</h1>
+<p>Resource not found in server.</p>
+<br>
+<p>redirecting to <a href="{% url 'homepage' %}">Homepage</a></p>
 {% endblock %}
 
 {% block add_meta %}
-    <meta http-equiv="refresh" content="3; url={% url 'homepage' %}" />
+<meta http-equiv="refresh" content="3; url={% url 'homepage' %}"/>
 {% endblock %}

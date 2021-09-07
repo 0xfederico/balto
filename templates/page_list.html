@@ -3,19 +3,19 @@
 {% block title %}{% block list_title %}{% endblock %} List{% endblock %}
 
 {% block content %}
-  <main role="main" class="flex-shrink-0">
+<main role="main" class="flex-shrink-0">
     <h1>{% block content_title %}{% endblock %} List</h1>
     {% block table_before %}{% endblock %}
     <table class="table table-hover">
-      <thead>
+        <thead>
         <tr>
-          {% block thead %}{% endblock %}
+            {% block thead %}{% endblock %}
         </tr>
-      </thead>
-      <tbody>
+        </thead>
+        <tbody>
         {% block tbody %}{% endblock %}
-      </tbody>
+        </tbody>
     </table>
     {% block table_after %}{% endblock %}
-  </main>
+</main>
 {% endblock %}

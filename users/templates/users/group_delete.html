@@ -3,12 +3,11 @@
 {% block title %}Delete Group{% endblock %}
 
 {% block content %}
-    <h1>Delete Group</h1>
-    <br>
-    <form method="post">{% csrf_token %}
-        <p class="text-danger">You are going to delete <strong>{{ object.name }}</strong> group, are you sure?</p>
-        <a href="{% url 'users:groups-list' %}">Cancel</a>
-        <input type="submit" value="Confirm">
-    </form>
-
+<h1>Delete Group</h1>
+<br>
+<form method="post">{% csrf_token %}
+    <p class="text-danger">You are going to delete <strong>{{ object.name }}</strong> group, are you sure?</p>
+    <a href="{% url 'users:groups-list' %}">Cancel</a>
+    <input type="submit" value="Confirm">
+</form>
 {% endblock %}

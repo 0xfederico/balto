@@ -6,27 +6,32 @@
 {% block content_title %}Groups{% endblock %}
 
 {% block thead %}
-    <th class="text-center">Name</th>
-    <th class="text-center">Actions</th>
+<th class="text-center">Name</th>
+<th class="text-center">Actions</th>
 {% endblock %}
 
 {% block tbody %}
-    {% for group in object_list %}
-        <tr>
-            <td class="text-center">{{ group.name }}</td>
-            <td class="text-center">
-                <a href="{% url 'users:group-info' group.pk %}"><img src="{% static 'images/info.png' %}" alt="Info" width="24" height="24"></a>
-                <a href="{% url 'users:group-update' group.pk %}"><img src="{% static 'images/pencil.png' %}" alt="Update" width="24" height="24"></a>
-                <a href="{% url 'users:group-delete' group.pk %}"><img src="{% static 'images/remove.png' %}" alt="Delete" width="24" height="24"></a>
-                <a href="{% url 'users:group-members' group.pk %}"><img src="{% static 'images/members.png' %}" alt="Delete" width="24" height="24"></a>
-            </td>
-        </tr>
-    {% endfor %}
+{% for group in object_list %}
+<tr>
+    <td class="text-center">{{ group.name }}</td>
+    <td class="text-center">
+        <a href="{% url 'users:group-info' group.pk %}"><img src="{% static 'images/info.png' %}" alt="Info" width="24"
+                                                             height="24"></a>
+        <a href="{% url 'users:group-update' group.pk %}"><img src="{% static 'images/pencil.png' %}" alt="Update"
+                                                               width="24" height="24"></a>
+        <a href="{% url 'users:group-delete' group.pk %}"><img src="{% static 'images/remove.png' %}" alt="Delete"
+                                                               width="24" height="24"></a>
+        <a href="{% url 'users:group-members' group.pk %}"><img src="{% static 'images/members.png' %}" alt="Delete"
+                                                                width="24" height="24"></a>
+    </td>
+</tr>
+{% endfor %}
 {% endblock %}
 
 {% block table_before %}
-    <div class="d-flex flex-column align-items-center">
-        <a href="{% url 'users:group-create' %}" class="btn btn-primary w-75">Create new Group</a>
-        <input type="search" class="form-control my-2 w-75" aria-label="Search" placeholder="Search" oninput="filterElements(this)">
-    </div>
+<div class="d-flex flex-column align-items-center">
+    <a href="{% url 'users:group-create' %}" class="btn btn-primary w-75">Create new Group</a>
+    <input type="search" class="form-control my-2 w-75" aria-label="Search" placeholder="Search"
+           oninput="filterElements(this)">
+</div>
 {% endblock %}

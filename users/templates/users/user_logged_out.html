@@ -3,12 +3,12 @@
 {% block title %}Logged out{% endblock %}
 
 {% block content %}
-    <h1>Logged out Successfully</h1>
-    <p>You are now logged out!</p><br><br>
-    <br>
-    <p>redirecting to <a href="{% url 'homepage' %}">Homepage</a></p>
+<h1>Logged out Successfully</h1>
+<p>You are now logged out!</p><br><br>
+<br>
+<p>redirecting to <a href="{% url 'homepage' %}">Homepage</a></p>
 {% endblock %}
 
 {% block add_meta %}
-    <meta http-equiv="refresh" content="3; url={% url 'homepage' %}" />
+<meta http-equiv="refresh" content="3; url={% url 'homepage' %}"/>
 {% endblock %}

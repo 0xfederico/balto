@@ -6,36 +6,41 @@
 {% block content_title %}Users{% endblock %}
 
 {% block thead %}
-    <th class="text-center">Photo</th>
-    <th class="text-center">Username</th>
-    <th class="text-center">Actions</th>
+<th class="text-center">Photo</th>
+<th class="text-center">Username</th>
+<th class="text-center">Actions</th>
 {% endblock %}
 
 {% block tbody %}
-    {% for user in object_list %}
-        <tr>
-            {% if user.photo %}
-            <td class="text-center">
-                <img src="{{ user.photo.url }}" alt="Propic" class="img-fluid" height="32" width="32" onclick="zoomImage(this);"/>
-            </td>
-            {% else %}
-            <td class="text-center">
-                <img src="{% static 'images/no-pic-user.png' %}" alt="Propic" class="img-fluid" height="32" width="32"/>
-            </td>
-            {% endif %}
-            <td class="text-center">{{ user.username }}</td>
-            <td class="text-center">
-                <a href="{% url 'users:user-info' user.pk %}"><img src="{% static 'images/info.png' %}" alt="Info" width="24" height="24"></a>
-                <a href="{% url 'users:user-update' user.pk %}"><img src="{% static 'images/pencil.png' %}" alt="Update" width="24" height="24"></a>
-                <a href="{% url 'users:user-delete' user.pk %}"><img src="{% static 'images/remove.png' %}" alt="Delete" width="24" height="24"></a>
-            </td>
-        </tr>
-    {% endfor %}
+{% for user in object_list %}
+<tr>
+    {% if user.photo %}
+    <td class="text-center">
+        <img src="{{ user.photo.url }}" alt="Propic" class="img-fluid" height="32" width="32"
+             onclick="zoomImage(this);"/>
+    </td>
+    {% else %}
+    <td class="text-center">
+        <img src="{% static 'images/no-pic-user.png' %}" alt="Propic" class="img-fluid" height="32" width="32"/>
+    </td>
+    {% endif %}
+    <td class="text-center">{{ user.username }}</td>
+    <td class="text-center">
+        <a href="{% url 'users:user-info' user.pk %}"><img src="{% static 'images/info.png' %}" alt="Info" width="24"
+                                                           height="24"></a>
+        <a href="{% url 'users:user-update' user.pk %}"><img src="{% static 'images/pencil.png' %}" alt="Update"
+                                                             width="24" height="24"></a>
+        <a href="{% url 'users:user-delete' user.pk %}"><img src="{% static 'images/remove.png' %}" alt="Delete"
+                                                             width="24" height="24"></a>
+    </td>
+</tr>
+{% endfor %}
 {% endblock %}
 
 {% block table_before %}
-    <div class="d-flex flex-column align-items-center">
-        <a href="{% url 'users:user-create' %}" class="btn btn-primary w-75">Register new User</a>
-        <input type="search" class="form-control my-2 w-75" aria-label="Search" placeholder="Search" oninput="filterElements(this)">
-    </div>
+<div class="d-flex flex-column align-items-center">
+    <a href="{% url 'users:user-create' %}" class="btn btn-primary w-75">Register new User</a>
+    <input type="search" class="form-control my-2 w-75" aria-label="Search" placeholder="Search"
+           oninput="filterElements(this)">
+</div>
 {% endblock %}
