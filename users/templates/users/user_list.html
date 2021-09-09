@@ -27,20 +27,26 @@
     <td class="text-center">{{ member.username }}</td>
     <td class="text-center">
         <a href="{% url 'users:user-info' member.pk %}"><img src="{% static 'images/info.png' %}" alt="Info" width="24"
-                                                           height="24"></a>
+                                                             height="24"></a>
+        {% if perms.user.update_user %}
         <a href="{% url 'users:user-update' member.pk %}"><img src="{% static 'images/pencil.png' %}" alt="Update"
-                                                             width="24" height="24"></a>
+                                                               width="24" height="24"></a>
+        {% endif %}
+        {% if perms.user.delete_user %}
         <a href="{% url 'users:user-delete' member.pk %}"><img src="{% static 'images/remove.png' %}" alt="Delete"
-                                                             width="24" height="24"></a>
+                                                               width="24" height="24"></a>
+        {% endif %}
     </td>
 </tr>
 {% endfor %}
 {% endblock %}
 
 {% block table_before %}
+{% if perms.user.add_user %}
 <div class="d-flex flex-column align-items-center">
     <a href="{% url 'users:user-create' %}" class="btn btn-primary w-75">Register new User</a>
     <input type="search" class="form-control my-2 w-75" aria-label="Search" placeholder="Search"
            oninput="filterElements(this)">
 </div>
+{% endif %}
 {% endblock %}

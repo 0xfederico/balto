@@ -162,16 +162,11 @@ prohibited_permissions = [
     "change_logentry",
     "delete_logentry",
     "view_logentry",
-    # -- group --
-    "add_group",
-    "change_group",
-    "delete_group",
-    # "view_group",
     # -- permission --
     "add_permission",
     "change_permission",
     "delete_permission",
-    "view_permission",
+    # "view_permission",
     # -- contenttype --
     "add_contenttype",
     "change_contenttype",

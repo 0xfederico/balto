@@ -17,10 +17,14 @@
     <td class="text-center">
         <a href="{% url 'users:group-info' group.pk %}"><img src="{% static 'images/info.png' %}" alt="Info" width="24"
                                                              height="24"></a>
+        {% if perms.group.update_group %}
         <a href="{% url 'users:group-update' group.pk %}"><img src="{% static 'images/pencil.png' %}" alt="Update"
                                                                width="24" height="24"></a>
+        {% endif %}
+        {% if perms.group.delete_group %}
         <a href="{% url 'users:group-delete' group.pk %}"><img src="{% static 'images/remove.png' %}" alt="Delete"
                                                                width="24" height="24"></a>
+        {% endif %}
         <a href="{% url 'users:group-members' group.pk %}"><img src="{% static 'images/members.png' %}" alt="Delete"
                                                                 width="24" height="24"></a>
     </td>
@@ -29,9 +33,11 @@
 {% endblock %}
 
 {% block table_before %}
+{% if perms.group.add_group %}
 <div class="d-flex flex-column align-items-center">
     <a href="{% url 'users:group-create' %}" class="btn btn-primary w-75">Create new Group</a>
     <input type="search" class="form-control my-2 w-75" aria-label="Search" placeholder="Search"
            oninput="filterElements(this)">
 </div>
+{% endif %}
 {% endblock %}

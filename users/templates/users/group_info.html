@@ -27,10 +27,10 @@
                                 {% endfor %}
                             </div>
                         </div>
-                        {% if user.is_superuser or user.is_responsible %}
                         <hr>
                         <div class="row d-flex justify-content-center align-items-center">
-                            <div class="col-12 mb-3 col-md-4 mb-md-0">
+                            {% if perms.group.update_group %}
+                            <div class="col-12 mb-3">
                                 <a href="{% url 'users:group-update' group_pk %}">
                                     <button type="button" class="btn btn-outline-secondary">
                                         Edit Group
@@ -38,15 +38,18 @@
                                     </button>
                                 </a>
                             </div>
-                            <div class="col-12 mb-3 col-md-4 mb-md-0">
+                            {% endif %}
+                            <div class="col-12 {% if perms.group.delete_group %}mb-3{% endif %}">
                                 <a href="{% url 'users:group-members' group_pk %}">
                                     <button type="button" class="btn btn-outline-secondary">
                                         All Members
-                                        <img src="{% static 'images/members.png' %}" alt="Members" width="24" height="24">
+                                        <img src="{% static 'images/members.png' %}" alt="Members" width="24"
+                                             height="24">
                                     </button>
                                 </a>
                             </div>
-                            <div class="col-12 col-md-4">
+                            {% if perms.group.delete_group %}
+                            <div class="col-12">
                                 <a href="{% url 'users:group-delete' group_pk %}">
                                     <button type="button" class="btn btn-outline-secondary">
                                         Delete
@@ -54,8 +57,8 @@
                                     </button>
                                 </a>
                             </div>
+                            {% endif %}
                         </div>
-                        {% endif %}
                     </div>
                 </div>
             </div>

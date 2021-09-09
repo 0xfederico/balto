@@ -1,7 +1,8 @@
+from datetime import date
+
+from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
 from django.db import models
-from django.contrib.auth.models import AbstractUser
-from datetime import date
 
 
 def user_directory_path(self, filename):
@@ -15,11 +16,10 @@ class UserModel(AbstractUser):
     phone = models.CharField(max_length=10, validators=[RegexValidator(regex=r'^\d{10}$',
                                                                        message="phone numbers are 10 digits long")],
                              blank=False, unique=True, verbose_name="Your phone number")
-    is_responsible = models.BooleanField(default=False)
     photo = models.ImageField(upload_to=user_directory_path, verbose_name='Choose your profile picture', blank=True,
                               null=True)
 
     class Meta:
-        verbose_name = 'Generic User'
-        verbose_name_plural = 'Users'
-        ordering = ['last_name']
+        ordering = ['username']
+        permissions = (("group.add_users_to_group", "Can add users to group"),
+                       ("group.delete_users_to_group", "Can delete users to group"))  # added to defaults

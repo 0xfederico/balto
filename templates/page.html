@@ -26,13 +26,17 @@
                         Account
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item text-center" href="{% url 'users:user-info' user.pk %}">My Profile</a>
-                        <a class="dropdown-item text-center" href="{% url 'users:users-list' %}">All Users</a>
+                        <a class="dropdown-item text-center" href="{% url 'users:users-list' %}">All users</a>
+                        <a class="dropdown-item text-center" href="{% url 'users:user-info' user.pk %}">Profile</a>
+                        {% if perms.user.change_user %}
                         <a class="dropdown-item text-center" href="{% url 'users:user-update' user.pk %}">Update</a>
+                        {% endif %}
                         <a class="dropdown-item text-center" href="{% url 'users:user-password-change' %}">Change
                             Password</a>
                         <div class="dropdown-divider"></div>
+                        {% if perms.user.delete_user %}
                         <a class="dropdown-item text-center" href="{% url 'users:user-delete' user.pk %}">Delete</a>
+                        {% endif %}
                         <a class="dropdown-item text-center" href="{% url 'users:user-logout' %}">Logout</a>
                     </div>
                 </li>
@@ -41,18 +45,21 @@
                     <a class="nav-link text-center" href="{% url 'users:user-login' %}">Login</a>
                 </li>
                 {% endif %}
-                {% if user.is_superuser or user.is_responsible %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-center" href="#" id="navbarDropdownManagement" role="button"
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Management
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item text-center" href="{% url 'users:group-create' %}">Create Group</a>
                         <a class="dropdown-item text-center" href="{% url 'users:groups-list' %}">All Groups</a>
+                        {% if perms.group.add_group %}
+                        <a class="dropdown-item text-center" href="{% url 'users:group-create' %}">Create Group</a>
+                        {% endif %}
+                        {% if perms.user.add_user %}
+                        <a class="dropdown-item text-center" href="{% url 'users:user-create' %}">Create User</a>
+                        {% endif %}
                     </div>
                 </li>
-                {% endif %}
                 <li class="nav-item">
                     <a class="nav-link text-center" href="#">Animals</a>
                 </li>
@@ -77,38 +84,29 @@
 
 
 {% block footer %}
-<footer class="footer d-flex justify-content-center flex-column flex-md-row mt-3 py-2 bg-light">
-    <div class="row text-center mr-0 ml-0">
-        <div class="col-md-4">
-            <h5>Features</h5>
-            <ul class="list-unstyled text-small">
-                <li><a class="text-muted" href="#">Cool stuff</a></li>
-                <li><a class="text-muted" href="#">Random feature</a></li>
-                <li><a class="text-muted" href="#">Team feature</a></li>
-                <li><a class="text-muted" href="#">Stuff for developers</a></li>
-                <li><a class="text-muted" href="#">Another one</a></li>
-                <li><a class="text-muted" href="#">Last time</a></li>
-            </ul>
-        </div>
-        <div class="col-md-4">
-            <h5>Resources</h5>
-            <ul class="list-unstyled text-small">
-                <li><a class="text-muted" href="#">Resource</a></li>
-                <li><a class="text-muted" href="#">Resource name</a></li>
-                <li><a class="text-muted" href="#">Another resource</a></li>
-                <li><a class="text-muted" href="#">Final resource</a></li>
-            </ul>
-        </div>
+<footer class="footer mt-auto pt-3 pb-2 bg-light">
+    <div class="row text-center mr-0 ml-0 align-items-center">
         <div class="col-md-4">
             <h5>About</h5>
+            <p class="text-muted">
+                {% lorem %}
+            </p>
+        </div>
+        <div class="col-md-4 py-5 py-md-0">
+            <h5>Site Links</h5>
             <ul class="list-unstyled text-small">
-                <li><a class="text-muted" href="#">Team</a></li>
-                <li><a class="text-muted" href="#">Locations</a></li>
-                <li><a class="text-muted" href="#">Privacy</a></li>
-                <li><a class="text-muted" href="#">Terms</a></li>
+                <li><a class="text-muted" href="{% url 'users:users-list' %}">All users</a></li>
+                {% if user.is_authenticated %}
+                <li><a class="text-muted" href="{% url 'users:user-info' user.pk %}">Profile</a></li>
+                {% endif %}
+                <li><a class="text-muted" href="{% url 'users:groups-list' %}">All groups</a></li>
             </ul>
+        </div>
+        <div class="col-md-4">
+            <button type="button" class="btn btn-outline-secondary" onclick="topFunction()">
+                <i class="bi bi-arrow-up"></i>
+            </button>
         </div>
     </div>
 </footer>
 {% endblock %}
-

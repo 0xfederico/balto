@@ -1,10 +1,9 @@
+from django.contrib.auth import views as auth_views
 from django.urls import path
 
 from users.views import GroupCreateView, GroupUpdateView, GroupDeleteView, GroupListView, \
     GroupInfoView, UserInfoView, UserDeleteView, UserListView, UserUpdateView, UserCreateView, GroupMembersView, \
     GroupDeleteUserView, GroupAddUserView
-
-from django.contrib.auth import views as auth_views
 
 app_name = "users"
 
@@ -45,4 +44,3 @@ urlpatterns = [
          auth_views.PasswordChangeDoneView.as_view(template_name='users/password_change_done.html'),
          name='user-password-change-done'),
 ]
-
