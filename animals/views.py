@@ -1,54 +1,55 @@
-from django.contrib import messages
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
+
+from Configurations.mixins import NoPermissionMessageMixin
 from animals.forms import AnimalForm
-from animals.models import Animal
+from animals.models import AnimalModel
 
 
-class RegisterNewAnimal(CreateView):
-
-    model = Animal
+class AnimalCreateView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, SuccessMessageMixin,
+                       CreateView):
+    model = AnimalModel
     form_class = AnimalForm
-    template_name = "animals/register.html"
-    success_url = reverse_lazy("animals:animals-list")
-    success_message = 'Animal registered correctly!'
+    template_name = 'animals/animal_create.html'
+    success_message = 'Animal created correctly!'
+    permission_required = 'animal.add_animal'
+    permission_denied_message = "You don't have permission to add animals"
 
-    def handle_no_permission(self):
-        messages.error(self.request, "You must authenticate first!")
-        return super(RegisterNewAnimal, self).handle_no_permission()
-
-
-class RemoveAnimal(DeleteView):
-
-    model = Animal
-    template_name = "animals/remove.html"
-    success_url = reverse_lazy("animals:animals-list")
-
-    def handle_no_permission(self):
-        messages.error(self.request, "You are not authorized to remove this content!")
-        return super(RemoveAnimal, self).handle_no_permission()
+    def get_success_url(self):
+        return reverse_lazy('animals:animal-info', kwargs={"pk": self.object.pk})
 
 
-class InfoAnimal(DetailView):
-
-    model = Animal
-    template_name = "animals/info.html"
-
-
-class ListAnimals(ListView):
-
-    model = Animal
-    template_name = "animals/list.html"
+class AnimalDeleteView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, SuccessMessageMixin,
+                       DeleteView):
+    model = AnimalModel
+    template_name = 'animals/animal_delete.html'
+    success_message = 'Animal deleted correctly!'
+    permission_required = 'animal.delete_animal'
+    permission_denied_message = "You don't have permission to delete animals"
+    success_url = reverse_lazy('animals:animals-list')
 
 
-class UpdateInfoAnimal(UpdateView):
+class AnimalInfoView(LoginRequiredMixin, SuccessMessageMixin, DetailView):
+    model = AnimalModel
+    template_name = 'animals/animal_info.html'
 
-    model = Animal
+
+class AnimalListView(LoginRequiredMixin, SuccessMessageMixin, ListView):
+    model = AnimalModel
+    template_name = "animals/animal_list.html"
+    ordering = ['name']
+
+
+class AnimalUpdateView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, SuccessMessageMixin,
+                       UpdateView):
+    model = AnimalModel
     form_class = AnimalForm
-    template_name = "animals/update.html"
-    success_url = reverse_lazy("animals:animals-list")
+    template_name = 'animals/animal_update.html'
+    success_message = 'Animal updated correctly!'
+    permission_required = 'animal.update_animal'
+    permission_denied_message = "You don't have permission to edit animals"
 
-    def handle_no_permission(self):
-        messages.error(self.request, "You are not authorized to remove this content!")
-        return super(UpdateInfoAnimal, self).handle_no_permission()
-
+    def get_success_url(self):
+        return reverse_lazy('animals:animal-info', kwargs={"pk": self.object.pk})

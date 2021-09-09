@@ -19,9 +19,3 @@ class ItIsHimselfOrAdminMixin(object):
         else:
             messages.error(request, "You are not authorized to change the accounts of other users!")
             return redirect('homepage')
-
-
-class NoPermissionMessageMixin(object):
-    def handle_no_permission(self):
-        messages.error(self.request, self.__class__.permission_denied_message)
-        return redirect("homepage")
