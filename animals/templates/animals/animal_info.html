@@ -1,7 +1,181 @@
 {% extends 'page.html' %}
 
+{% load static %}
+
 {% block title %}Info Animal{% endblock %}
 
 {% block content %}
-    {% lorem %}
+<h1>Animal Info</h1>
+<div class="container py-3 d-flex justify-content-center">
+    <div class="row justify-content-center w-100">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="mt-3 mb-5">
+                        {% if object.photo %}
+                        <img alt="Propic" class="border border-dark rounded-circle img-fluid p-1"
+                             height="150" onclick="zoomImage(this);" src="{{ object.photo.url }}"
+                             width="150"/>
+                        {% else %}
+                        <img alt="Propic" class="border border-dark rounded-circle img-fluid p-1"
+                             height="150" src="{% static 'images/no-pic-animal.png' %}" width="150"/>
+                        {% endif %}
+                    </div>
+                    <div class="container">
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-5 mb-2">
+                                <b>Name:</b>
+                            </div>
+                            <div class="col-7 mb-2">
+                                <p class="lead"> {{ object.name }}</p>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-5 mb-2">
+                                <b>Breed:</b>
+                            </div>
+                            <div class="col-7 mb-2">
+                                <p class="lead"> {{ object.breed }}</p>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-5 mb-2">
+                                <b>Sex:</b>
+                            </div>
+                            <div class="col-7 mb-2">
+                                <p class="lead"> {{ object.sex }}</p>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row d-flex justify-content-start">
+                            <div class="col-5 mb-2">
+                                <b>Pathologies:</b>
+                            </div>
+                            <div class="col-12 mb-2 bg-light rounded">
+                                <p class="lead mb-0"> {{ object.pathologies }}</p>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row d-flex justify-content-start">
+                            <div class="col-5 mb-2">
+                                <b>Walk equipment:</b>
+                            </div>
+                            <div class="col-12 mb-2 bg-light rounded">
+                                <p class="lead mb-0"> {{ object.walk_equipment }}</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-5 mb-2">
+                                <b>Microchip:</b>
+                            </div>
+                            <div class="col-7 mb-2">
+                                <p class="lead"> {{ object.microchip }}</p>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row d-flex justify-content-start">
+                            <div class="col-5 mb-2">
+                                <b>Particular signs:</b>
+                            </div>
+                            <div class="col-12 mb-2 bg-light rounded">
+                                <p class="lead mb-0"> {{ object.particular_signs }}</p>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-5 mb-2">
+                                <b>Check in date:</b>
+                            </div>
+                            <div class="col-7 mb-2">
+                                <p class="lead"> {{ object.check_in_date }}</p>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-5 mb-2">
+                                <b>Birth date:</b>
+                            </div>
+                            <div class="col-7 mb-2">
+                                <p class="lead"> {{ object.birth_date }}</p>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-5 mb-2">
+                                <b>Sociability with females:</b>
+                            </div>
+                            <div class="col-7 mb-2">
+                                <p class="lead"> {{ object.sociability_with_females }}</p>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-5 mb-2">
+                                <b>Sociability with males:</b>
+                            </div>
+                            <div class="col-7 mb-2">
+                                <p class="lead"> {{ object.sociability_with_males }}</p>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-5 mb-2">
+                                <b>Sociability with children:</b>
+                            </div>
+                            <div class="col-7 mb-2">
+                                <p class="lead"> {{ object.sociability_with_children }}</p>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-5 mb-2">
+                                <b>Needs another dog:</b>
+                            </div>
+                            <div class="col-7 mb-2">
+                                <p class="lead"> {{ object.needs_another_dog }}</p>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-5 mb-2">
+                                <b>Needs garden:</b>
+                            </div>
+                            <div class="col-7 mb-2">
+                                <p class="lead"> {{ object.needs_garden }}</p>
+                            </div>
+                        </div>
+                        {% if perms.animal.update_animal or perms.animal.delete_animal %}
+                        <hr>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            {% if perms.animal.update_animal %}
+                            <div class="col-12 {% if perms.animal.delete_animal %}mb-3{% endif %}">
+                                <a href="{% url 'animals:animal-update' object.pk %}">
+                                    <button class="btn btn-outline-secondary" type="button">
+                                        Edit Animal
+                                        <img alt="Update" height="24" src="{% static 'images/pencil.png' %}" width="24">
+                                    </button>
+                                </a>
+                            </div>
+                            {% endif %}
+                            {% if perms.animal.delete_animal %}
+                            <div class="col-12">
+                                <a href="{% url 'animals:animal-delete' object.pk %}">
+                                    <button class="btn btn-outline-secondary" type="button">
+                                        Delete
+                                        <img alt="Delete" height="24" src="{% static 'images/remove.png' %}" width="24">
+                                    </button>
+                                </a>
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

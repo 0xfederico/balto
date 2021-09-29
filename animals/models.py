@@ -1,6 +1,7 @@
+from datetime import date
+
 from django.core.validators import RegexValidator
 from django.db import models
-from datetime import date
 
 
 def animal_directory_path(self, filename):
@@ -10,18 +11,24 @@ def animal_directory_path(self, filename):
 class AnimalModel(models.Model):
     name = models.CharField(max_length=30, blank=False, unique=True)
     breed = models.CharField(max_length=30)
-    sex = models.CharField(max_length=10)
+
+    SEX_CHOICES = (
+        ('Female', 'Female',),
+        ('Male', 'Male',),
+    )
+    sex = models.CharField(max_length=6, choices=SEX_CHOICES)
     microchip = models.CharField(max_length=15, validators=[RegexValidator(regex=r'^\d{15}$',
-                                 message="the microchip code is 15 numbers long")],
+                                                                           message="the microchip code is 15 numbers "
+                                                                                   "long")],
                                  blank=False, unique=True, verbose_name="The code of the animal's microchip")
-    particular_signs = models.TextField()
+    particular_signs = models.TextField(blank=True)
     check_in_date = models.DateField()
     birth_date = models.DateField()
-    sociability_with_females = models.BooleanField()
-    sociability_with_males = models.BooleanField()
-    sociability_with_children = models.BooleanField()
-    needs_another_dog = models.BooleanField()
-    needs_garden = models.BooleanField()
+    sociability_with_females = models.BooleanField(blank=True)
+    sociability_with_males = models.BooleanField(blank=True)
+    sociability_with_children = models.BooleanField(blank=True)
+    needs_another_dog = models.BooleanField(blank=True)
+    needs_garden = models.BooleanField(blank=True)
     pathologies = models.CharField(max_length=100)
     walk_equipment = models.CharField(max_length=20)
     photo = models.ImageField(upload_to=animal_directory_path, verbose_name='Choose the profile picture of the animal',

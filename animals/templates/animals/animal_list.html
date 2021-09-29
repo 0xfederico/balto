@@ -1,37 +1,53 @@
 {% extends 'page_list.html' %}
 
+{% load static %}
+
 {% block list_title %}Animals{% endblock %}
-{% block content_title %}Of Animals{% endblock %}
+{% block content_title %}Animals{% endblock %}
 
 {% block thead %}
-    <th>Photo</th>
-    <th>Name</th>
-    <th>Breed</th>
-    <th>Sex</th>
-    <th>Actions</th>
+<th class="text-center">Photo</th>
+<th class="text-center">Name</th>
+<th class="text-center">Actions</th>
 {% endblock %}
 
 {% block tbody %}
-    {% for animal in object_list %}
-        <tr>
-
-            <td><img src="{{ animal.photo }}"/></td>
-            <td>{{ animal.name }}</td>
-            <td>{{ animal.breed }}</td>
-            <td>{{ animal.sex }}</td>
-            <td>
-                <a href="{% url 'animals:animal-info' animal.pk %}">info</a>
-                <br>
-                <a href="{% url 'animals:animal-update' animal.pk %}">update</a>
-                <br>
-                <a href="{% url 'animals:animal-remove' animal.pk %}">delete</a>
-            </td>
-        </tr>
-    {% endfor %}
+{% for animal in object_list %}
+<tr>
+    {% if animal.photo %}
+    <td class="text-center">
+        <img alt="Propic" class="img-fluid" height="32" onclick="zoomImage(this);" src="{{ animal.photo.url }}"
+             width="32"/>
+    </td>
+    {% else %}
+    <td class="text-center">
+        <img alt="Propic" class="img-fluid" height="32" src="{% static 'images/no-pic-animal.png' %}" width="32"/>
+    </td>
+    {% endif %}
+    <td class="text-center">{{ animal.name }}</td>
+    <td class="text-center">
+        <a href="{% url 'animals:animal-info' animal.pk %}"><img alt="Info" height="24"
+                                                                 src="{% static 'images/info.png' %}"
+                                                                 width="24"></a>
+        {% if perms.animal.update_animal %}
+        <a href="{% url 'animals:animal-update' animal.pk %}"><img alt="Update" height="24"
+                                                                   src="{% static 'images/pencil.png' %}" width="24"></a>
+        {% endif %}
+        {% if perms.animal.delete_animal %}
+        <a href="{% url 'animals:animal-delete' animal.pk %}"><img alt="Delete" height="24"
+                                                                   src="{% static 'images/remove.png' %}" width="24"></a>
+        {% endif %}
+    </td>
+</tr>
+{% endfor %}
 {% endblock %}
 
-{% block table_after %}
-    <div class="d-flex justify-content-center">
-        <a href="{% url 'animals:animal-register' %}" class="btn btn-primary w-75">Register new Animal</a>
-    </div>
+{% block table_before %}
+{% if perms.animal.add_animal %}
+<div class="d-flex flex-column align-items-center">
+    <a class="btn btn-primary w-75" href="{% url 'animals:animal-create' %}">Register new Animal</a>
+    <input aria-label="Search" class="form-control my-2 w-75" oninput="filterElements(this)" placeholder="Search"
+           type="search">
+</div>
+{% endif %}
 {% endblock %}

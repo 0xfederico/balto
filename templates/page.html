@@ -6,12 +6,12 @@
 <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="{% url 'homepage' %}">
-            <img src="{% static 'images/logo.png' %}" alt="Balto" width="35" height="35"
-                 class="d-inline-block align-text-center">
+            <img alt="Balto" class="d-inline-block align-text-center" height="35" src="{% static 'images/logo.png' %}"
+                 width="35">
             Balto
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
+                data-target="#navbarNav" data-toggle="collapse" type="button">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -21,11 +21,11 @@
                 </li>
                 {% if user.is_authenticated %}
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle text-center" href="#" id="navbarDropdownAccount" role="button"
-                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle text-center" data-toggle="dropdown"
+                       href="#" id="navbarDropdownAccount" role="button">
                         Account
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <div aria-labelledby="navbarDropdown" class="dropdown-menu">
                         <a class="dropdown-item text-center" href="{% url 'users:users-list' %}">All users</a>
                         <a class="dropdown-item text-center" href="{% url 'users:user-info' user.pk %}">Profile</a>
                         {% if perms.user.change_user %}
@@ -46,11 +46,11 @@
                 </li>
                 {% endif %}
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle text-center" href="#" id="navbarDropdownManagement" role="button"
-                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle text-center" data-toggle="dropdown"
+                       href="#" id="navbarDropdownManagement" role="button">
                         Management
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <div aria-labelledby="navbarDropdown" class="dropdown-menu">
                         <a class="dropdown-item text-center" href="{% url 'users:groups-list' %}">All Groups</a>
                         {% if perms.group.add_group %}
                         <a class="dropdown-item text-center" href="{% url 'users:group-create' %}">Create Group</a>
@@ -60,8 +60,18 @@
                         {% endif %}
                     </div>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-center" href="#">Animals</a>
+                <li class="nav-item dropdown">
+                    <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle text-center" data-toggle="dropdown"
+                       href="#" id="navbarDropdownAnimals" role="button">
+                        Animals
+                    </a>
+                    <div aria-labelledby="navbarDropdown" class="dropdown-menu">
+                        <a class="dropdown-item text-center" href="{% url 'animals:animals-list' %}">All Animals</a>
+                        {% if perms.animal.add_animal %}
+                        <a class="dropdown-item text-center" href="{% url 'animals:animal-create' %}">Register
+                            Animal</a>
+                        {% endif %}
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-center" href="{% url 'calendar' %}">Calendar</a>
@@ -75,10 +85,10 @@
 
 {% block modal %}
 <div id="modal">
-    <button type="button" class="close" aria-label="Close" id="close" onclick="closeModal()">
+    <button aria-label="Close" class="close" id="close" onclick="closeModal()" type="button">
         <span aria-hidden="true">&times;</span>
     </button>
-    <img id="imgmodal" src="" alt="Modal Image">
+    <img alt="Modal Image" id="imgmodal" src="">
 </div>
 {% endblock %}
 
@@ -103,7 +113,7 @@
             </ul>
         </div>
         <div class="col-md-4">
-            <button type="button" class="btn btn-outline-secondary" onclick="topFunction()">
+            <button class="btn btn-outline-secondary" onclick="topFunction()" type="button">
                 <i class="bi bi-arrow-up"></i>
             </button>
         </div>

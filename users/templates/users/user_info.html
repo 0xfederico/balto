@@ -13,12 +13,12 @@
                 <div class="card-body text-center">
                     <div class="mt-3 mb-2">
                         {% if object.photo %}
-                        <img src="{{ object.photo.url }}" alt="Propic"
-                             class="border border-dark rounded-circle img-fluid p-1" height="150" width="150"
-                             onclick="zoomImage(this);"/>
+                        <img alt="Propic" class="border border-dark rounded-circle img-fluid p-1"
+                             height="150" onclick="zoomImage(this);" src="{{ object.photo.url }}"
+                             width="150"/>
                         {% else %}
-                        <img src="{% static 'images/no-pic-user.png' %}" alt="Propic"
-                             class="border border-dark rounded-circle img-fluid p-1" height="150" width="150"/>
+                        <img alt="Propic" class="border border-dark rounded-circle img-fluid p-1"
+                             height="150" src="{% static 'images/no-pic-user.png' %}" width="150"/>
                         {% endif %}
                     </div>
                     <div class="container">
@@ -30,12 +30,12 @@
                         </div>
                         <hr>
                         <div class="row d-flex justify-content-center align-items-center">
-                            <div class="col-3 mb-2 align-items-end">
-                                <img src="{% static 'images/members.png' %}" alt="Groups" width="32" height="32">
+                            <div class="col-3 mb-2">
+                                <img alt="Groups" height="32" src="{% static 'images/members.png' %}" width="32">
                             </div>
-                            <div class="col-9 mb-2 justify-content-start">
+                            <div class="col-9 mb-2">
                                 {% for group in groups %}
-                                <a href="{% url 'users:group-info' group.pk %}" class="text-decoration-none">
+                                <a class="text-decoration-none" href="{% url 'users:group-info' group.pk %}">
                                     <span class="badge badge-info">{{ group }}</span>
                                 </a>
                                 {% endfor %}
@@ -45,7 +45,7 @@
                         <hr>
                         <div class="row d-flex justify-content-center align-items-center">
                             <div class="col-3">
-                                <img src="{% static 'images/phone.png' %}" alt="Phone" width="32" height="32">
+                                <img alt="Phone" height="32" src="{% static 'images/phone.png' %}" width="32">
                             </div>
                             <div class="col-9">
                                 <span class="text-monospace">{{ object.phone }}</span>
@@ -54,7 +54,7 @@
                         <hr>
                         <div class="row d-flex justify-content-center align-items-center">
                             <div class="col-3">
-                                <img src="{% static 'images/mail.png' %}" alt="Email" width="32" height="32">
+                                <img alt="Email" height="32" src="{% static 'images/mail.png' %}" width="32">
                             </div>
                             <div class="col-9">
                                 <span class="text-monospace">{{ object.email }}</span>
@@ -67,9 +67,9 @@
                             {% if perms.user.update_user %}
                             <div class="col-12 {% if perms.user.delete_user %}mb-3{% endif %}">
                                 <a href="{% url 'users:user-update' object.pk %}">
-                                    <button type="button" class="btn btn-outline-secondary">
+                                    <button class="btn btn-outline-secondary" type="button">
                                         Edit Profile
-                                        <img src="{% static 'images/pencil.png' %}" alt="Update" width="24" height="24">
+                                        <img alt="Update" height="24" src="{% static 'images/pencil.png' %}" width="24">
                                     </button>
                                 </a>
                             </div>
@@ -77,9 +77,9 @@
                             {% if perms.user.delete_user %}
                             <div class="col-12">
                                 <a href="{% url 'users:user-delete' object.pk %}">
-                                    <button type="button" class="btn btn-outline-secondary">
+                                    <button class="btn btn-outline-secondary" type="button">
                                         Delete
-                                        <img src="{% static 'images/remove.png' %}" alt="Delete" width="24" height="24">
+                                        <img alt="Delete" height="24" src="{% static 'images/remove.png' %}" width="24">
                                     </button>
                                 </a>
                             </div>
