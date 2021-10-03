@@ -98,10 +98,17 @@ h1 {
 /* </MODAL IMAGE ZOOMING (W3C)> */
 
 /* <ADMIN FilteredSelectMultiple> */
+.selector {
+    display: flex;
+    width: 100% !important;
+    float: none !important;
+}
 .selector .selector-available, .selector .selector-chosen {
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     border-radius: 5px;
     margin-top: 10px;
+    width: 100% !important;
+    float: none !important;
 }
 .selector .selector-available h2, .selector .selector-chosen h2 {
     font-size: 16px;
@@ -149,8 +156,12 @@ h1 {
     min-height: 150px;
     border: 1px solid #343a40;
 }
-.selector .selector-available .filtered .selector-chooseall, .selector .selector-chosen .filtered .selector-clearall  {
-    display: block;
+.selector .selector-available .filtered .selector-chooseall, .selector .selector-chosen .filtered .selector-clearall {
+    display: block !important;
+}
+.selector .selector-available .filtered, .selector .selector-chosen .filtered {
+    display: block !important;
+    width: 100% !important;
 }
 .selector ul.selector-chooser {
     display: block;
