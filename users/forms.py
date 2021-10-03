@@ -92,6 +92,11 @@ class GroupForm(forms.ModelForm):
     helper.form_method = "POST"
     helper.add_input(Submit("save", "Save"))
 
+    class CustomMMCF(forms.ModelMultipleChoiceField):
+
+        def label_from_instance(self, permission):
+            return permission.name
+
     class Media:
         css = {
             'all': ('/static/admin/css/widgets.css',
@@ -105,7 +110,7 @@ class GroupForm(forms.ModelForm):
               '/static/admin/js/core.js',
               )
 
-    permissions = forms.ModelMultipleChoiceField(
+    permissions = CustomMMCF(
         widget=FilteredSelectMultiple(verbose_name="Permissions", is_stacked=False),
         queryset=Permission.objects.all().exclude(codename__in=prohibited_permissions),
         help_text='Select the permissions for the members of this group'
