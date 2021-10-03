@@ -8,3 +8,7 @@
 <h1>Update Group</h1>
 {% crispy form %}
 {% endblock %}
+
+{% block extra_head %}
+{{ form.media }}
+{% endblock %}

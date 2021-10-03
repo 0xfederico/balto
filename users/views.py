@@ -19,7 +19,6 @@ class UserCreateView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionReq
                      CreateView):
     model = UserModel
     form_class = AdminCreateForm
-    template_name = 'users/registration/user_create.html'
     success_message = 'User created correctly!'
     permission_required = 'user.add_user'
     permission_denied_message = "You don't have permission to add users"
@@ -41,12 +40,6 @@ class UserDeleteView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionReq
 class UserInfoView(LoginRequiredMixin, SuccessMessageMixin, DetailView):
     model = UserModel
     template_name = 'users/user_info.html'
-
-    def get(self, request: HttpRequest, *args, **kwargs):
-        self.object = self.get_object()
-        context = {"object": self.object,
-                   "groups": list(self.object.groups.all())}
-        return self.render_to_response(context)
 
 
 class UserListView(LoginRequiredMixin, SuccessMessageMixin, ListView):
@@ -148,13 +141,6 @@ class GroupInfoView(LoginRequiredMixin, SuccessMessageMixin, DetailView):
     model = Group
     template_name = "users/group_info.html"
     ordering = ['name']
-
-    def get(self, request: HttpRequest, *args, **kwargs):
-        self.object = self.get_object()
-        context = {"group_name": self.object.name,
-                   "group_pk": self.object.pk,
-                   "group_permissions": [i.name for i in self.object.permissions.all()]}
-        return self.render_to_response(context)
 
 
 class GroupMembersView(LoginRequiredMixin, SuccessMessageMixin, DetailView):

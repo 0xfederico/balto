@@ -96,3 +96,72 @@ h1 {
   }
 }
 /* </MODAL IMAGE ZOOMING (W3C)> */
+
+/* <ADMIN FilteredSelectMultiple> */
+.selector .selector-available, .selector .selector-chosen {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    border-radius: 5px;
+    margin-top: 10px;
+}
+.selector .selector-available h2, .selector .selector-chosen h2 {
+    font-size: 16px;
+    margin: 1em 0 .5em 0;
+    font-weight: bolder;
+    background: none !important;
+    color: none !important;
+}
+.selector .selector-available .selector-filter {
+    display: flex;
+    align-items: center;
+}
+.selector .selector-available .selector-filter label {
+    margin: 0 8px 0 0;
+}
+.selector .selector-available .selector-filter input {
+    display: block;
+    width: 100%;
+    height: calc(1.5em + .75rem + 2px);
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+.selector .selector-available .help-tooltip, .selector .selector-available .help-icon,
+.selector .selector-chosen .help-tooltip, .selector .selector-chosen .help-icon {
+    display: inline-block;
+}
+.selector .selector-available .help-icon, .selector .selector-chosen .help-icon {
+    background: url(/static/admin/img/icon-unknown.svg) 0 0 no-repeat;
+    display: inline-block;
+    vertical-align: middle;
+    margin: -2px 0 0 2px;
+    width: 13px;
+    height: 13px;
+}
+.selector .selector-available .filtered, .selector .selector-chosen .filtered {
+    height: auto;
+    min-height: 150px;
+    border: 1px solid #343a40;
+}
+.selector .selector-available .filtered .selector-chooseall, .selector .selector-chosen .filtered .selector-clearall  {
+    display: block;
+}
+.selector ul.selector-chooser {
+    display: block;
+    float: none;
+    width: 52px;
+    height: 26px;
+    padding: 0 2px;
+    margin: 15px auto 40px;
+    transform: none;
+}
+#submit-id-save {
+    margin-top: 15px;
+}
+/* </ADMIN FilteredSelectMultiple> */

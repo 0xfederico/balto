@@ -13,7 +13,7 @@
                 <div class="card-body text-center">
                     <div class="container">
                         <div class="row d-flex justify-content-center align-items-center">
-                            <h2 class="mb-2 text-primary">{{ group_name }}</h2>
+                            <h2 class="mb-2 text-primary">{{ object.name }}</h2>
                         </div>
                         <hr>
                         <div class="row d-flex justify-content-center align-items-center">
@@ -22,8 +22,8 @@
                                      width="32">
                             </div>
                             <div class="col-9 mb-2">
-                                {% for permission in group_permissions %}
-                                <span class="badge badge-success">{{ permission }}</span>
+                                {% for permission in object.permissions.all %}
+                                <span class="badge badge-success">{{ permission.name }}</span>
                                 {% endfor %}
                             </div>
                         </div>
@@ -31,7 +31,7 @@
                         <div class="row d-flex justify-content-center align-items-center">
                             {% if perms.group.update_group %}
                             <div class="col-12 mb-3">
-                                <a href="{% url 'users:group-update' group_pk %}">
+                                <a href="{% url 'users:group-update' object.pk %}">
                                     <button class="btn btn-outline-secondary" type="button">
                                         Edit Group
                                         <img alt="Update" height="24" src="{% static 'images/pencil.png' %}" width="24">
@@ -40,7 +40,7 @@
                             </div>
                             {% endif %}
                             <div class="col-12 {% if perms.group.delete_group %}mb-3{% endif %}">
-                                <a href="{% url 'users:group-members' group_pk %}">
+                                <a href="{% url 'users:group-members' object.pk %}">
                                     <button class="btn btn-outline-secondary" type="button">
                                         All Members
                                         <img alt="Members" height="24" src="{% static 'images/members.png' %}"
@@ -50,7 +50,7 @@
                             </div>
                             {% if perms.group.delete_group %}
                             <div class="col-12">
-                                <a href="{% url 'users:group-delete' group_pk %}">
+                                <a href="{% url 'users:group-delete' object.pk %}">
                                     <button class="btn btn-outline-secondary" type="button">
                                         Delete
                                         <img alt="Delete" height="24" src="{% static 'images/remove.png' %}" width="24">

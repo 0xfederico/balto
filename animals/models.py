@@ -3,12 +3,14 @@ from datetime import date
 from django.core.validators import RegexValidator
 from django.db import models
 
+from Configurations.mixins import CreatedModifiedMixin
+
 
 def animal_directory_path(self, filename):
     return f"animals_{self.pk}_{date.today()}_{filename}"
 
 
-class AnimalModel(models.Model):
+class AnimalModel(CreatedModifiedMixin, models.Model):
     name = models.CharField(max_length=30, blank=False, unique=True)
     breed = models.CharField(max_length=30)
 

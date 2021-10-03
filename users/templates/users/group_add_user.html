@@ -5,7 +5,10 @@
 {% block title %}Choose The User{% endblock %}
 
 {% block content %}
-<h1>Select the users to add to the {{ group.name }} group</h1>
+<h1>Select the users to add to the <b>{{ group.name }}</b> group</h1>
 {% crispy form %}
 {% endblock %}
 
+{% block extra_head %}
+{{ form.media }}
+{% endblock %}

@@ -34,7 +34,7 @@
                                 <img alt="Groups" height="32" src="{% static 'images/members.png' %}" width="32">
                             </div>
                             <div class="col-9 mb-2">
-                                {% for group in groups %}
+                                {% for group in object.groups.all %}
                                 <a class="text-decoration-none" href="{% url 'users:group-info' group.pk %}">
                                     <span class="badge badge-info">{{ group }}</span>
                                 </a>

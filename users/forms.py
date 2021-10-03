@@ -1,6 +1,7 @@
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from django import forms
+from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import Group, Permission
 
@@ -15,6 +16,25 @@ class AdminCreateForm(UserCreationForm):
     helper.form_method = "POST"
     helper.add_input(Submit("save", "Create"))
 
+    class Media:
+        css = {
+            'all': ('/static/admin/css/widgets.css',
+                    '/static/admin/css/responsive.css',
+                    # '/static/admin/css/base.css',
+                    )
+        }
+        js = ('/admin/jsi18n/',
+              '/static/admin/js/vendor/jquery/jquery.js',
+              '/static/admin/js/jquery.init.js',
+              '/static/admin/js/core.js',
+              )
+
+    groups = forms.ModelMultipleChoiceField(
+        widget=FilteredSelectMultiple(verbose_name="Groups", is_stacked=False),
+        queryset=Group.objects.all().order_by('name'),
+        help_text='Select the groups where the user will belong'
+    )
+
     class Meta:
         model = UserModel
         fields = ["username", "first_name", "last_name", "email", "phone", "photo", "groups"]
@@ -26,7 +46,26 @@ class AdminUpdateForm(UserChangeForm):
     helper.form_method = "POST"
     helper.add_input(Submit("save", "Save"))
 
+    class Media:
+        css = {
+            'all': ('/static/admin/css/widgets.css',
+                    '/static/admin/css/responsive.css',
+                    # '/static/admin/css/base.css',
+                    )
+        }
+        js = ('/admin/jsi18n/',
+              '/static/admin/js/vendor/jquery/jquery.js',
+              '/static/admin/js/jquery.init.js',
+              '/static/admin/js/core.js',
+              )
+
     password = None
+
+    groups = forms.ModelMultipleChoiceField(
+        widget=FilteredSelectMultiple(verbose_name="Groups", is_stacked=False),
+        queryset=Group.objects.all().order_by('name'),
+        help_text='Select the groups where the user will belong'
+    )
 
     class Meta:
         model = UserModel
@@ -53,8 +92,21 @@ class GroupForm(forms.ModelForm):
     helper.form_method = "POST"
     helper.add_input(Submit("save", "Save"))
 
+    class Media:
+        css = {
+            'all': ('/static/admin/css/widgets.css',
+                    '/static/admin/css/responsive.css',
+                    # '/static/admin/css/base.css',
+                    )
+        }
+        js = ('/admin/jsi18n/',
+              '/static/admin/js/vendor/jquery/jquery.js',
+              '/static/admin/js/jquery.init.js',
+              '/static/admin/js/core.js',
+              )
+
     permissions = forms.ModelMultipleChoiceField(
-        widget=forms.SelectMultiple(),
+        widget=FilteredSelectMultiple(verbose_name="Permissions", is_stacked=False),
         queryset=Permission.objects.all().exclude(codename__in=prohibited_permissions),
         help_text='Select the permissions for the members of this group'
     )
@@ -70,9 +122,23 @@ class GroupAddUserForm(forms.Form):
     helper.form_method = "POST"
     helper.add_input(Submit("save", "Add"))
 
+    class Media:
+        css = {
+            'all': ('/static/admin/css/widgets.css',
+                    '/static/admin/css/responsive.css',
+                    # '/static/admin/css/base.css',
+                    )
+        }
+        js = ('/admin/jsi18n/',
+              '/static/admin/js/vendor/jquery/jquery.js',
+              '/static/admin/js/jquery.init.js',
+              '/static/admin/js/core.js',
+              )
+
     users = forms.ModelMultipleChoiceField(
-        widget=forms.SelectMultiple(),
-        queryset=UserModel.objects.all().order_by('username')
+        widget=FilteredSelectMultiple(verbose_name="Users", is_stacked=False),
+        queryset=UserModel.objects.all().order_by('username'),
+        help_text='Select the user to add'
     )
 
     def __init__(self, *args, **kwargs):
