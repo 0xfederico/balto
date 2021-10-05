@@ -32,7 +32,8 @@ class AdminCreateForm(UserCreationForm):
     groups = forms.ModelMultipleChoiceField(
         widget=FilteredSelectMultiple(verbose_name="Groups", is_stacked=False),
         queryset=Group.objects.all().order_by('name'),
-        help_text='Select the groups where the user will belong'
+        help_text='Select the groups where the user will belong',
+        required=False
     )
 
     class Meta:
@@ -64,7 +65,8 @@ class AdminUpdateForm(UserChangeForm):
     groups = forms.ModelMultipleChoiceField(
         widget=FilteredSelectMultiple(verbose_name="Groups", is_stacked=False),
         queryset=Group.objects.all().order_by('name'),
-        help_text='Select the groups where the user will belong'
+        help_text='Select the groups where the user will belong',
+        required=False
     )
 
     class Meta:
@@ -113,7 +115,8 @@ class GroupForm(forms.ModelForm):
     permissions = CustomMMCF(
         widget=FilteredSelectMultiple(verbose_name="Permissions", is_stacked=False),
         queryset=Permission.objects.all().exclude(codename__in=prohibited_permissions),
-        help_text='Select the permissions for the members of this group'
+        help_text='Select the permissions for the members of this group',
+        required=False  # useful for creating groups without permissions
     )
 
     class Meta:
@@ -143,7 +146,8 @@ class GroupAddUserForm(forms.Form):
     users = forms.ModelMultipleChoiceField(
         widget=FilteredSelectMultiple(verbose_name="Users", is_stacked=False),
         queryset=UserModel.objects.all().order_by('username'),
-        help_text='Select the user to add'
+        help_text='Select a user to add',
+        required=True
     )
 
     def __init__(self, *args, **kwargs):

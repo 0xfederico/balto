@@ -147,6 +147,13 @@
                                 <p class="lead"> {{ object.needs_garden }}</p>
                             </div>
                         </div>
+                        <hr>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <h4 class="mb-2">Created: <span class="lead">{{ object.created }}</span></h4>
+                        </div>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <h4 class="mb-2">Modified: <span class="lead">{{ object.modified }}</span></h4>
+                        </div>
                         {% if perms.animal.update_animal or perms.animal.delete_animal %}
                         <hr>
                         <div class="row d-flex justify-content-center align-items-center">

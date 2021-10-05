@@ -4,6 +4,7 @@ from django import forms
 from django.contrib.admin.widgets import FilteredSelectMultiple
 
 from notifications.models import Notification
+from users.models import UserModel
 
 
 class NotificationForm(forms.ModelForm):
@@ -25,7 +26,13 @@ class NotificationForm(forms.ModelForm):
               '/static/admin/js/core.js',
               )
 
+    recipients = forms.ModelMultipleChoiceField(
+        widget=FilteredSelectMultiple(verbose_name="Recipient users", is_stacked=False),
+        queryset=UserModel.objects.all().order_by('username'),
+        help_text='Select a user to add',
+        required=True
+    )
+
     class Meta:
         model = Notification
         fields = ["title", "text", "recipients"]
-        widgets = {'recipients': FilteredSelectMultiple(verbose_name="Users", is_stacked=False)}

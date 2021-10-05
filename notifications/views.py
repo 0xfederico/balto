@@ -5,7 +5,7 @@ from django.http import HttpRequest, HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
-
+from django.contrib import messages
 from Configurations.mixins import NoPermissionMessageMixin
 from notifications.forms import NotificationForm
 from notifications.mixins import MyNotificationsMixin
@@ -39,6 +39,10 @@ class NotificationCreateView(LoginRequiredMixin, NoPermissionMessageMixin, Permi
         self.object.save()
         form.save_m2m()  # recipients
         return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, "Select at least one user to add from the list")
+        return super().form_invalid(form)
 
     def get_success_url(self):
         return reverse_lazy('notifications:notification-info', kwargs={"pk": self.object.pk})

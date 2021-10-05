@@ -133,7 +133,7 @@ class GroupAddUserView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionR
             messages.success(request, "User added to Group correctly!")
             return HttpResponseRedirect(reverse('users:group-members', kwargs={"pk": self.group.pk}))
         else:
-            messages.error(request, "Select a user from the list")
+            messages.error(request, "Select at least one user to add from the list")
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))  # return to the same url but with errors
 
 
