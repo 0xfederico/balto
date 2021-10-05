@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "393d36aba6d343b7489f9a4eb9664b1115f9e15d0d53c4e1f91a842640e2d82b"
+            "sha256": "29a17ab9ea11d3d3d1574bb0f7868ff11c91098a5739d1a3cb2e910845e48c10"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -33,11 +33,18 @@
         },
         "django-crispy-forms": {
             "hashes": [
-                "sha256:a3320356c84d0cdc631e1ec7b8908aa0117bc2a5f0ab1d053d33eba08f584808",
-                "sha256:d196db62ee8b4fc32d1f9583d0e4be1bb17328b662682c1ecb9fb77bbc0fcf77"
+                "sha256:4dc9e5263c91c5f51766806a050ca2ec5c349d34c5cd91fcca3a1a0363b5e29e",
+                "sha256:9c49d29dd9e98dc2e6e3a8b02670d72deb6edf7bc616986ca412d72c306b36a0"
             ],
             "index": "pypi",
-            "version": "==1.12.0"
+            "version": "==1.13.0"
+        },
+        "django-sslserver": {
+            "hashes": [
+                "sha256:c598a363d2ccdc2421c08ddb3d8b0973f80e8e47a3a5b74e4a2896f21c2947c5"
+            ],
+            "index": "pypi",
+            "version": "==0.22"
         },
         "netifaces": {
             "hashes": [
@@ -136,10 +143,10 @@
         },
         "pytz": {
             "hashes": [
-                "sha256:83a4a90894bf38e243cf052c8b58f381bfe9a7a483f6a9cab140bc7f702ac4da",
-                "sha256:eb10ce3e7736052ed3623d49975ce333bcd712c7bb19a58b9e2089d4057d0798"
+                "sha256:3672058bc3453457b622aab7a1c3bfd5ab0bdae451512f6cf25f64ed37f5b87c",
+                "sha256:acad2d8b20a1af07d4e4c9d2e9285c5ed9104354062f275f3fcd88dcef4f1326"
             ],
-            "version": "==2021.1"
+            "version": "==2021.3"
         },
         "sqlparse": {
             "hashes": [

@@ -36,7 +36,7 @@ for i in netifaces.interfaces():
                 allowed = ip
         except KeyError:
             pass
-ALLOWED_HOSTS = [allowed if DEBUG else ""]  # run on terminal: python manage.py runserver 0.0.0.0:8000
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", allowed if DEBUG else ""]  # run on terminal: python manage.py runserver 0.0.0.0:8000
 # ----------- delete to here and set: ALLOWED_HOSTS = []  -----------
 
 # Application definition
@@ -52,8 +52,9 @@ INSTALLED_APPS = [
     'users',
     'animals',
 #    'activities',
-#    'notifications',
+    'notifications',
 #    'facility',
+    "sslserver",
 ]
 
 MIDDLEWARE = [
@@ -79,6 +80,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'notifications.context_processors.my_notifications'
             ],
         },
     },

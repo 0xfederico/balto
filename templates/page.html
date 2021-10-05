@@ -16,20 +16,21 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
-                    <a class="nav-link text-center" href="#">Home <span class="sr-only">(current)</span></a>
+                <li class="nav-item">
+                    <a class="nav-link text-center" href="{% url 'homepage' %}">Home</a>
                 </li>
                 {% if user.is_authenticated %}
                 <li class="nav-item dropdown">
-                    <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle text-center" data-toggle="dropdown"
+                    <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle text-center"
+                       data-toggle="dropdown"
                        href="#" id="navbarDropdownAccount" role="button">
                         Account
                     </a>
                     <div aria-labelledby="navbarDropdown" class="dropdown-menu">
                         <a class="dropdown-item text-center" href="{% url 'users:users-list' %}">All users</a>
-                        <a class="dropdown-item text-center" href="{% url 'users:user-info' user.pk %}">Profile</a>
+                        <a class="dropdown-item text-center" href="{% url 'users:user-info' user.pk %}">My Profile</a>
                         {% if perms.user.change_user %}
-                        <a class="dropdown-item text-center" href="{% url 'users:user-update' user.pk %}">Update</a>
+                        <a class="dropdown-item text-center" href="{% url 'users:user-update' user.pk %}">Edit Profile</a>
                         {% endif %}
                         <a class="dropdown-item text-center" href="{% url 'users:user-password-change' %}">Change
                             Password</a>
@@ -40,13 +41,9 @@
                         <a class="dropdown-item text-center" href="{% url 'users:user-logout' %}">Logout</a>
                     </div>
                 </li>
-                {% else %}
-                <li class="nav-item">
-                    <a class="nav-link text-center" href="{% url 'users:user-login' %}">Login</a>
-                </li>
-                {% endif %}
                 <li class="nav-item dropdown">
-                    <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle text-center" data-toggle="dropdown"
+                    <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle text-center"
+                       data-toggle="dropdown"
                        href="#" id="navbarDropdownManagement" role="button">
                         Management
                     </a>
@@ -61,7 +58,8 @@
                     </div>
                 </li>
                 <li class="nav-item dropdown">
-                    <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle text-center" data-toggle="dropdown"
+                    <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle text-center"
+                       data-toggle="dropdown"
                        href="#" id="navbarDropdownAnimals" role="button">
                         Animals
                     </a>
@@ -73,9 +71,29 @@
                         {% endif %}
                     </div>
                 </li>
+                <li class="nav-item dropdown">
+                    <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle text-center"
+                       data-toggle="dropdown"
+                       href="#" id="navbarDropdownNotifications" role="button">
+                        Notifications
+                    </a>
+                    <div aria-labelledby="navbarDropdown" class="dropdown-menu">
+                        <a class="dropdown-item text-center" href="{% url 'notifications:notifications-list' %}">All
+                            Notifications</a>
+                        {% if perms.notification.add_notification %}
+                        <a class="dropdown-item text-center" href="{% url 'notifications:notification-create' %}">Create
+                            Notification</a>
+                        {% endif %}
+                    </div>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link text-center" href="{% url 'calendar' %}">Calendar</a>
                 </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link text-center" href="{% url 'users:user-login' %}">Login</a>
+                </li>
+                {% endif %}
             </ul>
         </div>
     </nav>

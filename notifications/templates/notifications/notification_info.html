@@ -1,0 +1,51 @@
+{% extends 'page.html' %}
+
+{% load static %}
+
+{% block title %}Notification Info{% endblock %}
+
+{% block content %}
+<h1>Animal Info</h1>
+<div class="container py-3 d-flex justify-content-center">
+    <div class="row justify-content-center w-100">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="container">
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-5 mb-2">
+                                <b>Title:</b>
+                            </div>
+                            <div class="col-7 mb-2">
+                                <p class="lead"> {{ object.title }}</p>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row d-flex justify-content-start">
+                            <div class="col-5 mb-2">
+                                <b>Text:</b>
+                            </div>
+                            <div class="col-12 mb-2 bg-light rounded">
+                                <p class="lead mb-0"> {{ object.text }}</p>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-5 mb-2">
+                                <b>Recipients:</b>
+                            </div>
+                            <div class="col-7 mb-2">
+                                {% for recipient in object.recipients.all %}
+                                <a class="text-decoration-none" href="{% url 'users:user-info' recipient.pk %}">
+                                    <span class="badge badge-success">{{ recipient.username }}</span>
+                                </a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

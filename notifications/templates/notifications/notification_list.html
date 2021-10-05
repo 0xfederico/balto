@@ -1,0 +1,44 @@
+{% extends 'page_list.html' %}
+
+{% load static %}
+
+{% block list_title %}Notifications{% endblock %}
+{% block content_title %}Notifications{% endblock %}
+
+{% block thead %}
+<th class="text-center">Title</th>
+<th class="text-center">Actions</th>
+{% endblock %}
+
+{% block tbody %}
+{% for notification in object_list %}
+<tr>
+    <td class="text-center">{{ notification.title }}</td>
+    <td class="text-center">
+        <a href="{% url 'notifications:notification-info' notification.pk %}"><img alt="Info"
+                                                                                   height="24" src="{% static 'images/info.png' %}"
+                                                                                   width="24"></a>
+        {% if perms.notification.update_notification %}
+        <a href="{% url 'notifications:notification-update' notification.pk %}"><img
+                alt="Update" height="24"
+                src="{% static 'images/pencil.png' %}" width="24"></a>
+        {% endif %}
+        {% if perms.notification.delete_notification %}
+        <a href="{% url 'notifications:notification-delete' notification.pk %}"><img
+                alt="Delete" height="24"
+                src="{% static 'images/remove.png' %}" width="24"></a>
+        {% endif %}
+    </td>
+</tr>
+{% endfor %}
+{% endblock %}
+
+{% block table_before %}
+{% if perms.notification.add_notification %}
+<div class="d-flex flex-column align-items-center">
+    <a class="btn btn-primary w-75" href="{% url 'notifications:notification-create' %}">Create new Notification</a>
+    <input aria-label="Search" class="form-control my-2 w-75" oninput="filterElements(this)" placeholder="Search"
+           type="search">
+</div>
+{% endif %}
+{% endblock %}

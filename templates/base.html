@@ -1,32 +1,33 @@
 <!doctype html>
-<html lang="en" class="h-100">
+<html class="h-100" lang="en">
 <head>
     {% load static %}
 
     <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
     {% block add_meta %}{% endblock %}
 
     <!-- Title -->
     <title>{% block title %}{% endblock %}</title>
 
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/jpg" href="{% static 'images/favicon.ico' %}"/>
+    <link href="{% static 'images/favicon.ico' %}" rel="shortcut icon" type="image/jpg"/>
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
           integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
-          crossorigin="anonymous">
+          rel="stylesheet">
 
     <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet">
 
     {% block other_css_libs %}{% endblock %}
 
     <!-- Main css -->
-    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link href="{% static 'css/main.css' %}" rel="stylesheet">
 
+    <!-- Extra css -->
     {% block extra_head %}{% endblock %}
 </head>
 <body class="d-flex flex-column h-100">
@@ -47,7 +48,7 @@
           {% endif %}
          alert-dismissable fade show" role="alert">
     {{ message | safe }}
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <button aria-label="Close" class="close" data-dismiss="alert" type="button">
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
@@ -62,18 +63,40 @@
 {% block footer %}{% endblock %}
 
 <!-- jQuery and Bootstrap Bundle (includes Popper) -->
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"
+<script crossorigin="anonymous"
         integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+        src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script crossorigin="anonymous"
         integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
-        crossorigin="anonymous"></script>
+        src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
 
 {% block other_js_libs %}{% endblock %}
 
 <!-- Main JS -->
-<script src="{% static 'js/main.js' %}" charset="utf-8"></script>
+<script charset="utf-8" src="{% static 'js/main.js' %}"></script>
 
-{% block extra_body %}{% endblock %}
+{% block extra_body %}
+<script>
+let img = "";
+let title = "";
+let textbody = "";
+let onclose_url = "";
+let onclose_pk = "";
+let onclick_url = "";
+{% for notification in mynotifications %}
+    {% if notification.creator.photo %}
+    img = "{{ notification.creator.photo.url }}";
+    {% else %}
+    img = "{% static 'images/no-pic-user.png' %}";
+    {% endif %}
+    title = "{{ notification.title }}";
+    textbody = "{{ notification.text | safe }}";
+    onclose_url = "{% url 'notifications:read-notification' %}";
+    onclose_pk = "{{ notification.pk }}";
+    onclick_url = "{% url 'notifications:notification-info' notification.pk %}";
+    notify_user(title, textbody, img, onclose_url, onclose_pk, onclick_url);
+{% endfor %}
+</script>
+{% endblock %}
 </body>
 </html>

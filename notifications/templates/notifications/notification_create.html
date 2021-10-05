@@ -1,0 +1,14 @@
+{% extends 'page.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}Create Notification{% endblock %}
+
+{% block content %}
+<h1>Create Notification</h1>
+{% crispy form %}
+{% endblock %}
+
+{% block extra_head %}
+{{ form.media }}
+{% endblock %}
