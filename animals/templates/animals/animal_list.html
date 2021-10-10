@@ -29,11 +29,11 @@
         <a href="{% url 'animals:animal-info' animal.pk %}"><img alt="Info" height="24"
                                                                  src="{% static 'images/info.png' %}"
                                                                  width="24"></a>
-        {% if perms.animal.update_animal %}
+        {% if perms.animals.change_animal %}
         <a href="{% url 'animals:animal-update' animal.pk %}"><img alt="Update" height="24"
                                                                    src="{% static 'images/pencil.png' %}" width="24"></a>
         {% endif %}
-        {% if perms.animal.delete_animal %}
+        {% if perms.animals.delete_animal %}
         <a href="{% url 'animals:animal-delete' animal.pk %}"><img alt="Delete" height="24"
                                                                    src="{% static 'images/remove.png' %}" width="24"></a>
         {% endif %}
@@ -43,7 +43,7 @@
 {% endblock %}
 
 {% block table_before %}
-{% if perms.animal.add_animal %}
+{% if perms.animals.add_animal %}
 <div class="d-flex flex-column align-items-center">
     <a class="btn btn-primary w-75" href="{% url 'animals:animal-create' %}">Register new Animal</a>
     <input aria-label="Search" class="form-control my-2 w-75" oninput="filterElements(this)" placeholder="Search"

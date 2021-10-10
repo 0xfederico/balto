@@ -154,11 +154,11 @@
                         <div class="row d-flex justify-content-center align-items-center">
                             <h4 class="mb-2">Modified: <span class="lead">{{ object.modified }}</span></h4>
                         </div>
-                        {% if perms.animal.update_animal or perms.animal.delete_animal %}
+                        {% if perms.animals.change_animal or perms.animals.delete_animal %}
                         <hr>
                         <div class="row d-flex justify-content-center align-items-center">
-                            {% if perms.animal.update_animal %}
-                            <div class="col-12 {% if perms.animal.delete_animal %}mb-3{% endif %}">
+                            {% if perms.animals.change_animal %}
+                            <div class="col-12 {% if perms.animals.delete_animal %}mb-3{% endif %}">
                                 <a href="{% url 'animals:animal-update' object.pk %}">
                                     <button class="btn btn-outline-secondary" type="button">
                                         Edit Animal
@@ -167,7 +167,7 @@
                                 </a>
                             </div>
                             {% endif %}
-                            {% if perms.animal.delete_animal %}
+                            {% if perms.animals.delete_animal %}
                             <div class="col-12">
                                 <a href="{% url 'animals:animal-delete' object.pk %}">
                                     <button class="btn btn-outline-secondary" type="button">

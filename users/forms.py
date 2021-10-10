@@ -6,7 +6,7 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import Group, Permission
 
 from Configurations.settings import prohibited_permissions
-from users.models import UserModel
+from users.models import User
 
 
 # ------------------- USER -------------------
@@ -37,7 +37,7 @@ class AdminCreateForm(UserCreationForm):
     )
 
     class Meta:
-        model = UserModel
+        model = User
         fields = ["username", "first_name", "last_name", "email", "phone", "photo", "groups"]
 
 
@@ -70,7 +70,7 @@ class AdminUpdateForm(UserChangeForm):
     )
 
     class Meta:
-        model = UserModel
+        model = User
         fields = ["username", "first_name", "last_name", "email", "phone", "photo", "groups"]
 
 
@@ -83,7 +83,7 @@ class UserUpdateForm(UserChangeForm):
     password = None
 
     class Meta:
-        model = UserModel
+        model = User
         fields = ["username", "first_name", "last_name", "email", "phone", "photo"]
 
 
@@ -145,11 +145,11 @@ class GroupAddUserForm(forms.Form):
 
     users = forms.ModelMultipleChoiceField(
         widget=FilteredSelectMultiple(verbose_name="Users", is_stacked=False),
-        queryset=UserModel.objects.all().order_by('username'),
+        queryset=User.objects.all().order_by('username'),
         help_text='Select a user to add',
         required=True
     )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['users'].queryset = UserModel.objects.all()
+        self.fields['users'].queryset = User.objects.all()

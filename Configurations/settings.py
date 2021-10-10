@@ -48,13 +48,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # My apps
+    'users.apps.UsersConfig',
+    'animals.apps.AnimalsConfig',
+    'activities.apps.ActivitiesConfig',
+    'notifications.apps.NotificationsConfig',
+    'facility.apps.FacilityConfig',
+    # Other apps
     'crispy_forms',
-    'users',
-    'animals',
-#    'activities',
-    'notifications',
-#    'facility',
-    "sslserver",
+    'sslserver',
 ]
 
 MIDDLEWARE = [
@@ -151,7 +153,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 MEDIA_ROOT = BASE_DIR / 'static' / 'images' / 'apps'
 
 # Login and Users
-AUTH_USER_MODEL = 'users.UserModel'
+AUTH_USER_MODEL = 'users.User'
 
 LOGIN_URL = "users:user-login"
 

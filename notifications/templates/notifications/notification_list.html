@@ -18,12 +18,12 @@
         <a href="{% url 'notifications:notification-info' notification.pk %}"><img alt="Info"
                                                                                    height="24" src="{% static 'images/info.png' %}"
                                                                                    width="24"></a>
-        {% if perms.notification.update_notification %}
+        {% if perms.notifications.change_notification %}
         <a href="{% url 'notifications:notification-update' notification.pk %}"><img
                 alt="Update" height="24"
                 src="{% static 'images/pencil.png' %}" width="24"></a>
         {% endif %}
-        {% if perms.notification.delete_notification %}
+        {% if perms.notifications.delete_notification %}
         <a href="{% url 'notifications:notification-delete' notification.pk %}"><img
                 alt="Delete" height="24"
                 src="{% static 'images/remove.png' %}" width="24"></a>
@@ -34,7 +34,7 @@
 {% endblock %}
 
 {% block table_before %}
-{% if perms.notification.add_notification %}
+{% if perms.notifications.add_notification %}
 <div class="d-flex flex-column align-items-center">
     <a class="btn btn-primary w-75" href="{% url 'notifications:notification-create' %}">Create new Notification</a>
     <input aria-label="Search" class="form-control my-2 w-75" oninput="filterElements(this)" placeholder="Search"

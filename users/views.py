@@ -11,16 +11,16 @@ from django.views.generic import CreateView, UpdateView, DeleteView, ListView, D
 from Configurations.mixins import NoPermissionMessageMixin
 from users.forms import GroupForm, GroupAddUserForm, AdminCreateForm, AdminUpdateForm
 from users.mixins import ItIsHimselfOrAdminMixin
-from users.models import UserModel
+from users.models import User
 
 
 # ------------------- USER -------------------
 class UserCreateView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, SuccessMessageMixin,
                      CreateView):
-    model = UserModel
+    model = User
     form_class = AdminCreateForm
     success_message = 'User created correctly!'
-    permission_required = 'user.add_user'
+    permission_required = 'users.add_user'
     permission_denied_message = "You don't have permission to add users"
 
     def get_success_url(self):
@@ -29,32 +29,32 @@ class UserCreateView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionReq
 
 class UserDeleteView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, ItIsHimselfOrAdminMixin,
                      SuccessMessageMixin, DeleteView):
-    model = UserModel
+    model = User
     template_name = 'users/user_delete.html'
     success_message = 'User deleted correctly!'
-    permission_required = 'user.delete_user'
+    permission_required = 'users.delete_user'
     permission_denied_message = "You don't have permission to delete users"
     success_url = reverse_lazy('users:users-list')
 
 
 class UserInfoView(LoginRequiredMixin, SuccessMessageMixin, DetailView):
-    model = UserModel
+    model = User
     template_name = 'users/user_info.html'
 
 
 class UserListView(LoginRequiredMixin, SuccessMessageMixin, ListView):
-    model = UserModel
+    model = User
     template_name = 'users/user_list.html'
     ordering = ['username']
 
 
 class UserUpdateView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, ItIsHimselfOrAdminMixin,
                      SuccessMessageMixin, UpdateView):
-    model = UserModel
+    model = User
     form_class = AdminUpdateForm
     template_name = 'users/user_update.html'
     success_message = 'User updated correctly!'
-    permission_required = 'user.update_user'
+    permission_required = 'users.change_user'
     permission_denied_message = "You don't have permission to edit users"
 
     def get_success_url(self):
@@ -68,7 +68,7 @@ class GroupCreateView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRe
     form_class = GroupForm
     template_name = 'users/group_create.html'
     success_message = 'Group created correctly!'
-    permission_required = 'group.add_group'
+    permission_required = 'auth.add_group'
     permission_denied_message = "You don't have permission to create groups"
 
     def get_success_url(self):
@@ -80,7 +80,7 @@ class GroupDeleteView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRe
     model = Group
     template_name = 'users/group_delete.html'
     success_message = 'Group deleted correctly!'
-    permission_required = 'group.delete_group'
+    permission_required = 'auth.delete_group'
     permission_denied_message = "You don't have permission to delete groups"
     success_url = reverse_lazy('users:groups-list')
 
@@ -97,7 +97,7 @@ class GroupDeleteUserView(LoginRequiredMixin, NoPermissionMessageMixin, Permissi
     def get(self, request: HttpRequest, *args, **kwargs):
         self.object = self.get_object()
         context = {"group": self.object,
-                   "delete_user": UserModel.objects.get(pk=kwargs["upk"])}
+                   "delete_user": User.objects.get(pk=kwargs["upk"])}
         return self.render_to_response(context)
 
     def delete(self, request: HttpRequest, *args, **kwargs):
@@ -150,7 +150,7 @@ class GroupMembersView(LoginRequiredMixin, SuccessMessageMixin, DetailView):
     def get(self, request: HttpRequest, *args, **kwargs):
         self.object = self.get_object()
         context = {"group": self.object,
-                   "members": UserModel.objects.filter(groups__name=self.object.name).order_by('username')}
+                   "members": User.objects.filter(groups__name=self.object.name).order_by('username')}
         return self.render_to_response(context)
 
 
@@ -165,7 +165,7 @@ class GroupUpdateView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRe
     form_class = GroupForm
     template_name = 'users/group_update.html'
     success_message = 'Group updated correctly!'
-    permission_required = 'group.update_group'
+    permission_required = 'auth.change_group'
     permission_denied_message = "You don't have permission to edit groups"
 
     def get_success_url(self):

@@ -30,7 +30,7 @@ class NotificationCreateView(LoginRequiredMixin, NoPermissionMessageMixin, Permi
     form_class = NotificationForm
     template_name = 'notifications/notification_create.html'
     success_message = 'Notification created correctly!'
-    permission_required = 'notification.add_notification'
+    permission_required = 'notifications.add_notification'
     permission_denied_message = "You don't have permission to create notifications"
 
     def form_valid(self, form):
@@ -53,7 +53,7 @@ class NotificationDeleteView(LoginRequiredMixin, NoPermissionMessageMixin, Permi
     model = Notification
     template_name = 'notifications/notification_delete.html'
     success_message = 'Notification deleted correctly!'
-    permission_required = 'notification.delete_notification'
+    permission_required = 'notifications.delete_notification'
     permission_denied_message = "You don't have permission to delete notifications"
     success_url = reverse_lazy('notifications:notifications-list')
 
@@ -75,7 +75,7 @@ class NotificationUpdateView(LoginRequiredMixin, NoPermissionMessageMixin, Permi
     form_class = NotificationForm
     template_name = 'notifications/notification_update.html'
     success_message = 'Notification updated correctly!'
-    permission_required = 'notification.update_notification'
+    permission_required = 'notifications.change_notification'
     permission_denied_message = "You don't have permission to edit notifications"
 
     def get_success_url(self):
