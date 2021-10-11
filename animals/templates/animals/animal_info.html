@@ -49,39 +49,12 @@
                             </div>
                         </div>
                         <br>
-                        <div class="row d-flex justify-content-start">
-                            <div class="col-5 mb-2">
-                                <b>Pathologies:</b>
-                            </div>
-                            <div class="col-12 mb-2 bg-light rounded">
-                                <p class="lead mb-0"> {{ object.pathologies }}</p>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row d-flex justify-content-start">
-                            <div class="col-5 mb-2">
-                                <b>Walk equipment:</b>
-                            </div>
-                            <div class="col-12 mb-2 bg-light rounded">
-                                <p class="lead mb-0"> {{ object.walk_equipment }}</p>
-                            </div>
-                        </div>
-                        <hr>
                         <div class="row d-flex justify-content-center align-items-center">
                             <div class="col-5 mb-2">
                                 <b>Microchip:</b>
                             </div>
                             <div class="col-7 mb-2">
                                 <p class="lead"> {{ object.microchip }}</p>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row d-flex justify-content-start">
-                            <div class="col-5 mb-2">
-                                <b>Particular signs:</b>
-                            </div>
-                            <div class="col-12 mb-2 bg-light rounded">
-                                <p class="lead mb-0"> {{ object.particular_signs }}</p>
                             </div>
                         </div>
                         <br>
@@ -105,48 +78,172 @@
                         <br>
                         <div class="row d-flex justify-content-center align-items-center">
                             <div class="col-5 mb-2">
+                                <b>Box:</b>
+                            </div>
+                            <div class="col-7 mb-2">
+                                <p class="lead"> {{ object.box }}</p>
+                            </div>
+                        </div>
+
+                        {% if perms.animals.view_animaldescription %}
+                        <hr>
+                        <h3 class="text-center text-light bg-info rounded mt-5">Description</h3>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-5 mb-2">
+                                <b>Size:</b>
+                            </div>
+                            <div class="col-7 mb-2">
+                                <p class="lead"> {{ description.size }}</p>
+                            </div>
+                        </div>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-5 mb-2">
+                                <b>Color:</b>
+                            </div>
+                            <div class="col-7 mb-2">
+                                <p class="lead"> {{ description.color }}</p>
+                            </div>
+                        </div>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-5 mb-2">
+                                <b>Spots:</b>
+                            </div>
+                            <div class="col-7 mb-2">
+                                <p class="lead"> {{ description.spots }}</p>
+                            </div>
+                        </div>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-5 mb-2">
+                                <b>Ears:</b>
+                            </div>
+                            <div class="col-7 mb-2">
+                                <p class="lead"> {{ description.ears }}</p>
+                            </div>
+                        </div>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-5 mb-2">
+                                <b>Hair length:</b>
+                            </div>
+                            <div class="col-7 mb-2">
+                                <p class="lead"> {{ description.hair_length }}</p>
+                            </div>
+                        </div>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-5 mb-2">
+                                <b>Tail:</b>
+                            </div>
+                            <div class="col-7 mb-2">
+                                <p class="lead"> {{ description.tail }}</p>
+                            </div>
+                        </div>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-5 mb-2">
+                                <b>Origin:</b>
+                            </div>
+                            <div class="col-7 mb-2">
+                                <p class="lead"> {{ description.origin }}</p>
+                            </div>
+                        </div>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-5 mb-2">
+                                <b>Particular signs:</b>
+                            </div>
+                            <div class="col-7 mb-2">
+                                <p class="lead"> {{ description.particular_signs }}</p>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        {% if perms.animals.view_animalmanagement %}
+                        <hr>
+                        <h3 class="text-center text-light bg-info rounded mt-5">Management</h3>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-5 mb-2">
                                 <b>Sociability with females:</b>
                             </div>
                             <div class="col-7 mb-2">
-                                <p class="lead"> {{ object.sociability_with_females }}</p>
+                                <p class="lead"> {{ management.sociability_with_females }}</p>
                             </div>
                         </div>
-                        <br>
                         <div class="row d-flex justify-content-center align-items-center">
                             <div class="col-5 mb-2">
                                 <b>Sociability with males:</b>
                             </div>
                             <div class="col-7 mb-2">
-                                <p class="lead"> {{ object.sociability_with_males }}</p>
+                                <p class="lead"> {{ management.sociability_with_males }}</p>
                             </div>
                         </div>
-                        <br>
                         <div class="row d-flex justify-content-center align-items-center">
                             <div class="col-5 mb-2">
                                 <b>Sociability with children:</b>
                             </div>
                             <div class="col-7 mb-2">
-                                <p class="lead"> {{ object.sociability_with_children }}</p>
+                                <p class="lead"> {{ management.sociability_with_children }}</p>
                             </div>
                         </div>
-                        <br>
                         <div class="row d-flex justify-content-center align-items-center">
                             <div class="col-5 mb-2">
                                 <b>Needs another dog:</b>
                             </div>
                             <div class="col-7 mb-2">
-                                <p class="lead"> {{ object.needs_another_dog }}</p>
+                                <p class="lead"> {{ management.needs_another_dog }}</p>
                             </div>
                         </div>
-                        <br>
                         <div class="row d-flex justify-content-center align-items-center">
                             <div class="col-5 mb-2">
                                 <b>Needs garden:</b>
                             </div>
                             <div class="col-7 mb-2">
-                                <p class="lead"> {{ object.needs_garden }}</p>
+                                <p class="lead"> {{ management.needs_garden }}</p>
                             </div>
                         </div>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-5 mb-2">
+                                <b>Walk equipment:</b>
+                            </div>
+                            <div class="col-7 mb-2">
+                                <p class="lead"> {{ management.walk_equipment }}</p>
+                            </div>
+                        </div>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-5 mb-2">
+                                <b>Flag warning:</b>
+                            </div>
+                            <div class="col-7 mb-2">
+                                <p class="lead"> {{ management.flag_warning }}</p>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        {% if perms.animals.view_animalhealth %}
+                        <hr>
+                        <h3 class="text-center text-light bg-info rounded mt-5">Health</h3>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-5 mb-2">
+                                <b>Pathologies:</b>
+                            </div>
+                            <div class="col-7 mb-2">
+                                <p class="lead"> {{ health.pathologies }}</p>
+                            </div>
+                        </div>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-5 mb-2">
+                                <b>Diet:</b>
+                            </div>
+                            <div class="col-7 mb-2">
+                                <p class="lead"> {{ health.diet }}</p>
+                            </div>
+                        </div>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-5 mb-2">
+                                <b>Note:</b>
+                            </div>
+                            <div class="col-7 mb-2">
+                                <p class="lead"> {{ health.note }}</p>
+                            </div>
+                        </div>
+                        {% endif %}
+
                         <hr>
                         <div class="row d-flex justify-content-center align-items-center">
                             <h4 class="mb-2">Created: <span class="lead">{{ object.created }}</span></h4>

@@ -1,0 +1,58 @@
+{% extends 'page.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}{{view_text}} Animal{% endblock %}
+
+{% block content %}
+<h1>{{view_text}} Animal</h1>
+<form enctype="multipart/form-data" id="wrapper_crispy_form" method="post">
+    {% csrf_token %}
+
+    <h3 class="text-center text-light bg-info rounded mt-5">General</h3>
+    {{ form.name | as_crispy_field }}
+    {{ form.breed | as_crispy_field }}
+    {{ form.sex | as_crispy_field }}
+    {{ form.photo | as_crispy_field }}
+    {{ form.microchip | as_crispy_field }}
+    {{ form.check_in_date | as_crispy_field }}
+    {{ form.birth_date | as_crispy_field }}
+    {{ form.box | as_crispy_field }}
+
+    {% if description_form %}
+    <h3 class="text-center text-light bg-info rounded mt-5">Description</h3>
+    {{ description_form.size | as_crispy_field }}
+    {{ description_form.color | as_crispy_field }}
+    {{ description_form.spots | as_crispy_field }}
+    {{ description_form.ears | as_crispy_field }}
+    {{ description_form.hair_length | as_crispy_field }}
+    {{ description_form.tail | as_crispy_field }}
+    {{ description_form.origin | as_crispy_field }}
+    {{ description_form.particular_signs | as_crispy_field }}
+    {% endif %}
+
+    {% if management_form %}
+    <h3 class="text-center text-light bg-info rounded mt-5">Management</h3>
+    {{ management_form.sociability_with_females | as_crispy_field }}
+    {{ management_form.sociability_with_males | as_crispy_field }}
+    {{ management_form.sociability_with_children | as_crispy_field }}
+    {{ management_form.needs_another_dog | as_crispy_field }}
+    {{ management_form.needs_garden | as_crispy_field }}
+    {{ management_form.walk_equipment | as_crispy_field }}
+    {{ management_form.flag_warning | as_crispy_field }}
+    {% endif %}
+
+    {% if health_form %}
+    <h3 class="text-center text-light bg-info rounded mt-5">Health</h3>
+    {{ health_form.pathologies | as_crispy_field }}
+    {{ health_form.diet | as_crispy_field }}
+    {{ health_form.note | as_crispy_field }}
+    {% endif %}
+
+    <div class="form-group">
+        <div class="">
+            <input class="btn btn-primary" id="submit-id-{{view_text | lower}}" type="submit" value="{{view_text}}">
+        </div>
+    </div>
+</form>
+{% endblock %}
