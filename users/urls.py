@@ -1,5 +1,5 @@
 from django.contrib.auth import views as auth_views
-from django.urls import path
+from django.urls import path, reverse_lazy
 
 from users.views import GroupCreateView, GroupUpdateView, GroupDeleteView, GroupListView, \
     GroupInfoView, UserInfoView, UserDeleteView, UserListView, UserUpdateView, UserCreateView, GroupMembersView, \
@@ -26,19 +26,9 @@ urlpatterns = [
     # ACCOUNT MANAGEMENT
     path('login/', auth_views.LoginView.as_view(template_name='users/user_login.html'), name='user-login'),
     path('logout', auth_views.LogoutView.as_view(template_name='users/user_logged_out.html'), name='user-logout'),
-    path('password-reset/', auth_views.PasswordResetView.as_view(template_name='users/password_reset_email.html'),
-         name='user-password-reset'),
-    path('password-reset-done',
-         auth_views.PasswordResetDoneView.as_view(template_name='users/password_reset_done.html'),
-         name='user-password-reset-done'),
-    path('password-reset-confirm',
-         auth_views.PasswordResetConfirmView.as_view(template_name='users/password_reset_confirm.html'),
-         name='user-password-reset-confirm'),
-    path('password-reset-complete',
-         auth_views.PasswordResetCompleteView.as_view(template_name='users/password_reset_complete.html'),
-         name='user-password-reset-complete'),
     path('password-change/',
-         auth_views.PasswordChangeView.as_view(template_name='users/password_change_form.html'),
+         auth_views.PasswordChangeView.as_view(template_name='users/password_change_form.html',
+                                               success_url=reverse_lazy('users:user-password-change-done')),
          name='user-password-change'),
     path('password-change-done',
          auth_views.PasswordChangeDoneView.as_view(template_name='users/password_change_done.html'),

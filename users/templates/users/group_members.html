@@ -26,8 +26,10 @@
     {% endif %}
     <td class="text-center">{{ member.username }}</td>
     <td class="text-center">
+        {% if perms.users.view_user %}
         <a href="{% url 'users:user-info' member.pk %}"><img src="{% static 'images/info.png' %}" alt="Info" width="24"
                                                              height="24"></a>
+        {% endif %}
         {% if perms.group.delete_users_from_group %}
         <a href="{% url 'users:group-delete-user' group.pk member.pk %}"><img src="{% static 'images/remove.png' %}"
                                                                               alt="Delete" width="24" height="24"></a>

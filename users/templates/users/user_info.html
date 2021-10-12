@@ -35,9 +35,13 @@
                             </div>
                             <div class="col-9 mb-2">
                                 {% for group in object.groups.all %}
-                                <a class="text-decoration-none" href="{% url 'users:group-info' group.pk %}">
+                                    {% if perms.auth.view_group %}
+                                    <a class="text-decoration-none" href="{% url 'users:group-info' group.pk %}">
+                                        <span class="badge badge-info">{{ group }}</span>
+                                    </a>
+                                    {% else %}
                                     <span class="badge badge-info">{{ group }}</span>
-                                </a>
+                                    {% endif %}
                                 {% endfor %}
                             </div>
                         </div>

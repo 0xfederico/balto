@@ -6,10 +6,8 @@
 
 {% block content %}
 <h1>Login</h1>
-<form method="post">{% csrf_token %}
+<form class="mb-5" method="post">{% csrf_token %}
     {{ form|crispy }}
-    <input type="submit" value="Login">
-    <!--<a href="{% url 'users:user-password-reset' %}">Did you forget your password? </a>-->
+    <input type="submit" class="btn btn-success" value="Login">
 </form>
 {% endblock %}
-
