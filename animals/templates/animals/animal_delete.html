@@ -8,11 +8,19 @@
     <div class="text-center pt-3 d-flex flex-column justify-content-center">
         <p>You are going to remove <strong>{{ object.name }}</strong> animal, are you sure?</p>
         <div class="d-flex justify-content-around">
+            {% if perms.animals.view_animal %}
             <a href="{% url 'animals:animals-list' %}" class="text-decoration-none">
                 <button type="button" class="btn btn-lg btn-secondary">
                     Cancel
                 </button>
             </a>
+            {% else %}
+            <a href="{% url 'homepage' %}" class="text-decoration-none">
+                <button type="button" class="btn btn-lg btn-secondary">
+                    Cancel
+                </button>
+            </a>
+            {% endif %}
             <input class="btn btn-lg btn-danger" type="submit" value="Delete">
         </div>
     </div>

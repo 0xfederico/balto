@@ -26,9 +26,11 @@
     {% endif %}
     <td class="text-center">{{ animal.name }}</td>
     <td class="text-center">
+        {% if perms.animals.view_animal %}
         <a href="{% url 'animals:animal-info' animal.pk %}"><img alt="Info" height="24"
                                                                  src="{% static 'images/info.png' %}"
                                                                  width="24"></a>
+        {% endif %}
         {% if perms.animals.change_animal %}
         <a href="{% url 'animals:animal-update' animal.pk %}"><img alt="Update" height="24"
                                                                    src="{% static 'images/pencil.png' %}" width="24"></a>

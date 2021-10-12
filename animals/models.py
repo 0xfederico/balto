@@ -76,6 +76,7 @@ class Animal(CreatedModifiedMixin, models.Model):
                        ("animal.go_for_a_walk", "Can go for a walk with animals"),
                        ("animal.put_in_the_walking_area", "Can put animals in the walking area "))  # added to defaults
 
+    # when an animal is deleted, a cascade is applied to the three connected tables
     def delete(self, *args, **kwargs):
         super().delete(*args, **kwargs)
         if self.description:

@@ -15,7 +15,7 @@ from animals.models import Animal
 class AnimalCreateView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, View):
     permission_required = 'animals.add_animal'
     permission_denied_message = "You don't have permission to add animals"
-    template_name = 'animals/animal_create_or_update.html'
+    template_name = 'animals/animal_create_or_update.html'  # |as_crispy_field instead of |crispy -> better graphics
     success_message = 'Animal created correctly!'
 
     # the template is rendered with 4 forms as context based on permissions
@@ -105,7 +105,7 @@ class AnimalListView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionReq
 class AnimalUpdateView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, View):
     permission_required = 'animals.change_animal'
     permission_denied_message = "You don't have permission to edit animals"
-    template_name = 'animals/animal_create_or_update.html'
+    template_name = 'animals/animal_create_or_update.html'  # |as_crispy_field instead of |crispy -> better graphics
     success_message = 'Animal updated correctly!'
 
     # the template is rendered with 4 compiled forms as context based on permissions
