@@ -10,7 +10,8 @@ from django.views.generic import CreateView, UpdateView, DeleteView, ListView, D
 
 from Configurations.mixins import NoPermissionMessageMixin
 from users.forms import GroupForm, GroupAddUserForm, AdminCreateForm, AdminUpdateForm
-from users.mixins import IsNotAdminMixin, AnyPermissions, Himself
+from users.mixins import IsNotAdminUpdateMixin, AnyPermissionsMixin, SaveSelectedUserMixin, HimselfMixin,\
+    CanUpdateAdminMixin, CanDeleteAdminMixin
 from users.models import User
 
 
@@ -27,8 +28,9 @@ class UserCreateView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionReq
         return reverse_lazy('users:user-info', kwargs={"pk": self.object.pk})
 
 
-class UserDeleteView(LoginRequiredMixin, IsNotAdminMixin, AnyPermissions, Himself, NoPermissionMessageMixin,
-                     PermissionRequiredMixin, SuccessMessageMixin, DeleteView):
+class UserDeleteView(LoginRequiredMixin, AnyPermissionsMixin, SaveSelectedUserMixin, HimselfMixin,
+                     CanDeleteAdminMixin, NoPermissionMessageMixin, PermissionRequiredMixin,
+                     SuccessMessageMixin, DeleteView):
     model = User
     template_name = 'users/user_delete.html'
     success_message = 'User deleted correctly!'
@@ -37,8 +39,8 @@ class UserDeleteView(LoginRequiredMixin, IsNotAdminMixin, AnyPermissions, Himsel
     success_url = reverse_lazy('users:users-list')
 
 
-class UserInfoView(LoginRequiredMixin, IsNotAdminMixin, AnyPermissions, Himself, NoPermissionMessageMixin,
-                   PermissionRequiredMixin, SuccessMessageMixin, DetailView):
+class UserInfoView(LoginRequiredMixin, AnyPermissionsMixin, SaveSelectedUserMixin, HimselfMixin,
+                   NoPermissionMessageMixin, PermissionRequiredMixin, SuccessMessageMixin, DetailView):
     model = User
     template_name = 'users/user_info.html'
     permission_required = ('users.view_profile', 'users.view_user')
@@ -54,8 +56,9 @@ class UserListView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequi
     ordering = ['username']
 
 
-class UserUpdateView(LoginRequiredMixin, IsNotAdminMixin, AnyPermissions, Himself, NoPermissionMessageMixin,
-                     PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
+class UserUpdateView(LoginRequiredMixin, IsNotAdminUpdateMixin, AnyPermissionsMixin, SaveSelectedUserMixin,
+                     HimselfMixin, CanUpdateAdminMixin, NoPermissionMessageMixin, PermissionRequiredMixin,
+                     SuccessMessageMixin, UpdateView):
     model = User
     form_class = AdminUpdateForm
     template_name = 'users/user_update.html'
