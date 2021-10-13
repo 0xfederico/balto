@@ -9,7 +9,7 @@ from users.models import User
 # edit the form to show if the user is not admin
 class IsNotAdminMixin(object):
     def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_superuser or not request.user.has_perms('users.change_user'):
+        if not request.user.is_superuser and not request.user.has_perms('users.change_user'):
             self.__class__.form_class = UserUpdateForm
         return super().dispatch(request, *args, **kwargs)
 
