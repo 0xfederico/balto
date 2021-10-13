@@ -26,6 +26,6 @@ class User(AbstractUser, CreatedModifiedMixin):
         permissions = (("group.add_users_to_group", "Can add users to group"),
                        ("group.delete_users_from_group", "Can delete users from group"),
                        ("group.view_members", "Can view group members"),
-                       ("users.view_profile", "Can view his own profile"),
-                       ("users.change_profile", "Can change his own profile"),
-                       ("users.delete_profile", "Can delete his own profile"))  # added to defaults
+                       ("view_profile", "Can view his own profile"),
+                       ("change_profile", "Can change his own profile"),
+                       ("delete_profile", "Can delete his own profile"))  # added to defaults
