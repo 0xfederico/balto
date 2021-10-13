@@ -40,11 +40,11 @@
 {% endblock %}
 
 {% block table_before %}
-{% if perms.group.add_users_to_group %}
 <div class="d-flex flex-column align-items-center">
+    {% if perms.group.add_users_to_group %}
     <a href="{% url 'users:group-add-user' group.pk %}" class="btn btn-primary w-75">Add User</a>
+    {% endif %}
     <input type="search" class="form-control my-2 w-75" aria-label="Search" placeholder="Search"
            oninput="filterElements(this)">
 </div>
-{% endif %}
 {% endblock %}

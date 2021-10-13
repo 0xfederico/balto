@@ -45,11 +45,11 @@
 {% endblock %}
 
 {% block table_before %}
-{% if perms.animals.add_animal %}
 <div class="d-flex flex-column align-items-center">
+    {% if perms.animals.add_animal %}
     <a class="btn btn-primary w-75" href="{% url 'animals:animal-create' %}">Register new Animal</a>
+    {% endif %}
     <input aria-label="Search" class="form-control my-2 w-75" oninput="filterElements(this)" placeholder="Search"
            type="search">
 </div>
-{% endif %}
 {% endblock %}

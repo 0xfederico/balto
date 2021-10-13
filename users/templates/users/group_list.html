@@ -37,11 +37,11 @@
 {% endblock %}
 
 {% block table_before %}
-{% if perms.auth.add_group %}
 <div class="d-flex flex-column align-items-center">
+    {% if perms.auth.add_group %}
     <a href="{% url 'users:group-create' %}" class="btn btn-primary w-75">Create new Group</a>
+    {% endif %}
     <input type="search" class="form-control my-2 w-75" aria-label="Search" placeholder="Search"
            oninput="filterElements(this)">
 </div>
-{% endif %}
 {% endblock %}
