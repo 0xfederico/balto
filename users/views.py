@@ -20,6 +20,7 @@ class UserCreateView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionReq
                      CreateView):
     model = User
     form_class = AdminCreateForm
+    template_name = 'users/user_create.html'
     success_message = 'User created correctly!'
     permission_required = 'users.add_user'
     permission_denied_message = "You don't have permission to add users"
@@ -95,7 +96,7 @@ class GroupDeleteView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRe
 
 
 class GroupAddUserView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, View):
-    permission_required = 'group.add_users_to_group'
+    permission_required = 'users.group_add_users_to_group'
     permission_denied_message = "You don't have permission to add users to group"
 
     def dispatch(self, request: HttpRequest, *args, **kwargs):
@@ -127,7 +128,7 @@ class GroupDeleteUserView(LoginRequiredMixin, NoPermissionMessageMixin, Permissi
     form_class = GroupForm
     template_name = 'users/group_delete_user.html'
     success_message = 'User removed from Group correctly!'
-    permission_required = 'group.delete_users_from_group'
+    permission_required = 'users.group_delete_users_from_group'
     permission_denied_message = "You don't have permission to delete users from group"
 
     def get(self, request: HttpRequest, *args, **kwargs):
@@ -149,7 +150,7 @@ class GroupMembersView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionR
                        DetailView):
     model = Group
     template_name = 'users/group_members.html'
-    permission_required = 'group.view_members'
+    permission_required = 'users.group_view_members'
     permission_denied_message = "You don't have permission to see group members"
 
     def get(self, request: HttpRequest, *args, **kwargs):

@@ -39,7 +39,7 @@
                                 </a>
                             </div>
                             {% endif %}
-                            {% if perms.group.view_members %}
+                            {% if perms.users.group_view_members %}
                             <div class="col-12 {% if perms.auth.delete_group %}mb-3{% endif %}">
                                 <a href="{% url 'users:group-members' object.pk %}">
                                     <button class="btn btn-outline-secondary" type="button">

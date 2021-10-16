@@ -27,7 +27,7 @@
         <a href="{% url 'users:group-delete' group.pk %}"><img src="{% static 'images/remove.png' %}" alt="Delete"
                                                                width="24" height="24"></a>
         {% endif %}
-        {% if perms.group.view_members %}
+        {% if perms.users.group_view_members %}
         <a href="{% url 'users:group-members' group.pk %}"><img src="{% static 'images/members.png' %}" alt="Delete"
                                                                 width="24" height="24"></a>
         {% endif %}
