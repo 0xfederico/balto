@@ -28,10 +28,15 @@ class NotificationCreateView(LoginRequiredMixin, NoPermissionMessageMixin, Permi
                              CreateView):
     model = Notification
     form_class = NotificationForm
-    template_name = 'notifications/notification_create.html'
+    template_name = 'notifications/notification_create_or_update.html'
     success_message = 'Notification created correctly!'
     permission_required = 'notifications.add_notification'
     permission_denied_message = "You don't have permission to create notifications"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["view_text"] = "Create"
+        return context
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
@@ -73,10 +78,15 @@ class NotificationUpdateView(LoginRequiredMixin, NoPermissionMessageMixin, Permi
                              MyNotificationsMixin, SuccessMessageMixin, UpdateView):
     model = Notification
     form_class = NotificationForm
-    template_name = 'notifications/notification_update.html'
+    template_name = 'notifications/notification_create_or_update.html'
     success_message = 'Notification updated correctly!'
     permission_required = 'notifications.change_notification'
     permission_denied_message = "You don't have permission to edit notifications"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["view_text"] = "Update"
+        return context
 
     def get_success_url(self):
         return reverse_lazy('notifications:notification-info', kwargs={"pk": self.object.pk})

@@ -10,7 +10,7 @@ from django.views.generic import CreateView, UpdateView, DeleteView, ListView, D
 
 from Configurations.mixins import NoPermissionMessageMixin
 from users.forms import GroupForm, GroupAddUserForm, AdminCreateForm, AdminUpdateForm
-from users.mixins import IsNotAdminUpdateMixin, AnyPermissionsMixin, SaveSelectedUserMixin, HimselfMixin,\
+from users.mixins import IsNotAdminUpdateMixin, AnyPermissionsMixin, SaveSelectedUserMixin, HimselfMixin, \
     CanUpdateAdminMixin, CanDeleteAdminMixin
 from users.models import User
 
@@ -24,6 +24,11 @@ class UserCreateView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionReq
     success_message = 'User created correctly!'
     permission_required = 'users.add_user'
     permission_denied_message = "You don't have permission to add users"
+
+    def form_valid(self, form):
+        self.object = form.save()
+        form.save_m2m()  # save groups
+        return super().form_valid(form)
 
     def get_success_url(self):
         return reverse_lazy('users:user-info', kwargs={"pk": self.object.pk})
@@ -106,11 +111,14 @@ class GroupAddUserView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionR
 
     def get(self, request: HttpRequest):
         context = {"group": self.group,
-                   "form": GroupAddUserForm(request.GET)}
+                   # In the second argument it is passed the list of group members
+                   "form": GroupAddUserForm(request.GET, members=[u.pk for u in self.group.user_set.all()])}
+
         return render(request, "users/group_add_user.html", context)
 
     def post(self, request: HttpRequest):
-        form = GroupAddUserForm(request.POST)
+        # In the second argument it is passed the list of group members
+        form = GroupAddUserForm(request.POST, members=[u.pk for u in self.group.user_set.all()])
         if form.is_valid():
             users = form.cleaned_data.get("users")
             for u in users:

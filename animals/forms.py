@@ -7,16 +7,19 @@ from facility.models import Box
 
 class AnimalForm(forms.ModelForm):
     helper = FormHelper()
-    helper.form_id = "animal_crispy_form"
     helper.form_method = "POST"
+
+    box = forms.ModelChoiceField(
+        label="Box",
+        widget=forms.RadioSelect,
+        queryset=Box.objects.all().order_by('name'),
+        help_text='Select the box where the animal will stay',
+        required=False
+    )
 
     class Meta:
         model = Animal
         fields = ["name", "breed", "sex", "photo", "microchip", "check_in_date", "birth_date", "box"]
-
-        box = forms.ChoiceField(
-            widget=forms.ModelChoiceField(queryset=Box.objects.all().order_by('name'))
-        )
 
         # forcing input type https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date
         widgets = {

@@ -14,15 +14,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.conf import settings
-from django.conf.urls import url
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from Configurations.views import FourZeroFour, Homepage, Calendar
-from django import views as django_views
 
 urlpatterns = [
-    url(r'^jsi18n/$', django_views.i18n.JavaScriptCatalog.as_view(), name='jsi18n'),  # admin FilteredSelectMultiple
     path('admin/', admin.site.urls),
     path('404-not-found', FourZeroFour.as_view(), name='404-not-found'),
     path('', Homepage.as_view(), name='homepage'),

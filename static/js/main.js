@@ -20,6 +20,45 @@ function filterElements(input) {
     }
 }
 
+//FilteredSelectMultiple filter elements
+function FSM_filter(input, choose_all, deselect_all) {
+  let inp = input.value.toLowerCase();
+  let list_group_container = document.querySelectorAll("#list-group-scrollbar-container")[0];
+  let list_group = list_group_container.children[0].children;
+
+  if (choose_all) {
+    for (let i = 0; i < list_group.length - 1; i++)
+      list_group[i].firstChild.checked = true;
+    return;
+  }
+
+  if (deselect_all) {
+    for (let i = 0; i < list_group.length; i++)
+      list_group[i].firstChild.checked = false;
+    return;
+  }
+
+  for (let i = 0; i < list_group.length; i++) {
+    if (list_group[i].tagName == "LABEL") {
+      if (inp.length == 0)
+        list_group[i].style.display = "flex";
+      else {
+        if (list_group[i].textContent.toLowerCase().includes(inp))
+          list_group[i].style.display = "flex";
+        else
+          list_group[i].style.display = "none";
+      }
+    }
+  }
+}
+
+//FilteredSelectMultiple clear filter
+function FSM_clear_input() {
+  let input = document.querySelectorAll("#list-group-input-search")[0];
+  input.value = '';
+  FSM_filter(input, false, false);
+}
+
 //zoom image
 function zoomImage(img) {
     let modalImg = document.querySelector("#imgmodal");
