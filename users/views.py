@@ -8,9 +8,9 @@ from django.urls import reverse_lazy, reverse
 from django.views import View
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView, DetailView
 
-from Configurations.mixins import NoPermissionMessageMixin
+from Configurations.mixins import NoPermissionMessageMixin, AnyPermissionsMixin
 from users.forms import GroupForm, GroupAddUserForm, AdminCreateForm, AdminUpdateForm
-from users.mixins import IsNotAdminUpdateMixin, AnyPermissionsMixin, SaveSelectedUserMixin, HimselfMixin, \
+from users.mixins import IsNotAdminUpdateMixin, SaveSelectedUserMixin, HimselfMixin, \
     CanUpdateAdminMixin, CanDeleteAdminMixin
 from users.models import User
 

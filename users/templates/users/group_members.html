@@ -26,7 +26,7 @@
     {% endif %}
     <td class="text-center">{{ member.username }}</td>
     <td class="text-center">
-        {% if perms.users.view_user %}
+        {% if perms.users.view_user or perms.users.view_profile and member.pk == request.user.pk %} {# and has higher precedence than or #}
         <a href="{% url 'users:user-info' member.pk %}"><img src="{% static 'images/info.png' %}" alt="Info" width="24"
                                                              height="24"></a>
         {% endif %}

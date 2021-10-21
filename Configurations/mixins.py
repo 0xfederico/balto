@@ -26,3 +26,9 @@ class CreatedModifiedMixin(models.Model):
 
     class Meta:
         abstract = True
+
+
+# change all() to any()
+class AnyPermissionsMixin(object):
+    def has_permission(self):
+        return any(self.request.user.has_perm(p) for p in self.get_permission_required())

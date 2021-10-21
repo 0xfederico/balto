@@ -14,12 +14,6 @@ class IsNotAdminUpdateMixin(object):
         return super().dispatch(request, *args, **kwargs)
 
 
-# change all() to any()
-class AnyPermissionsMixin(object):
-    def has_permission(self):
-        return any(self.request.user.has_perm(p) for p in self.get_permission_required())
-
-
 # store selected user for others mixins
 class SaveSelectedUserMixin(object):
     def dispatch(self, request, *args, **kwargs):
