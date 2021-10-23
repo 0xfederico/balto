@@ -4,8 +4,11 @@
 
 {% block header %}
 <header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="{% url 'homepage' %}">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light d-lg-flex flex-lg-row justify-content-lg-between">
+        <a href="{{request.META.HTTP_REFERER}}">
+            <img alt="Back" class="d-inline-block" height="35" width="35" src="{% static 'images/back.png' %}">
+        </a>
+        <a class="navbar-brand mx-auto" href="{% url 'homepage' %}">
             <img alt="Balto" class="d-inline-block align-text-center" height="35" src="{% static 'images/logo.png' %}"
                  width="35">
             Balto
@@ -14,8 +17,8 @@
                 data-target="#navbarNav" data-toggle="collapse" type="button">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
+        <div class="collapse navbar-collapse flex-grow-0" id="navbarNav">
+            <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link text-center" href="{% url 'homepage' %}">Home</a>
                 </li>
