@@ -54,6 +54,32 @@
 </div>
 {% endfor %}
 
+{% if mynotifications %}
+<div aria-atomic="true" aria-live="polite" id="notifications-area">
+    {% for notification in mynotifications %}
+    <div aria-atomic="true" aria-live="assertive" class="toast" role="alert">
+        <div class="toast-header">
+            {% if notification.creator.photo %}
+            <img alt="Propic" class="rounded mr-2" height="40" src="{{ notification.creator.photo.url }}" width="30">
+            {% else %}
+            <img alt="Propic" class="rounded mr-2" height="40" src="{% static 'images/no-pic-user.png' %}" width="30">
+            {% endif %}
+            <strong class="mr-auto">{{ notification.title }}</strong>
+            <small>{{notification.modified|timesince}} ago</small>
+            <button aria-label="Close" class="ml-2 mb-1 close" data-dismiss="toast"
+                    onclick="notification_read(&quot{% url 'notifications:read-notification' %}&quot, {{ notification.pk }});"
+                    type="button">
+                <span aria-hidden="true" class="text-dark">&times;</span>
+            </button>
+        </div>
+        <div class="toast-body">
+            {{ notification.text|linebreaksbr|escape }}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
 {% block header %}{% endblock %}
 
 {% block modal %}{% endblock %}
@@ -75,28 +101,6 @@
 <!-- Main JS -->
 <script charset="utf-8" src="{% static 'js/main.js' %}"></script>
 
-{% block extra_body %}
-<script>
-let img = "";
-let title = "";
-let textbody = "";
-let onclose_url = "";
-let onclose_pk = "";
-let onclick_url = "";
-{% for notification in mynotifications %}
-    {% if notification.creator.photo %}
-    img = "{{ notification.creator.photo.url }}";
-    {% else %}
-    img = "{% static 'images/no-pic-user.png' %}";
-    {% endif %}
-    title = "{{ notification.title }}";
-    textbody = "{{ notification.text | safe }}";
-    onclose_url = "{% url 'notifications:read-notification' %}";
-    onclose_pk = "{{ notification.pk }}";
-    onclick_url = "{% url 'notifications:notification-info' notification.pk %}";
-    notify_user(title, textbody, img, onclose_url, onclose_pk, onclick_url);
-{% endfor %}
-</script>
-{% endblock %}
+{% block extra_body %}{% endblock %}
 </body>
 </html>

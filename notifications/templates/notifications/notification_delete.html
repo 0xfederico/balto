@@ -6,13 +6,21 @@
 <form method="post">{% csrf_token %}
     <h1>Delete Notification</h1>
     <div class="text-center pt-3 d-flex flex-column justify-content-center">
-        <p>You are going to delete <strong>{{ object.title }}</strong> notification, are you sure?</p>
+        <p>You are going to delete <b>[{{ object.pk }}] {{ object.title |truncatewords:5 }}</b> notification, are you sure?</p>
         <div class="d-flex justify-content-around">
-            <a class="text-decoration-none" href="{% url 'notifications:notifications-list' %}">
-                <button class="btn btn-lg btn-secondary" type="button">
+            {% if perms.notifications.view_notification %}
+            <a href="{% url 'notifications:notifications-list' %}" class="text-decoration-none">
+                <button type="button" class="btn btn-lg btn-secondary">
                     Cancel
                 </button>
             </a>
+            {% else %}
+            <a href="{% url 'homepage' %}" class="text-decoration-none">
+                <button type="button" class="btn btn-lg btn-secondary">
+                    Cancel
+                </button>
+            </a>
+            {% endif %}
             <input class="btn btn-lg btn-danger" type="submit" value="Delete">
         </div>
     </div>

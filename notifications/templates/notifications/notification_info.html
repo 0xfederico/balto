@@ -36,12 +36,55 @@
                             </div>
                             <div class="col-7 mb-2">
                                 {% for recipient in object.recipients.all %}
-                                <a class="text-decoration-none" href="{% url 'users:user-info' recipient.pk %}">
+                                    {% if perms.users.view_user or perms.users.view_profile and recipient.pk == request.user.pk %} {# and has higher precedence than or #}
+                                    <a class="text-decoration-none" href="{% url 'users:user-info' recipient.pk %}">
+                                        <span class="badge badge-success">{{ recipient.username }}</span>
+                                    </a>
+                                    {% else %}
                                     <span class="badge badge-success">{{ recipient.username }}</span>
-                                </a>
+                                    {% endif %}
                                 {% endfor %}
                             </div>
                         </div>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-5 mb-2">
+                                <b>Creator:</b>
+                            </div>
+                            <div class="col-7 mb-2">
+                                {% if perms.users.view_user or perms.users.view_profile and object.creator.pk == request.user.pk %} {# and has higher precedence than or #}
+                                    <a class="text-decoration-none" href="{% url 'users:user-info' object.creator.pk %}">
+                                        <span class="badge badge-success">{{ object.creator.username }}</span>
+                                    </a>
+                                {% else %}
+                                <span class="badge badge-success">{{ object.creator.username }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% if perms.notifications.change_notification or perms.notifications.change_my_notifications and object.creator.pk == request.user.pk or perms.notifications.delete_notification or perms.notifications.delete_my_notifications and object.creator.pk == request.user.pk %} {# and has higher precedence than or #}
+                        <hr>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            {% if perms.notifications.change_notification or perms.notifications.change_my_notifications and object.creator.pk == request.user.pk %} {# and has higher precedence than or #}
+                            <div class="col-12 {% if perms.notifications.delete_notification or perms.notifications.delete_my_notifications and object.creator.pk == request.user.pk %}mb-3{% endif %}">
+                                <a href="{% url 'notifications:notification-update' object.pk %}">
+                                    <button class="btn btn-outline-secondary" type="button">
+                                        Edit
+                                        <img alt="Update" height="24" src="{% static 'images/pencil.png' %}" width="24">
+                                    </button>
+                                </a>
+                            </div>
+                            {% endif %}
+                            {% if perms.notifications.delete_notification or perms.notifications.delete_my_notifications and object.creator.pk == request.user.pk %}
+                            <div class="col-12">
+                                <a href="{% url 'notifications:notification-delete' object.pk %}">
+                                    <button class="btn btn-outline-secondary" type="button">
+                                        Delete
+                                        <img alt="Delete" height="24" src="{% static 'images/remove.png' %}" width="24">
+                                    </button>
+                                </a>
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endif %}
                         <hr>
                         <div class="row d-flex justify-content-center align-items-center">
                             <h4 class="mb-2">Created: <span class="lead">{{ object.created }}</span></h4>

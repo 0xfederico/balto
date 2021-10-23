@@ -13,17 +13,19 @@
 {% block tbody %}
 {% for notification in object_list %}
 <tr>
-    <td class="text-center">{{ notification.title }}</td>
+    <td class="text-center">{{ notification.title | truncatewords:3 }}</td>
     <td class="text-center">
+        {% if perms.notifications.view_notification or perms.notifications.view_my_notifications and notification.creator.pk == request.user.pk %} {# and has higher precedence than or #}
         <a href="{% url 'notifications:notification-info' notification.pk %}"><img alt="Info"
                                                                                    height="24" src="{% static 'images/info.png' %}"
                                                                                    width="24"></a>
-        {% if perms.notifications.change_notification %}
+        {% endif %}
+        {% if perms.notifications.change_notification or perms.notifications.change_my_notifications and notification.creator.pk == request.user.pk %} {# and has higher precedence than or #}
         <a href="{% url 'notifications:notification-update' notification.pk %}"><img
                 alt="Update" height="24"
                 src="{% static 'images/pencil.png' %}" width="24"></a>
         {% endif %}
-        {% if perms.notifications.delete_notification %}
+        {% if perms.notifications.delete_notification or perms.notifications.delete_my_notifications and notification.creator.pk == request.user.pk %} {# and has higher precedence than or #}
         <a href="{% url 'notifications:notification-delete' notification.pk %}"><img
                 alt="Delete" height="24"
                 src="{% static 'images/remove.png' %}" width="24"></a>

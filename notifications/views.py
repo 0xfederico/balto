@@ -6,9 +6,9 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 from django.contrib import messages
-from Configurations.mixins import NoPermissionMessageMixin
+from Configurations.mixins import NoPermissionMessageMixin, AnyPermissionsMixin
 from notifications.forms import NotificationForm
-from notifications.mixins import MyNotificationsMixin
+from notifications.mixins import HimselfMixin, CanDeleteAdminMixin, CanUpdateAdminMixin, CanViewAdminMixin
 from notifications.models import Notification, RecipientsUser
 
 
@@ -53,34 +53,44 @@ class NotificationCreateView(LoginRequiredMixin, NoPermissionMessageMixin, Permi
         return reverse_lazy('notifications:notification-info', kwargs={"pk": self.object.pk})
 
 
-class NotificationDeleteView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin,
-                             MyNotificationsMixin, SuccessMessageMixin, DeleteView):
+class NotificationDeleteView(LoginRequiredMixin, AnyPermissionsMixin, HimselfMixin, CanDeleteAdminMixin,
+                             NoPermissionMessageMixin, PermissionRequiredMixin, SuccessMessageMixin, DeleteView):
     model = Notification
     template_name = 'notifications/notification_delete.html'
     success_message = 'Notification deleted correctly!'
-    permission_required = 'notifications.delete_notification'
+    permission_required = ('notifications.delete_my_notifications', 'notifications.delete_notification')
     permission_denied_message = "You don't have permission to delete notifications"
     success_url = reverse_lazy('notifications:notifications-list')
 
 
-class NotificationInfoView(LoginRequiredMixin, SuccessMessageMixin, DetailView):
+class NotificationInfoView(LoginRequiredMixin, AnyPermissionsMixin, HimselfMixin, CanViewAdminMixin,
+                           NoPermissionMessageMixin, PermissionRequiredMixin, SuccessMessageMixin, DetailView):
     model = Notification
     template_name = 'notifications/notification_info.html'
+    permission_required = ('notifications.view_my_notifications', 'notifications.view_notification')
 
 
-class NotificationListView(LoginRequiredMixin, SuccessMessageMixin, ListView):
+class NotificationListView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin,
+                           SuccessMessageMixin, ListView):
     model = Notification
     template_name = 'notifications/notification_list.html'
+    permission_required = 'notifications.view_my_notifications'
     ordering = ['-created']
 
+    def get_queryset(self):
+        qs = super().get_queryset()
+        my_notifications = qs.filter(creator=self.request.user)
+        addressed_to_me_notifications = qs.filter(recipients=self.request.user)
+        return (my_notifications | addressed_to_me_notifications).distinct()  # union without duplicates
 
-class NotificationUpdateView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin,
-                             MyNotificationsMixin, SuccessMessageMixin, UpdateView):
+
+class NotificationUpdateView(LoginRequiredMixin, AnyPermissionsMixin, HimselfMixin, CanUpdateAdminMixin,
+                             NoPermissionMessageMixin, PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Notification
     form_class = NotificationForm
     template_name = 'notifications/notification_create_or_update.html'
     success_message = 'Notification updated correctly!'
-    permission_required = 'notifications.change_notification'
+    permission_required = ('notifications.change_my_notifications', 'notifications.change_notification')
     permission_denied_message = "You don't have permission to edit notifications"
 
     def get_context_data(self, **kwargs):

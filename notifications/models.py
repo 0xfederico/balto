@@ -10,6 +10,11 @@ class Notification(CreatedModifiedMixin, models.Model):
     creator = models.ForeignKey(User, related_name="creator", on_delete=models.CASCADE)
     recipients = models.ManyToManyField(User, through='RecipientsUser')
 
+    class Meta:
+        permissions = (("view_my_notifications", "Can view his own notifications"),
+                       ("change_my_notifications", "Can change his own notifications"),
+                       ("delete_my_notifications", "Can delete his own notifications"))  # added to defaults
+
 
 class RecipientsUser(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
