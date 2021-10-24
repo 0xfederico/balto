@@ -2,7 +2,7 @@
 * Prefixed by https://autoprefixer.github.io
 * PostCSS: v8.3.6,
 * Autoprefixer: v10.3.1
-* Browsers: last 4 version
+* Browsers: last 50 version
 */
 
 /* <GENERIC> */
@@ -107,19 +107,33 @@ h1 {
     display: none;
 }
 .list-group label {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: start;
-  align-items: center;
+  -webkit-box-pack: start;
+  -webkit-justify-content: start;
+      -ms-flex-pack: start;
+          justify-content: start;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
   padding: .75rem 1.25rem;
   background-color: #fff;
   border: 1px solid rgba(0,0,0,.125);
   cursor: pointer;
-  user-select: none; /*can't select text*/
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none; /*can't select text*/
 }
 .list-group label input {
   margin-right: 1.5em;
   cursor: pointer;
-  appearance: none;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
   outline: 0;
   background: lightgray;
   height: 20px;
