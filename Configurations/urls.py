@@ -27,4 +27,5 @@ urlpatterns = [
     path('animals/', include('animals.urls')),
     path('users/', include('users.urls')),
     path('notifications/', include('notifications.urls')),
+    path('facility/', include('facility.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

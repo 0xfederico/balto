@@ -2,10 +2,10 @@
 
 {% load static %}
 
-{% block title %}Group Info{% endblock %}
+{% block title %}Area Info{% endblock %}
 
 {% block content %}
-<h1>Group Info</h1>
+<h1>Area Info</h1>
 <div class="container py-3 d-flex justify-content-center">
     <div class="row justify-content-center w-100">
         <div class="col-12">
@@ -13,25 +13,18 @@
                 <div class="card-body text-center">
                     <div class="container">
                         <div class="row d-flex justify-content-center align-items-center">
-                            <h2 class="mb-2 text-primary">{{ object.name }}</h2>
-                        </div>
-                        <hr>
-                        <div class="row d-flex justify-content-center align-items-center">
-                            <div class="col-3 mb-2">
-                                <img alt="Permissions" height="32" src="{% static 'images/permissions.png' %}"
-                                     width="32">
+                            <div class="col-5 mb-2">
+                                <b>Name:</b>
                             </div>
-                            <div class="col-9 mb-2">
-                                {% for permission in object.permissions.all %}
-                                <span class="badge badge-success">{{ permission.name }}</span>
-                                {% endfor %}
+                            <div class="col-7 mb-2">
+                                <p class="lead">{{ object.name }}</p>
                             </div>
                         </div>
                         <hr>
                         <div class="row d-flex justify-content-center align-items-center">
-                            {% if perms.auth.change_group %}
+                            {% if perms.facility.change_area %}
                             <div class="col-12 mb-3">
-                                <a href="{% url 'users:group-update' object.pk %}">
+                                <a href="{% url 'facility:area-update' object.pk %}">
                                     <button class="btn btn-outline-secondary" type="button">
                                         Edit
                                         <img alt="Update" height="24" src="{% static 'images/pencil.png' %}" width="24">
@@ -39,20 +32,20 @@
                                 </a>
                             </div>
                             {% endif %}
-                            {% if perms.users.group_view_members %}
-                            <div class="col-12 {% if perms.auth.delete_group %}mb-3{% endif %}">
-                                <a href="{% url 'users:group-members' object.pk %}">
+                            {% if perms.facility.area_view_boxes %}
+                            <div class="col-12 mb-3">
+                                <a href="{% url 'facility:area-boxes' object.pk %}">
                                     <button class="btn btn-outline-secondary" type="button">
-                                        All Members
+                                        All Boxes
                                         <img alt="Members" height="24" src="{% static 'images/members.png' %}"
                                              width="24">
                                     </button>
                                 </a>
                             </div>
                             {% endif %}
-                            {% if perms.auth.delete_group %}
+                            {% if perms.facility.delete_area %}
                             <div class="col-12">
-                                <a href="{% url 'users:group-delete' object.pk %}">
+                                <a href="{% url 'facility:area-delete' object.pk %}">
                                     <button class="btn btn-outline-secondary" type="button">
                                         Delete
                                         <img alt="Delete" height="24" src="{% static 'images/remove.png' %}" width="24">
@@ -60,6 +53,13 @@
                                 </a>
                             </div>
                             {% endif %}
+                        </div>
+                        <hr>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <h4 class="mb-2">Created: <span class="lead">{{ object.created }}</span></h4>
+                        </div>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <h4 class="mb-2">Modified: <span class="lead">{{ object.modified }}</span></h4>
                         </div>
                     </div>
                 </div>

@@ -27,7 +27,7 @@
                                 <b>Name:</b>
                             </div>
                             <div class="col-7 mb-2">
-                                <p class="lead"> {{ object.name }}</p>
+                                <p class="lead">{{ object.name }}</p>
                             </div>
                         </div>
                         <br>
@@ -36,7 +36,7 @@
                                 <b>Breed:</b>
                             </div>
                             <div class="col-7 mb-2">
-                                <p class="lead"> {{ object.breed }}</p>
+                                <p class="lead">{{ object.breed }}</p>
                             </div>
                         </div>
                         <br>
@@ -45,7 +45,7 @@
                                 <b>Sex:</b>
                             </div>
                             <div class="col-7 mb-2">
-                                <p class="lead"> {{ object.sex }}</p>
+                                <p class="lead">{{ object.sex }}</p>
                             </div>
                         </div>
                         <br>
@@ -54,7 +54,7 @@
                                 <b>Microchip:</b>
                             </div>
                             <div class="col-7 mb-2">
-                                <p class="lead"> {{ object.microchip }}</p>
+                                <p class="lead">{{ object.microchip }}</p>
                             </div>
                         </div>
                         <br>
@@ -63,7 +63,7 @@
                                 <b>Check in date:</b>
                             </div>
                             <div class="col-7 mb-2">
-                                <p class="lead"> {{ object.check_in_date }}</p>
+                                <p class="lead">{{ object.check_in_date }}</p>
                             </div>
                         </div>
                         <br>
@@ -72,7 +72,7 @@
                                 <b>Birth date:</b>
                             </div>
                             <div class="col-7 mb-2">
-                                <p class="lead"> {{ object.birth_date }}</p>
+                                <p class="lead">{{ object.birth_date }}</p>
                             </div>
                         </div>
                         <br>
@@ -81,7 +81,11 @@
                                 <b>Box:</b>
                             </div>
                             <div class="col-7 mb-2">
-                                <p class="lead"> {{ object.box }}</p>
+                                {% if perms.facility.view_box %}
+                                <a href="{% url 'facility:box-info' object.box.pk %}" class="text-decoration-none">{{ object.box.name }}</a>
+                                {% else %}
+                                <p class="lead">{{ object.box.name }}</p>
+                                {% endif %}
                             </div>
                         </div>
 
@@ -93,7 +97,7 @@
                                 <b>Size:</b>
                             </div>
                             <div class="col-7 mb-2">
-                                <p class="lead"> {{ description.size }}</p>
+                                <p class="lead">{{ description.size }}</p>
                             </div>
                         </div>
                         <div class="row d-flex justify-content-center align-items-center">
@@ -101,7 +105,7 @@
                                 <b>Color:</b>
                             </div>
                             <div class="col-7 mb-2">
-                                <p class="lead"> {{ description.color }}</p>
+                                <p class="lead">{{ description.color }}</p>
                             </div>
                         </div>
                         <div class="row d-flex justify-content-center align-items-center">
@@ -109,7 +113,7 @@
                                 <b>Spots:</b>
                             </div>
                             <div class="col-7 mb-2">
-                                <p class="lead"> {{ description.spots }}</p>
+                                <p class="lead">{{ description.spots }}</p>
                             </div>
                         </div>
                         <div class="row d-flex justify-content-center align-items-center">
@@ -117,7 +121,7 @@
                                 <b>Ears:</b>
                             </div>
                             <div class="col-7 mb-2">
-                                <p class="lead"> {{ description.ears }}</p>
+                                <p class="lead">{{ description.ears }}</p>
                             </div>
                         </div>
                         <div class="row d-flex justify-content-center align-items-center">
@@ -125,7 +129,7 @@
                                 <b>Hair length:</b>
                             </div>
                             <div class="col-7 mb-2">
-                                <p class="lead"> {{ description.hair_length }}</p>
+                                <p class="lead">{{ description.hair_length }}</p>
                             </div>
                         </div>
                         <div class="row d-flex justify-content-center align-items-center">
@@ -133,7 +137,7 @@
                                 <b>Tail:</b>
                             </div>
                             <div class="col-7 mb-2">
-                                <p class="lead"> {{ description.tail }}</p>
+                                <p class="lead">{{ description.tail }}</p>
                             </div>
                         </div>
                         <div class="row d-flex justify-content-center align-items-center">
@@ -141,7 +145,7 @@
                                 <b>Origin:</b>
                             </div>
                             <div class="col-7 mb-2">
-                                <p class="lead"> {{ description.origin }}</p>
+                                <p class="lead">{{ description.origin }}</p>
                             </div>
                         </div>
                         <div class="row d-flex justify-content-center align-items-center">
@@ -149,7 +153,7 @@
                                 <b>Particular signs:</b>
                             </div>
                             <div class="col-7 mb-2">
-                                <p class="lead"> {{ description.particular_signs }}</p>
+                                <p class="lead">{{ description.particular_signs }}</p>
                             </div>
                         </div>
                         {% endif %}
@@ -162,7 +166,7 @@
                                 <b>Sociability with females:</b>
                             </div>
                             <div class="col-7 mb-2">
-                                <p class="lead"> {{ management.sociability_with_females }}</p>
+                                <p class="lead">{{ management.sociability_with_females }}</p>
                             </div>
                         </div>
                         <div class="row d-flex justify-content-center align-items-center">
@@ -170,7 +174,7 @@
                                 <b>Sociability with males:</b>
                             </div>
                             <div class="col-7 mb-2">
-                                <p class="lead"> {{ management.sociability_with_males }}</p>
+                                <p class="lead">{{ management.sociability_with_males }}</p>
                             </div>
                         </div>
                         <div class="row d-flex justify-content-center align-items-center">
@@ -178,7 +182,7 @@
                                 <b>Sociability with children:</b>
                             </div>
                             <div class="col-7 mb-2">
-                                <p class="lead"> {{ management.sociability_with_children }}</p>
+                                <p class="lead">{{ management.sociability_with_children }}</p>
                             </div>
                         </div>
                         <div class="row d-flex justify-content-center align-items-center">
@@ -186,7 +190,7 @@
                                 <b>Needs another dog:</b>
                             </div>
                             <div class="col-7 mb-2">
-                                <p class="lead"> {{ management.needs_another_dog }}</p>
+                                <p class="lead">{{ management.needs_another_dog }}</p>
                             </div>
                         </div>
                         <div class="row d-flex justify-content-center align-items-center">
@@ -194,7 +198,7 @@
                                 <b>Needs garden:</b>
                             </div>
                             <div class="col-7 mb-2">
-                                <p class="lead"> {{ management.needs_garden }}</p>
+                                <p class="lead">{{ management.needs_garden }}</p>
                             </div>
                         </div>
                         <div class="row d-flex justify-content-center align-items-center">
@@ -202,7 +206,7 @@
                                 <b>Walk equipment:</b>
                             </div>
                             <div class="col-7 mb-2">
-                                <p class="lead"> {{ management.walk_equipment }}</p>
+                                <p class="lead">{{ management.walk_equipment }}</p>
                             </div>
                         </div>
                         <div class="row d-flex justify-content-center align-items-center">
@@ -210,7 +214,7 @@
                                 <b>Flag warning:</b>
                             </div>
                             <div class="col-7 mb-2">
-                                <p class="lead"> {{ management.flag_warning }}</p>
+                                <p class="lead">{{ management.flag_warning }}</p>
                             </div>
                         </div>
                         {% endif %}
@@ -223,7 +227,7 @@
                                 <b>Pathologies:</b>
                             </div>
                             <div class="col-7 mb-2">
-                                <p class="lead"> {{ health.pathologies }}</p>
+                                <p class="lead">{{ health.pathologies }}</p>
                             </div>
                         </div>
                         <div class="row d-flex justify-content-center align-items-center">
@@ -231,7 +235,7 @@
                                 <b>Diet:</b>
                             </div>
                             <div class="col-7 mb-2">
-                                <p class="lead"> {{ health.diet }}</p>
+                                <p class="lead">{{ health.diet }}</p>
                             </div>
                         </div>
                         <div class="row d-flex justify-content-center align-items-center">
@@ -239,7 +243,7 @@
                                 <b>Note:</b>
                             </div>
                             <div class="col-7 mb-2">
-                                <p class="lead"> {{ health.note }}</p>
+                                <p class="lead">{{ health.note }}</p>
                             </div>
                         </div>
                         {% endif %}
@@ -258,7 +262,7 @@
                             <div class="col-12 {% if perms.animals.delete_animal %}mb-3{% endif %}">
                                 <a href="{% url 'animals:animal-update' object.pk %}">
                                     <button class="btn btn-outline-secondary" type="button">
-                                        Edit Animal
+                                        Edit
                                         <img alt="Update" height="24" src="{% static 'images/pencil.png' %}" width="24">
                                     </button>
                                 </a>

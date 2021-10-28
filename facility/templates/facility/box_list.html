@@ -1,0 +1,42 @@
+{% extends 'page_list.html' %}
+
+{% load static %}
+
+{% block list_title %}Boxes{% endblock %}
+{% block content_title %}Boxes{% endblock %}
+
+{% block thead %}
+<th class="text-center">Name</th>
+<th class="text-center">Located Area</th>
+<th class="text-center">Actions</th>
+{% endblock %}
+
+{% block tbody %}
+{% for box in object_list %}
+<tr>
+    <td class="text-center">{{ box.name }}</td>
+    <td class="text-center">{{ box.located_area.name }}</td>
+    <td class="text-center">
+        {% if perms.facility.view_box %}
+        <a href="{% url 'facility:box-info' box.pk %}"><img src="{% static 'images/info.png' %}" alt="Info" width="24" height="24"></a>
+        {% endif %}
+        {% if perms.facility.change_box %}
+        <a href="{% url 'facility:box-update' box.pk %}"><img src="{% static 'images/pencil.png' %}" alt="Update" width="24" height="24"></a>
+        {% endif %}
+        {% if perms.facility.delete_box %}
+        <a href="{% url 'facility:box-delete' box.pk %}"><img src="{% static 'images/remove.png' %}" alt="Delete" width="24" height="24"></a>
+        {% endif %}
+    </td>
+</tr>
+{% endfor %}
+{% endblock %}
+
+{% block table_before %}
+<div class="d-flex flex-column align-items-center">
+    {% if perms.facility.add_box %}
+    <a href="{% url 'facility:box-create' %}" class="btn btn-primary w-75">Register new Box</a>
+    {% endif %}
+    <input type="search" class="form-control my-2 w-75" aria-label="Search" placeholder="Search"
+           oninput="filterElements(this)">
+</div>
+{% endblock %}

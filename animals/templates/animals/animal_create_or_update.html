@@ -31,16 +31,6 @@
                 <button class="btn btn-secondary rounded-circle" onclick="FSM_clear_input()" type="button">X</button>
             </div>
         </div>
-        <div class="d-flex text-center my-3">
-            <div class="col-6">
-                <button class="btn btn-secondary" onclick="FSM_filter(this, true, false)" type="button">Choose all
-                </button>
-            </div>
-            <div class="col-6">
-                <button class="btn btn-secondary" onclick="FSM_filter(this, false, true)" type="button">Deselect all
-                </button>
-            </div>
-        </div>
         <div class="container" id="list-group-scrollbar-container">
             <div class="list-group w-100">
                 {% for box in form.box %}{{box}}{% endfor %}

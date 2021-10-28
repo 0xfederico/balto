@@ -1,0 +1,28 @@
+{% extends 'page.html' %}
+
+{% block title %}Delete All Boxes From Area{% endblock %}
+
+{% block content %}
+<form method="post">{% csrf_token %}
+    <h1>Delete All Boxes From Area</h1>
+    <div class="text-center pt-3 d-flex flex-column justify-content-center">
+        <p class="text-danger">You are going to remove ALL boxes from <b>{{ area.name }}</b> area,<br> ARE YOU TOTALLY SURE?</p>
+        <div class="d-flex justify-content-around">
+            {% if perms.facility.area_view_boxes %}
+            <a href="{% url 'facility:area-boxes' area.pk %}" class="text-decoration-none">
+                <button type="button" class="btn btn-lg btn-secondary">
+                    Cancel
+                </button>
+            </a>
+            {% else %}
+            <a href="{% url 'homepage' %}" class="text-decoration-none">
+                <button type="button" class="btn btn-lg btn-secondary">
+                    Cancel
+                </button>
+            </a>
+            {% endif %}
+            <input class="btn btn-lg btn-danger" type="submit" value="Delete">
+        </div>
+    </div>
+</form>
+{% endblock %}

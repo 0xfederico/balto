@@ -1,0 +1,113 @@
+{% extends 'page.html' %}
+
+{% load static %}
+
+{% block title %}Legal Information{% endblock %}
+
+{% block content %}
+<h1>Legal Information</h1>
+<div class="container py-3 d-flex justify-content-center">
+    <div class="row justify-content-center w-100">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="container">
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-5 mb-2">
+                                <b>Name:</b>
+                            </div>
+                            <div class="col-7 mb-2">
+                                <p class="lead"> {{ object.name }}</p>
+                            </div>
+                        </div>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-5 mb-2">
+                                <b>Contact Email:</b>
+                            </div>
+                            <div class="col-7 mb-2">
+                                <p class="lead"> {{ object.email }}</p>
+                            </div>
+                        </div>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-5 mb-2">
+                                <b>Region:</b>
+                            </div>
+                            <div class="col-7 mb-2">
+                                <p class="lead"> {{ object.region }}</p>
+                            </div>
+                        </div>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-5 mb-2">
+                                <b>Province:</b>
+                            </div>
+                            <div class="col-7 mb-2">
+                                <p class="lead"> {{ object.province }}</p>
+                            </div>
+                        </div>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-5 mb-2">
+                                <b>Address:</b>
+                            </div>
+                            <div class="col-7 mb-2">
+                                <p class="lead"> {{ object.address }}</p>
+                            </div>
+                        </div>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-5 mb-2">
+                                <b>Mobile Phone:</b>
+                            </div>
+                            <div class="col-7 mb-2">
+                                <p class="lead"> {{ object.mobile_phone }}</p>
+                            </div>
+                        </div>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-5 mb-2">
+                                <b>Landline Phone:</b>
+                            </div>
+                            <div class="col-7 mb-2">
+                                <p class="lead"> {{ object.landline_phone }}</p>
+                            </div>
+                        </div>
+                        <div class="row d-flex justify-content-start">
+                            <div class="col-5 mb-2">
+                                <b>About Us:</b>
+                            </div>
+                            <div class="col-12 mb-2 bg-light rounded">
+                                <p class="lead mb-0"> {{ object.about_us }}</p>
+                            </div>
+                        </div>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-5 mb-2">
+                                <b>Responsible:</b>
+                            </div>
+                            <div class="col-7 mb-2">
+                                <p class="lead"> {{ object.responsible }}</p>
+                            </div>
+                        </div>
+                        {% if perms.facility.change_legalinformation %}
+                        <hr>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-12">
+                                <a href="{% url 'facility:legalinformation-update' %}">
+                                    <button class="btn btn-outline-secondary" type="button">
+                                        Edit
+                                        <img alt="Update" height="24" src="{% static 'images/pencil.png' %}" width="24">
+                                    </button>
+                                </a>
+                            </div>
+                        </div>
+                        {% endif %}
+                        <hr>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <h4 class="mb-2">Created: <span class="lead">{{ object.created }}</span></h4>
+                        </div>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <h4 class="mb-2">Modified: <span class="lead">{{ object.modified }}</span></h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

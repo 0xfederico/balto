@@ -113,7 +113,6 @@ class GroupAddUserView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionR
         context = {"group": self.group,
                    # In the second argument it is passed the list of group members
                    "form": GroupAddUserForm(request.GET, members=[u.pk for u in self.group.user_set.all()])}
-
         return render(request, "users/group_add_user.html", context)
 
     def post(self, request: HttpRequest):

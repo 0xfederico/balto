@@ -60,11 +60,33 @@
                         {% if perms.auth.add_group %}
                         <a class="dropdown-item text-center" href="{% url 'users:group-create' %}">Create Group</a>
                         {% endif %}
+                        <div class="dropdown-divider"></div>
                         {% if perms.users.view_user %}
-                        <a class="dropdown-item text-center" href="{% url 'users:users-list' %}">All users</a>
+                        <a class="dropdown-item text-center" href="{% url 'users:users-list' %}">All Users</a>
                         {% endif %}
                         {% if perms.users.add_user %}
                         <a class="dropdown-item text-center" href="{% url 'users:user-create' %}">Create User</a>
+                        {% endif %}
+                        <div class="dropdown-divider"></div>
+                        {% if perms.facility.view_area %}
+                        <a class="dropdown-item text-center" href="{% url 'facility:areas-list' %}">All Areas</a>
+                        {% endif %}
+                        {% if perms.facility.add_area %}
+                        <a class="dropdown-item text-center" href="{% url 'facility:area-create' %}">Create Area</a>
+                        {% endif %}
+                        <div class="dropdown-divider"></div>
+                        {% if perms.facility.view_box %}
+                        <a class="dropdown-item text-center" href="{% url 'facility:boxes-list' %}">All Boxes</a>
+                        {% endif %}
+                        {% if perms.facility.add_box %}
+                        <a class="dropdown-item text-center" href="{% url 'facility:box-create' %}">Create Box</a>
+                        {% endif %}
+                        <div class="dropdown-divider"></div>
+                        {% if perms.facility.view_legalinformation %}
+                        <a class="dropdown-item text-center" href="{% url 'facility:legalinformation-info' %}">View Legal Information</a>
+                        {% endif %}
+                        {% if perms.facility.change_legalinformation %}
+                        <a class="dropdown-item text-center" href="{% url 'facility:legalinformation-update' %}">Update Legal Information</a>
                         {% endif %}
                     </div>
                 </li>
