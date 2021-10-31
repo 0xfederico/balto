@@ -28,7 +28,8 @@ function FSM_filter(input, choose_all, deselect_all) {
 
   if (choose_all) {
     for (let i = 0; i < list_group.length - 1; i++)
-      list_group[i].firstChild.checked = true;
+      if (list_group[i].style.display != "none")
+        list_group[i].firstChild.checked = true;
     return;
   }
 
