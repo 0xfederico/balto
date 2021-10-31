@@ -66,11 +66,12 @@
             {% endif %}
             <strong class="mr-auto">{{ notification.title }}</strong>
             <small>{{notification.modified|timesince}} ago</small>
-            <button aria-label="Close" class="ml-2 mb-1 close" data-dismiss="toast"
-                    onclick="notification_read(&quot{% url 'notifications:read-notification' %}&quot, {{ notification.pk }});"
-                    type="button">
-                <span aria-hidden="true" class="text-dark">&times;</span>
-            </button>
+            <form id="read_notification" method="POST" action="{% url 'notifications:read-notification' %}">{% csrf_token %}
+                <input type="hidden" name="notification_pk" value="{{notification.pk}}">
+                <button aria-label="Close" class="ml-2 mb-1 close" data-dismiss="toast" onclick="hide_notification_area();" type="submit">
+                    <span aria-hidden="true" class="text-dark">&times;</span>
+                </button>
+            </form>
         </div>
         <div class="toast-body">
             {{ notification.text|linebreaksbr|escape }}
