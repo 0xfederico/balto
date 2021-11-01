@@ -31,7 +31,7 @@ class AnimalCreateView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionR
 
     # based on permissions, the allowed forms are retrieved, if they are valid all objects are saved
     def post(self, request: HttpRequest):
-        forms = [AnimalForm(request.POST)]
+        forms = [AnimalForm(request.POST, request.FILES)]
         if request.user.has_perm('animals.add_animaldescription'):
             forms.append(AnimalDescriptionForm(request.POST))
         if request.user.has_perm('animals.add_animalmanagement'):
@@ -48,6 +48,7 @@ class AnimalCreateView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionR
                     form.__class__.__name__.replace('Form', '').replace('Animal', '').lower()] = form.save()
 
             self.object = main_form.save(commit=False)
+            self.object.photo = main_form.cleaned_data['photo']
             try:
                 self.object.description = saved_other_form['description']
                 self.object.management = saved_other_form['management']
@@ -123,7 +124,7 @@ class AnimalUpdateView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionR
     # based on permissions, the allowed forms are retrieved, if they are valid all objects are saved
     def post(self, request: HttpRequest, pk):
         animal = get_object_or_404(Animal, pk=pk)
-        forms = [AnimalForm(request.POST, instance=animal)]
+        forms = [AnimalForm(request.POST, request.FILES, instance=animal)]
         if request.user.has_perm('animals.add_animaldescription'):
             forms.append(AnimalDescriptionForm(request.POST, instance=animal.description))
         if request.user.has_perm('animals.add_animalmanagement'):
@@ -132,7 +133,13 @@ class AnimalUpdateView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionR
             forms.append(AnimalHealthForm(request.POST, instance=animal.health))
 
         if all(map(lambda f: f.is_valid(), forms)):
-            self.object = forms.pop(0).save()
+            main_form = forms.pop(0)
+            if 'photo' in main_form.changed_data:
+                self.object = main_form.save(commit=False)
+                self.object.photo = main_form.cleaned_data['photo']
+                self.object.save()
+            else:
+                self.object = main_form.save()
 
             for form in forms:
                 form.save()
