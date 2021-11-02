@@ -12,6 +12,23 @@ from animals.forms import AnimalForm, AnimalDescriptionForm, AnimalManagementFor
 from animals.models import Animal
 
 
+def refill_forms(forms, request, template_name, view_text):
+    inserted_data_forms = {f.__class__.__name__: f for f in forms}
+    returned_data_form = dict()
+    if 'box' in inserted_data_forms['AnimalForm'].errors.as_data():  # check if the error is in the box field
+        returned_data_form['box_error'] = inserted_data_forms['AnimalForm'].fields['box'].error_messages['required']
+    try:
+        returned_data_form['form'] = inserted_data_forms['AnimalForm']
+        returned_data_form['description_form'] = inserted_data_forms['AnimalDescriptionForm']
+        returned_data_form['management_form'] = inserted_data_forms['AnimalManagementForm']
+        returned_data_form['health_form'] = inserted_data_forms['AnimalHealthForm']
+        returned_data_form['view_text'] = view_text
+    except (KeyError, AttributeError):
+        pass
+    else:
+        return render(request, template_name, returned_data_form)
+
+
 class AnimalCreateView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, View):
     permission_required = 'animals.add_animal'
     permission_denied_message = "You don't have permission to add animals"
@@ -20,7 +37,7 @@ class AnimalCreateView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionR
 
     # the template is rendered with 4 forms as context based on permissions
     def get(self, request: HttpRequest):
-        context = {'form': AnimalForm(), "view_text": "Register"}
+        context = {'form': AnimalForm(), 'view_text': 'Register'}
         if request.user.has_perm('animals.add_animaldescription'):
             context['description_form'] = AnimalDescriptionForm()
         if request.user.has_perm('animals.add_animalmanagement'):
@@ -40,32 +57,23 @@ class AnimalCreateView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionR
             forms.append(AnimalHealthForm(request.POST))
 
         if all(map(lambda f: f.is_valid(), forms)):
-            main_form = forms.pop(0)
+            animal_main_form = forms.pop(0)
+            optional_forms = {f.__class__.__name__: f.save() for f in forms}
 
-            saved_other_form = dict()
-            for form in forms:
-                saved_other_form[
-                    form.__class__.__name__.replace('Form', '').replace('Animal', '').lower()] = form.save()
-
-            self.object = main_form.save(commit=False)
-            self.object.photo = main_form.cleaned_data['photo']
+            self.object = animal_main_form.save(commit=False)
+            self.object.photo = animal_main_form.cleaned_data['photo']
             try:
-                self.object.description = saved_other_form['description']
-                self.object.management = saved_other_form['management']
-                self.object.health = saved_other_form['health']
+                self.object.description = optional_forms['AnimalDescriptionForm']
+                self.object.management = optional_forms['AnimalManagementForm']
+                self.object.health = optional_forms['AnimalHealthForm']
             except (KeyError, AttributeError):
                 pass
             self.object.save()
-
             messages.success(request, self.success_message)
             return HttpResponseRedirect(reverse('animals:animal-info', kwargs={'pk': self.object.pk}))
         else:
-            for form in forms:
-                if not form.is_valid():
-                    for field, errors in form.errors.items():
-                        for error in errors:
-                            messages.error(request, field + ': ' + error)
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))  # return to the same url but with errors
+            return refill_forms(forms, request, self.template_name,
+                                self.__class__.__name__.replace('View', '').replace('Animal', ''))
 
 
 class AnimalDeleteView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, SuccessMessageMixin,
@@ -112,7 +120,7 @@ class AnimalUpdateView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionR
     # the template is rendered with 4 compiled forms as context based on permissions
     def get(self, request: HttpRequest, pk):
         animal = get_object_or_404(Animal, pk=pk)
-        context = {'form': AnimalForm(instance=animal), "view_text": "Update"}
+        context = {'form': AnimalForm(instance=animal), 'view_text': 'Update'}
         if request.user.has_perm('animals.add_animaldescription'):
             context['description_form'] = AnimalDescriptionForm(instance=animal.description)
         if request.user.has_perm('animals.add_animalmanagement'):
@@ -133,23 +141,18 @@ class AnimalUpdateView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionR
             forms.append(AnimalHealthForm(request.POST, instance=animal.health))
 
         if all(map(lambda f: f.is_valid(), forms)):
-            main_form = forms.pop(0)
-            if 'photo' in main_form.changed_data:
-                self.object = main_form.save(commit=False)
-                self.object.photo = main_form.cleaned_data['photo']
+            animal_main_form = forms.pop(0)
+            if 'photo' in animal_main_form.changed_data:
+                self.object = animal_main_form.save(commit=False)
+                self.object.photo = animal_main_form.cleaned_data['photo']
                 self.object.save()
             else:
-                self.object = main_form.save()
+                self.object = animal_main_form.save()
 
             for form in forms:
                 form.save()
-
             messages.success(request, self.success_message)
             return HttpResponseRedirect(reverse('animals:animal-info', kwargs={'pk': self.object.pk}))
         else:
-            for form in forms:
-                if not form.is_valid():
-                    for field, errors in form.errors.items():
-                        for error in errors:
-                            messages.error(request, field + ': ' + error)
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))  # return to the same url but with errors
+            return refill_forms(forms, request, self.template_name,
+                                self.__class__.__name__.replace('View', '').replace('Animal', ''))

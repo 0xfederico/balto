@@ -12,8 +12,7 @@
     {{ form.name | as_crispy_field }}
     <div class="form-group" id="div_id_{{form.located_area.label | lower}}">
         <label class="">{{form.located_area.label | title}}{% if form.located_area.field.required %}*{% endif %}</label>
-        <small class="form-text text-muted" id="hint_id_{{form.located_area.label | lower}}">{{form.located_area.help_text}}</small>
-        {{form.located_area.errors}}
+        {% if located_area_error %}<span class="d-block field-error"><b>{{located_area_error}}</b></span>{% endif %}
         <div class="d-flex text-center my-3">
             <div class="col-10">
                 <input aria-label="Search" class="form-control my-2" id="list-group-input-search"
@@ -29,6 +28,7 @@
                 {% for larea in form.located_area %}{{larea}}{% endfor %}
                 <p class="text-center">There are no areas available</p>
             </div>
+            <small class="form-text text-muted" id="hint_id_{{form.located_area.label | lower}}">{{form.located_area.help_text}}</small>
         </div>
     </div>
     <div class="form-group">

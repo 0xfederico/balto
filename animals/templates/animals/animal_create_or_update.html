@@ -19,8 +19,7 @@
     {{ form.birth_date | as_crispy_field }}
     <div class="form-group" id="div_id_{{form.box.label | lower}}">
         <label class="">{{form.box.label | title}}{% if form.box.field.required %}*{% endif %}</label>
-        <small class="form-text text-muted" id="hint_id_{{form.box.label | lower}}">{{form.box.help_text}}</small>
-        {{form.box.errors}}
+        {% if box_error %}<span class="d-block field-error"><b>{{box_error}}</b></span>{% endif %}
         <div class="d-flex text-center my-3">
             <div class="col-10">
                 <input aria-label="Search" class="form-control my-2" id="list-group-input-search"
@@ -36,6 +35,7 @@
                 {% for box in form.box %}{{box}}{% endfor %}
                 <p class="text-center">There are no boxes available</p>
             </div>
+            <small class="form-text text-muted" id="hint_id_{{form.box.label | lower}}">{{form.box.help_text}}</small>
         </div>
     </div>
 

@@ -1,11 +1,11 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.shortcuts import render
 from django.utils import timezone
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpRequest, HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
-from django.contrib import messages
 from Configurations.mixins import NoPermissionMessageMixin, AnyPermissionsMixin
 from notifications.forms import NotificationForm
 from notifications.mixins import HimselfMixin, CanDeleteAdminMixin, CanUpdateAdminMixin, CanViewAdminMixin
@@ -15,7 +15,7 @@ from notifications.models import Notification, RecipientsUser
 class ReadNotificationView(LoginRequiredMixin, View):
 
     def post(self, request: HttpRequest):
-        notification_pk = request.POST.get("notification_pk")
+        notification_pk = request.POST.get('notification_pk')
         current_user_pk = request.user.pk
         recipient_read = RecipientsUser.objects.get(notification=notification_pk, user=current_user_pk)
         recipient_read.read = True
@@ -33,11 +33,6 @@ class NotificationCreateView(LoginRequiredMixin, NoPermissionMessageMixin, Permi
     permission_required = 'notifications.add_notification'
     permission_denied_message = "You don't have permission to create notifications"
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["view_text"] = "Create"
-        return context
-
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.creator = self.request.user
@@ -45,12 +40,20 @@ class NotificationCreateView(LoginRequiredMixin, NoPermissionMessageMixin, Permi
         form.save_m2m()  # recipients
         return super().form_valid(form)
 
-    def form_invalid(self, form):
-        messages.error(self.request, "Select at least one user to add from the list")
-        return super().form_invalid(form)
-
     def get_success_url(self):
-        return reverse_lazy('notifications:notification-info', kwargs={"pk": self.object.pk})
+        return reverse_lazy('notifications:notification-info', kwargs={'pk': self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['view_text'] = 'Create'
+        return context
+
+    def form_invalid(self, form):
+        returned_data_form = dict()
+        returned_data_form['form'] = form
+        if 'recipients' in form.errors.as_data():  # check if the error is in the recipients field
+            returned_data_form['recipients_error'] = form.fields['recipients'].error_messages['required']
+        return render(self.request, self.template_name, {**self.get_context_data(), **returned_data_form})
 
 
 class NotificationDeleteView(LoginRequiredMixin, AnyPermissionsMixin, HimselfMixin, CanDeleteAdminMixin,
@@ -93,10 +96,17 @@ class NotificationUpdateView(LoginRequiredMixin, AnyPermissionsMixin, HimselfMix
     permission_required = ('notifications.change_my_notifications', 'notifications.change_notification')
     permission_denied_message = "You don't have permission to edit notifications"
 
+    def get_success_url(self):
+        return reverse_lazy('notifications:notification-info', kwargs={'pk': self.object.pk})
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["view_text"] = "Update"
+        context['view_text'] = 'Update'
         return context
 
-    def get_success_url(self):
-        return reverse_lazy('notifications:notification-info', kwargs={"pk": self.object.pk})
+    def form_invalid(self, form):
+        returned_data_form = dict()
+        returned_data_form['form'] = form
+        if 'recipients' in form.errors.as_data():  # check if the error is in the recipients field
+            returned_data_form['recipients_error'] = form.fields['recipients'].error_messages['required']
+        return render(self.request, self.template_name, {**self.get_context_data(), **returned_data_form})

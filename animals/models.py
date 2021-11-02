@@ -8,7 +8,7 @@ from facility.models import Box
 
 
 def animal_directory_path(self, filename):
-    return f"animals_{self.pk}_{date.today()}_{filename}"
+    return f'animals_{self.pk}_{date.today()}_{filename}'
 
 
 class AnimalDescription(models.Model):
@@ -54,27 +54,27 @@ class Animal(CreatedModifiedMixin, models.Model):
     )
     sex = models.CharField(max_length=6, choices=SEX_CHOICES)
     microchip = models.CharField(max_length=15, validators=[RegexValidator(regex=r'^\d{15}$',
-                                                                           message="the microchip code is 15 numbers "
-                                                                                   "long")],
-                                 unique=True, verbose_name="microchip code")
+                                                                           message='the microchip code is 15 numbers '
+                                                                                   'long')],
+                                 unique=True, verbose_name='microchip code', help_text='insert 15 numbers')
     check_in_date = models.DateField()
     birth_date = models.DateField()
     photo = models.ImageField(upload_to=animal_directory_path, verbose_name='Choose the profile picture of the animal',
                               blank=True)
-    description = models.OneToOneField(AnimalDescription, related_name="animal", on_delete=models.PROTECT, blank=True,
+    description = models.OneToOneField(AnimalDescription, related_name='animal', on_delete=models.PROTECT, blank=True,
                                        null=True)
-    management = models.OneToOneField(AnimalManagement, related_name="animal", on_delete=models.PROTECT, blank=True,
+    management = models.OneToOneField(AnimalManagement, related_name='animal', on_delete=models.PROTECT, blank=True,
                                       null=True)
-    health = models.OneToOneField(AnimalHealth, related_name="animal", on_delete=models.PROTECT, blank=True, null=True)
-    box = models.ForeignKey(Box, related_name="who_lives_here", on_delete=models.PROTECT, blank=True, null=True)
+    health = models.OneToOneField(AnimalHealth, related_name='animal', on_delete=models.PROTECT, blank=True, null=True)
+    box = models.ForeignKey(Box, related_name='who_lives_here', on_delete=models.PROTECT, blank=True, null=True)
 
     class Meta:
         ordering = ['name']
-        permissions = (("animal.prepare_food", "Can prepare food for animals"),
-                       ("animal.give_food", "Can give food to animals"),
-                       ("animal.give_medicine", "Can give medicine to animals"),
-                       ("animal.go_for_a_walk", "Can go for a walk with animals"),
-                       ("animal.put_in_the_walking_area", "Can put animals in the walking area "))  # added to defaults
+        permissions = (('animal.prepare_food', 'Can prepare food for animals'),
+                       ('animal.give_food', 'Can give food to animals'),
+                       ('animal.give_medicine', 'Can give medicine to animals'),
+                       ('animal.go_for_a_walk', 'Can go for a walk with animals'),
+                       ('animal.put_in_the_walking_area', 'Can put animals in the walking area '))  # added to defaults
 
     # when an animal is deleted, a cascade is applied to the three connected tables
     def delete(self, *args, **kwargs):

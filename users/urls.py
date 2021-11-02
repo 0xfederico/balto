@@ -18,7 +18,7 @@ urlpatterns = [
     path('<int:pk>/group-members', GroupMembersView.as_view(), name='group-members'),
     path('<int:pk>/group-update', GroupUpdateView.as_view(), name='group-update'),
     # USER
-    path('user-create', UserCreateView.as_view(template_name='users/user_create.html'), name='user-create'),
+    path('user-create', UserCreateView.as_view(), name='user-create'),
     path('<int:pk>/user-delete', UserDeleteView.as_view(), name='user-delete'),
     path('<int:pk>/user-info', UserInfoView.as_view(), name='user-info'),
     path('users-list/', UserListView.as_view(), name='users-list'),

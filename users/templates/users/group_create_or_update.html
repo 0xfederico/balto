@@ -2,17 +2,16 @@
 
 {% load crispy_forms_tags %}
 
-{% block title %}Update Group{% endblock %}
+{% block title %}{{view_text}} Group{% endblock %}
 
 {% block content %}
-<h1>Update Group</h1>
+<h1>{{view_text}} Group</h1>
 <form enctype="multipart/form-data" id="wrapper_crispy_form" method="post">
     {% csrf_token %}
     {{ form.name | as_crispy_field }}
     <div class="form-group" id="div_id_{{form.permissions.label | lower}}">
         <label class="">{{form.permissions.label | title}}{% if form.permissions.field.required %}*{% endif %}</label>
-        <small class="form-text text-muted" id="hint_id_{{form.permissions.label | lower}}">{{form.permissions.help_text}}</small>
-        {{form.permissions.errors}}
+        {% if permissions_error %}<span class="d-block field-error"><b>{{permissions_error}}</b></span>{% endif %}
         <div class="d-flex text-center my-3">
             <div class="col-10">
                 <input aria-label="Search" class="form-control my-2" id="list-group-input-search"
@@ -38,11 +37,12 @@
                 {% for permission in form.permissions %}{{permission}}{% endfor %}
                 <p class="text-center">There are no permissions available</p>
             </div>
+            <small class="form-text text-muted" id="hint_id_{{form.permissions.label | lower}}">{{form.permissions.help_text}}</small>
         </div>
     </div>
     <div class="form-group">
         <div class="">
-            <input class="btn btn-primary" id="submit-id-save" type="submit" value="Update">
+            <input class="btn btn-primary" id="submit-id-save" type="submit" value="{{view_text}}">
         </div>
     </div>
 </form>

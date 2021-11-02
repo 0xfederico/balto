@@ -77,8 +77,8 @@ class AreaDeleteView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionReq
             self.object.delete()
         except ProtectedError:
             box_number = Box.objects.filter(located_area__pk=self.object.pk).count()
-            message_error = f"There are {box_number} boxes" if box_number > 1 else f"There is a box"
-            messages.error(request, message_error + " in this area, it cannot be deleted!")
+            message_error = f'There are {box_number} boxes' if box_number > 1 else f'There is a box'
+            messages.error(request, message_error + ' in this area, it cannot be deleted!')
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))  # return to the same url but with errors
         else:
             return HttpResponseRedirect(self.get_success_url())
@@ -89,28 +89,28 @@ class AreaAddBoxesView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionR
     permission_denied_message = "You don't have permission to add boxes to an area"
 
     def dispatch(self, request: HttpRequest, *args, **kwargs):
-        self.area = Area.objects.filter(pk=kwargs["pk"])[0]
-        del kwargs["pk"]  # we just need it to retrieve the area
+        self.area = Area.objects.filter(pk=kwargs['pk'])[0]
+        del kwargs['pk']  # we just need it to retrieve the area
         return super().dispatch(self.request, *args, **kwargs)
 
     def get(self, request: HttpRequest):
-        context = {"area": self.area,
+        context = {'area': self.area,
                    # In the second argument it is passed the list of area boxes
-                   "form": AreaAddBoxesForm(request.GET, boxes=[b.pk for b in self.area.composedby.all()])}
-        return render(request, "facility/area_add_boxes.html", context)
+                   'form': AreaAddBoxesForm(request.GET, boxes=[b.pk for b in self.area.composedby.all()])}
+        return render(request, 'facility/area_add_boxes.html', context)
 
     def post(self, request: HttpRequest):
         # In the second argument it is passed the list of area boxes
         form = AreaAddBoxesForm(request.POST, boxes=[b.pk for b in self.area.composedby.all()])
         if form.is_valid():
-            boxes = form.cleaned_data.get("boxes")
+            boxes = form.cleaned_data.get('boxes')
             for b in boxes:
                 self.area.composedby.add(b)
-            messages.success(request, "Boxes added to Area correctly!")
-            return HttpResponseRedirect(reverse('facility:area-boxes', kwargs={"pk": self.area.pk}))
+            messages.success(request, 'Boxes added to Area correctly!')
+            return HttpResponseRedirect(reverse('facility:area-boxes', kwargs={'pk': self.area.pk}))
         else:
-            messages.error(request, "Select at least one box to add from the list")
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))  # return to the same url but with errors
+            return render(request, 'facility/area_add_boxes.html',
+                          {'form': form, 'boxes_error': form.fields['boxes'].error_messages['required']})
 
 
 class AreaDeleteAllBoxesView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, View):
@@ -118,21 +118,21 @@ class AreaDeleteAllBoxesView(LoginRequiredMixin, NoPermissionMessageMixin, Permi
     permission_denied_message = "You don't have permission to delete boxes from area"
 
     def dispatch(self, request: HttpRequest, *args, **kwargs):
-        self.area = Area.objects.filter(pk=kwargs["pk"])[0]
-        del kwargs["pk"]  # we just need it to retrieve the area
+        self.area = Area.objects.filter(pk=kwargs['pk'])[0]
+        del kwargs['pk']  # we just need it to retrieve the area
         return super().dispatch(self.request, *args, **kwargs)
 
     def get(self, request: HttpRequest):
-        context = {"area": self.area}
-        return render(request, "facility/area_delete_all_boxes.html", context)
+        context = {'area': self.area}
+        return render(request, 'facility/area_delete_all_boxes.html', context)
 
     def post(self, request: HttpRequest):
         boxes = self.area.composedby.all()
         for b in boxes:
             b.located_area = None
             b.save()
-        messages.success(request, "Removed all boxes from the area!")
-        return HttpResponseRedirect(reverse('facility:area-boxes', kwargs={"pk": self.area.pk}))
+        messages.success(request, 'Removed all boxes from the area!')
+        return HttpResponseRedirect(reverse('facility:area-boxes', kwargs={'pk': self.area.pk}))
 
 
 class AreaDeleteBoxView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, SuccessMessageMixin,
@@ -146,19 +146,19 @@ class AreaDeleteBoxView(LoginRequiredMixin, NoPermissionMessageMixin, Permission
 
     def get(self, request: HttpRequest, *args, **kwargs):
         self.object = self.get_object()
-        context = {"area": self.object,
-                   "delete_box": Box.objects.get(pk=kwargs["bpk"])}
+        context = {'area': self.object,
+                   'delete_box': Box.objects.get(pk=kwargs['bpk'])}
         return self.render_to_response(context)
 
     def delete(self, request: HttpRequest, *args, **kwargs):
         self.object = self.get_object()
-        box = self.object.composedby.get(pk=kwargs["bpk"])
+        box = self.object.composedby.get(pk=kwargs['bpk'])
         box.located_area = None
         box.save()
         return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
-        return reverse_lazy('facility:area-boxes', kwargs={"pk": self.object.pk})
+        return reverse_lazy('facility:area-boxes', kwargs={'pk': self.object.pk})
 
 
 class AreaBoxesView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, SuccessMessageMixin,
@@ -170,8 +170,8 @@ class AreaBoxesView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequ
 
     def get(self, request: HttpRequest, *args, **kwargs):
         self.object = self.get_object()
-        context = {"area": self.object,
-                   "boxes": Box.objects.filter(located_area__pk=self.object.pk).order_by('name')}
+        context = {'area': self.object,
+                   'boxes': Box.objects.filter(located_area__pk=self.object.pk).order_by('name')}
         return self.render_to_response(context)
 
 
@@ -202,7 +202,7 @@ class AreaUpdateView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionReq
     permission_denied_message = "You don't have permission to edit areas"
 
     def get_success_url(self):
-        return reverse_lazy('facility:area-info', kwargs={"pk": self.object.pk})
+        return reverse_lazy('facility:area-info', kwargs={'pk': self.object.pk})
 
 
 # ------------------- Boxes -------------------
@@ -215,13 +215,20 @@ class BoxCreateView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequ
     permission_required = 'facility.add_box'
     permission_denied_message = "You don't have permission to add boxes"
 
+    def get_success_url(self):
+        return reverse_lazy('facility:box-info', kwargs={'pk': self.object.pk})
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["view_text"] = "Create"
+        context['view_text'] = 'Create'
         return context
 
-    def get_success_url(self):
-        return reverse_lazy('facility:box-info', kwargs={"pk": self.object.pk})
+    def form_invalid(self, form):
+        returned_data_form = dict()
+        returned_data_form['form'] = form
+        if 'located_area' in form.errors.as_data():  # check if the error is in the located_area field
+            returned_data_form['located_area_error'] = form.fields['located_area'].error_messages['required']
+        return render(self.request, self.template_name, {**self.get_context_data(), **returned_data_form})
 
 
 class BoxDeleteView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, SuccessMessageMixin,
@@ -241,8 +248,8 @@ class BoxDeleteView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequ
             self.object.delete()
         except ProtectedError:
             animal_number = Animal.objects.filter(box__pk=self.object.pk).count()
-            message_error = f"There are {animal_number} animals" if animal_number > 1 else f"There is an animal"
-            messages.error(request, message_error + " in this box, it cannot be deleted!")
+            message_error = f'There are {animal_number} animals' if animal_number > 1 else f'There is an animal'
+            messages.error(request, message_error + ' in this box, it cannot be deleted!')
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))  # return to the same url but with errors
         else:
             return HttpResponseRedirect(success_url)
@@ -274,10 +281,17 @@ class BoxUpdateView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequ
     permission_required = 'facility.change_box'
     permission_denied_message = "You don't have permission to edit boxes"
 
+    def get_success_url(self):
+        return reverse_lazy('facility:box-info', kwargs={'pk': self.object.pk})
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["view_text"] = "Update"
+        context['view_text'] = 'Update'
         return context
 
-    def get_success_url(self):
-        return reverse_lazy('facility:box-info', kwargs={"pk": self.object.pk})
+    def form_invalid(self, form):
+        returned_data_form = dict()
+        returned_data_form['form'] = form
+        if 'located_area' in form.errors.as_data():  # check if the error is in the located_area field
+            returned_data_form['located_area_error'] = form.fields['located_area'].error_messages['required']
+        return render(self.request, self.template_name, {**self.get_context_data(), **returned_data_form})

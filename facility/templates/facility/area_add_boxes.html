@@ -10,7 +10,7 @@
     {% csrf_token %}
     <div class="form-group" id="div_id_{{form.boxes.label | lower}}">
         <label class="">{{form.boxes.label | title}}{% if form.boxes.field.required %}*{% endif %}</label>
-        <small class="form-text text-muted" id="hint_id_{{form.boxes.label | lower}}">{{form.boxes.help_text}}</small>
+        {% if boxes_error %}<span class="d-block field-error"><b>{{boxes_error}}</b></span>{% endif %}
         <div class="d-flex text-center my-3">
             <div class="col-10">
                 <input aria-label="Search" class="form-control my-2" id="list-group-input-search"
@@ -36,6 +36,7 @@
                 {% for box in form.boxes %}{{box}}{% endfor %}
                 <p class="text-center">There are no boxes available</p>
             </div>
+            <small class="form-text text-muted" id="hint_id_{{form.boxes.label | lower}}">{{form.boxes.help_text}}</small>
         </div>
     </div>
     <div class="form-group">

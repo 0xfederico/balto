@@ -23,20 +23,20 @@ class SingletonModel(models.Model):
 
 
 class LegalInformation(CreatedModifiedMixin, SingletonModel):
-    email = models.EmailField(verbose_name="Contact email")
+    email = models.EmailField(verbose_name='Contact email')
     name = models.CharField(max_length=255)
     region = models.CharField(max_length=50)
     city = models.CharField(max_length=50)
     province = models.CharField(max_length=50)
     address = models.CharField(max_length=255)
     mobile_phone = models.CharField(max_length=10, validators=[RegexValidator(regex=r'^\d{10}$',
-                                                                              message="phone numbers are "
-                                                                                      "10 digits long")],
-                                    blank=False, verbose_name="Your mobile phone number")
+                                                                              message='phone numbers are '
+                                                                                      '10 digits long')],
+                                    blank=False, verbose_name='Your mobile phone number')
     landline_phone = models.CharField(max_length=10, validators=[RegexValidator(regex=r'^\d{10}$',
-                                                                                message="phone numbers are "
-                                                                                        "10 digits long")],
-                                      blank=False, verbose_name="Your landline phone number")
+                                                                                message='phone numbers are '
+                                                                                        '10 digits long')],
+                                      blank=False, verbose_name='Your landline phone number')
     about_us = models.TextField()
     responsible = models.CharField(max_length=50)
 
@@ -46,14 +46,14 @@ class Area(CreatedModifiedMixin, models.Model):
 
     class Meta:
         ordering = ['name']
-        permissions = (("area_add_boxes_to_area", "Can add boxes to area"),
-                       ("area_delete_boxes_from_area", "Can delete boxes from area"),
-                       ("area_view_boxes", "Can view area boxes"))  # added to defaults
+        permissions = (('area_add_boxes_to_area', 'Can add boxes to area'),
+                       ('area_delete_boxes_from_area', 'Can delete boxes from area'),
+                       ('area_view_boxes', 'Can view area boxes'))  # added to defaults
 
 
 class Box(CreatedModifiedMixin, models.Model):
     name = models.CharField(max_length=50, unique=True)
-    located_area = models.ForeignKey(Area, related_name="composedby", on_delete=models.PROTECT, null=True)
+    located_area = models.ForeignKey(Area, related_name='composedby', on_delete=models.PROTECT, null=True)
 
     # this method is not implemented by default in models
     def __str__(self):

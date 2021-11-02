@@ -12,9 +12,7 @@
     {{ form.text | as_crispy_field }}
     <div class="form-group" id="div_id_{{form.recipients.label | lower}}">
         <label class="">{{form.recipients.label | title}}{% if form.recipients.field.required %}*{% endif %}</label>
-        <small class="form-text text-muted"
-               id="hint_id_{{form.recipients.label | lower}}">{{form.recipients.help_text}}</small>
-        {{form.recipients.errors}}
+        {% if recipients_error %}<span class="d-block field-error"><b>{{recipients_error}}</b></span>{% endif %}
         <div class="d-flex text-center my-3">
             <div class="col-10">
                 <input aria-label="Search" class="form-control my-2" id="list-group-input-search"
@@ -40,6 +38,7 @@
                 {% for recipient in form.recipients %}{{recipient}}{% endfor %}
                 <p class="text-center">There are no recipients available</p>
             </div>
+            <small class="form-text text-muted" id="hint_id_{{form.recipients.label | lower}}">{{form.recipients.help_text}}</small>
         </div>
     </div>
     <div class="form-group">

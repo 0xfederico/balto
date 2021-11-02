@@ -2,17 +2,22 @@
 
 {% load crispy_forms_tags %}
 
-{% block title %}Create Group{% endblock %}
+{% block title %}{{view_text}} User{% endblock %}
 
 {% block content %}
-<h1>Create Group</h1>
+<h1>{{view_text}} User</h1>
 <form enctype="multipart/form-data" id="wrapper_crispy_form" method="post">
     {% csrf_token %}
-    {{ form.name | as_crispy_field }}
-    <div class="form-group" id="div_id_{{form.permissions.label | lower}}">
-        <label class="">{{form.permissions.label | title}}{% if form.permissions.field.required %}*{% endif %}</label>
-        <small class="form-text text-muted" id="hint_id_{{form.permissions.label | lower}}">{{form.permissions.help_text}}</small>
-        {{form.permissions.errors}}
+
+    {{ form.username | as_crispy_field }}
+    {{ form.first_name | as_crispy_field }}
+    {{ form.last_name | as_crispy_field }}
+    {{ form.email | as_crispy_field }}
+    {{ form.phone | as_crispy_field }}
+    {{ form.photo | as_crispy_field }}
+    <div class="form-group" id="div_id_{{form.groups.label | lower}}">
+        <label class="">{{form.groups.label | title}}{% if form.groups.field.required %}*{% endif %}</label>
+        {% if groups_error %}<span class="d-block field-error"><b>{{groups_error}}</b></span>{% endif %}
         <div class="d-flex text-center my-3">
             <div class="col-10">
                 <input aria-label="Search" class="form-control my-2" id="list-group-input-search"
@@ -35,14 +40,19 @@
         </div>
         <div class="container" id="list-group-scrollbar-container">
             <div class="list-group w-100">
-                {% for permission in form.permissions %}{{permission}}{% endfor %}
-                <p class="text-center">There are no permissions available</p>
+                {% for group in form.groups %}{{group}}{% endfor %}
+                <p class="text-center">There are no groups available</p>
             </div>
+            <small class="form-text text-muted" id="hint_id_{{form.groups.label | lower}}">{{form.groups.help_text}}</small>
         </div>
     </div>
+    {% if view_text == "Create" %}
+    {{ form.password1 | as_crispy_field }}
+    {{ form.password2 | as_crispy_field }}
+    {% endif %}
     <div class="form-group">
         <div class="">
-            <input class="btn btn-primary" id="submit-id-save" type="submit" value="Create">
+            <input class="btn btn-primary" id="submit-id-save" type="submit" value="{{view_text}}">
         </div>
     </div>
 </form>

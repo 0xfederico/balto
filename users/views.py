@@ -20,7 +20,7 @@ class UserCreateView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionReq
                      CreateView):
     model = User
     form_class = AdminCreateForm
-    template_name = 'users/user_create.html'
+    template_name = 'users/user_create_or_update.html'
     success_message = 'User created correctly!'
     permission_required = 'users.add_user'
     permission_denied_message = "You don't have permission to add users"
@@ -31,7 +31,19 @@ class UserCreateView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionReq
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse_lazy('users:user-info', kwargs={"pk": self.object.pk})
+        return reverse_lazy('users:user-info', kwargs={'pk': self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['view_text'] = 'Create'
+        return context
+
+    def form_invalid(self, form):
+        returned_data_form = dict()
+        returned_data_form['form'] = form
+        if 'groups' in form.errors.as_data():  # check if the error is in the groups field
+            returned_data_form['groups_error'] = form.fields['groups'].error_messages['required']
+        return render(self.request, self.template_name, {**self.get_context_data(), **returned_data_form})
 
 
 class UserDeleteView(LoginRequiredMixin, AnyPermissionsMixin, SaveSelectedUserMixin, HimselfMixin,
@@ -67,13 +79,25 @@ class UserUpdateView(LoginRequiredMixin, IsNotAdminUpdateMixin, AnyPermissionsMi
                      SuccessMessageMixin, UpdateView):
     model = User
     form_class = AdminUpdateForm
-    template_name = 'users/user_update.html'
+    template_name = 'users/user_create_or_update.html'
     success_message = 'User updated correctly!'
     permission_required = ('users.change_profile', 'users.change_user')
     permission_denied_message = "You don't have permission to edit users"
 
     def get_success_url(self):
-        return reverse_lazy('users:user-info', kwargs={"pk": self.object.pk})
+        return reverse_lazy('users:user-info', kwargs={'pk': self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['view_text'] = 'Update'
+        return context
+
+    def form_invalid(self, form):
+        returned_data_form = dict()
+        returned_data_form['form'] = form
+        if 'groups' in form.errors.as_data():  # check if the error is in the groups field
+            returned_data_form['groups_error'] = form.fields['groups'].error_messages['required']
+        return render(self.request, self.template_name, {**self.get_context_data(), **returned_data_form})
 
 
 # ------------------- GROUP -------------------
@@ -81,13 +105,25 @@ class GroupCreateView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRe
                       CreateView):
     model = Group
     form_class = GroupForm
-    template_name = 'users/group_create.html'
+    template_name = 'users/group_create_or_update.html'
     success_message = 'Group created correctly!'
     permission_required = 'auth.add_group'
     permission_denied_message = "You don't have permission to create groups"
 
     def get_success_url(self):
-        return reverse_lazy('users:group-info', kwargs={"pk": self.object.pk})
+        return reverse_lazy('users:group-info', kwargs={'pk': self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['view_text'] = 'Create'
+        return context
+
+    def form_invalid(self, form):
+        returned_data_form = dict()
+        returned_data_form['form'] = form
+        if 'permissions' in form.errors.as_data():  # check if the error is in the permissions field
+            returned_data_form['permissions_error'] = form.fields['permissions'].error_messages['required']
+        return render(self.request, self.template_name, {**self.get_context_data(), **returned_data_form})
 
 
 class GroupDeleteView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, SuccessMessageMixin,
@@ -105,28 +141,31 @@ class GroupAddUserView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionR
     permission_denied_message = "You don't have permission to add users to group"
 
     def dispatch(self, request: HttpRequest, *args, **kwargs):
-        self.group = Group.objects.filter(pk=kwargs["pk"])[0]
-        del kwargs["pk"]  # we just need it to retrieve the group
+        self.group = Group.objects.filter(pk=kwargs['pk'])[0]
+        del kwargs['pk']  # we just need it to retrieve the group
         return super().dispatch(self.request, *args, **kwargs)
 
     def get(self, request: HttpRequest):
-        context = {"group": self.group,
+        context = {'group': self.group,
                    # In the second argument it is passed the list of group members
-                   "form": GroupAddUserForm(request.GET, members=[u.pk for u in self.group.user_set.all()])}
-        return render(request, "users/group_add_user.html", context)
+                   'form': GroupAddUserForm(request.GET, members=[u.pk for u in self.group.user_set.all()])}
+        return render(request, 'users/group_add_user.html', context)
 
     def post(self, request: HttpRequest):
         # In the second argument it is passed the list of group members
         form = GroupAddUserForm(request.POST, members=[u.pk for u in self.group.user_set.all()])
         if form.is_valid():
-            users = form.cleaned_data.get("users")
+            users = form.cleaned_data.get('users')
             for u in users:
                 self.group.user_set.add(u)
-            messages.success(request, "User added to Group correctly!")
-            return HttpResponseRedirect(reverse('users:group-members', kwargs={"pk": self.group.pk}))
+            messages.success(request, 'User added to Group correctly!')
+            return HttpResponseRedirect(reverse('users:group-members', kwargs={'pk': self.group.pk}))
         else:
-            messages.error(request, "Select at least one user to add from the list")
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))  # return to the same url but with errors
+            returned_data_form = dict()
+            returned_data_form['form'] = form
+            if 'users' in form.errors.as_data():  # check if the error is in the users field
+                returned_data_form['users_error'] = form.fields['users'].error_messages['required']
+            return render(self.request, 'users/group_add_user.html', returned_data_form)
 
 
 class GroupDeleteUserView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, SuccessMessageMixin,
@@ -140,17 +179,17 @@ class GroupDeleteUserView(LoginRequiredMixin, NoPermissionMessageMixin, Permissi
 
     def get(self, request: HttpRequest, *args, **kwargs):
         self.object = self.get_object()
-        context = {"group": self.object,
-                   "delete_user": User.objects.get(pk=kwargs["upk"])}
+        context = {'group': self.object,
+                   'delete_user': User.objects.get(pk=kwargs['upk'])}
         return self.render_to_response(context)
 
     def delete(self, request: HttpRequest, *args, **kwargs):
         self.object = self.get_object()
-        self.object.user_set.remove(kwargs["upk"])
+        self.object.user_set.remove(kwargs['upk'])
         return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
-        return reverse_lazy('users:group-members', kwargs={"pk": self.object.pk})
+        return reverse_lazy('users:group-members', kwargs={'pk': self.object.pk})
 
 
 class GroupMembersView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, SuccessMessageMixin,
@@ -162,15 +201,15 @@ class GroupMembersView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionR
 
     def get(self, request: HttpRequest, *args, **kwargs):
         self.object = self.get_object()
-        context = {"group": self.object,
-                   "members": User.objects.filter(groups__name=self.object.name).order_by('username')}
+        context = {'group': self.object,
+                   'members': User.objects.filter(groups__name=self.object.name).order_by('username')}
         return self.render_to_response(context)
 
 
 class GroupInfoView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, SuccessMessageMixin,
                     DetailView):
     model = Group
-    template_name = "users/group_info.html"
+    template_name = 'users/group_info.html'
     permission_required = 'auth.view_group'
     permission_denied_message = "You don't have permission to view this group"
     ordering = ['name']
@@ -188,10 +227,22 @@ class GroupUpdateView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRe
                       UpdateView):
     model = Group
     form_class = GroupForm
-    template_name = 'users/group_update.html'
+    template_name = 'users/group_create_or_update.html'
     success_message = 'Group updated correctly!'
     permission_required = 'auth.change_group'
     permission_denied_message = "You don't have permission to edit groups"
 
     def get_success_url(self):
-        return reverse_lazy('users:group-info', kwargs={"pk": self.object.pk})
+        return reverse_lazy('users:group-info', kwargs={'pk': self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['view_text'] = 'Update'
+        return context
+
+    def form_invalid(self, form):
+        returned_data_form = dict()
+        returned_data_form['form'] = form
+        if 'permissions' in form.errors.as_data():  # check if the error is in the permissions field
+            returned_data_form['permissions_error'] = form.fields['permissions'].error_messages['required']
+        return render(self.request, self.template_name, {**self.get_context_data(), **returned_data_form})
