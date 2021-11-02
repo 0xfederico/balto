@@ -9,7 +9,7 @@ from django.utils import timezone
 class NoPermissionMessageMixin(object):
     def handle_no_permission(self):
         messages.error(self.request, self.__class__.permission_denied_message)
-        return redirect("homepage")
+        return redirect('homepage')
 
 
 class CreatedModifiedMixin(models.Model):

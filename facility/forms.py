@@ -10,12 +10,12 @@ class LegalInformationForm(forms.ModelForm):
     helper = FormHelper()
     helper.form_id = 'legal_information_crispy_form'
     helper.form_method = 'POST'
-    helper.add_input(Submit("submit", "Update"))
+    helper.add_input(Submit('submit', 'Update'))
 
     class Meta:
         model = LegalInformation
-        fields = ["email", "name", "region", "city", "province", "address", "mobile_phone", "landline_phone",
-                  "about_us", "responsible"]
+        fields = ['email', 'name', 'region', 'city', 'province', 'address', 'mobile_phone', 'landline_phone',
+                  'about_us', 'responsible']
 
 
 class AreaForm(forms.ModelForm):
@@ -25,7 +25,7 @@ class AreaForm(forms.ModelForm):
 
     class Meta:
         model = Area
-        fields = ["name"]
+        fields = ['name']
 
 
 class BoxForm(forms.ModelForm):
@@ -37,7 +37,7 @@ class BoxForm(forms.ModelForm):
             return larea.name
 
     located_area = ChangedLabelCSMF(
-        label="Located Area",
+        label='Located Area',
         widget=forms.RadioSelect,
         queryset=Area.objects.all().order_by('name'),
         help_text='Select the area where the box is located',
@@ -46,18 +46,18 @@ class BoxForm(forms.ModelForm):
 
     class Meta:
         model = Box
-        fields = ["name", "located_area"]
+        fields = ['name', 'located_area']
 
 
 class AreaAddBoxesForm(forms.Form):
     helper = FormHelper()
-    helper.form_method = "POST"
+    helper.form_method = 'POST'
 
     # The override is necessary to be able to pass as argument the boxes of the area and exclude them from the selection
     def __init__(self, *args, **kwargs):
         exclude_boxes = kwargs.pop('boxes')
         super(AreaAddBoxesForm, self).__init__(*args, **kwargs)
-        self.fields['boxes'] = forms.ModelMultipleChoiceField(label="Boxes", widget=forms.CheckboxSelectMultiple,
+        self.fields['boxes'] = forms.ModelMultipleChoiceField(label='Boxes', widget=forms.CheckboxSelectMultiple,
                                                               queryset=Box.objects.all().exclude(
                                                                   pk__in=exclude_boxes).order_by('name'),
                                                               help_text='Select a box to add', required=True)

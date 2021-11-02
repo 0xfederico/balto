@@ -3,7 +3,7 @@ from django.urls import path
 from notifications.views import ReadNotificationView, NotificationCreateView, NotificationDeleteView, \
     NotificationInfoView, NotificationListView, NotificationUpdateView
 
-app_name = "notifications"
+app_name = 'notifications'
 
 urlpatterns = [
     path('read-notification', ReadNotificationView.as_view(), name='read-notification'),

@@ -8,7 +8,7 @@ from Configurations.mixins import CreatedModifiedMixin
 
 
 def user_directory_path(self, filename):
-    return f"users_{self.pk}_{date.today()}_{filename}"
+    return f'users_{self.pk}_{date.today()}_{filename}'
 
 
 class User(AbstractUser, CreatedModifiedMixin):

@@ -7,10 +7,10 @@ from users.models import User
 
 class NotificationForm(forms.ModelForm):
     helper = FormHelper()
-    helper.form_method = "POST"
+    helper.form_method = 'POST'
 
     recipients = forms.ModelMultipleChoiceField(
-        label="Recipient users",
+        label='Recipient users',
         widget=forms.CheckboxSelectMultiple,
         queryset=User.objects.all().order_by('username'),
         help_text='Select a user to add',
@@ -19,4 +19,4 @@ class NotificationForm(forms.ModelForm):
 
     class Meta:
         model = Notification
-        fields = ["title", "text", "recipients"]
+        fields = ['title', 'text', 'recipients']

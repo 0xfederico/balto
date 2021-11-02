@@ -5,7 +5,7 @@ from users.views import GroupCreateView, GroupUpdateView, GroupDeleteView, Group
     GroupInfoView, UserInfoView, UserDeleteView, UserListView, UserUpdateView, UserCreateView, GroupMembersView, \
     GroupDeleteUserView, GroupAddUserView, GroupDeleteAllUsersView
 
-app_name = "users"
+app_name = 'users'
 
 urlpatterns = [
     # GROUP

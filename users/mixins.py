@@ -32,19 +32,19 @@ class HimselfMixin(object):
             if request.user == self.selected_user or request.user.is_superuser:
                 return super().dispatch(request, *args, **kwargs)
             else:
-                messages.error(request, "You are not authorized to view the accounts of other users!")
+                messages.error(request, 'You are not authorized to view the accounts of other users!')
                 return redirect('homepage')
         elif request.user.has_perm('users.change_profile') and not request.user.has_perm('users.change_user'):
             if request.user == self.selected_user or request.user.is_superuser:
                 return super().dispatch(request, *args, **kwargs)
             else:
-                messages.error(request, "You are not authorized to edit the accounts of other users!")
+                messages.error(request, 'You are not authorized to edit the accounts of other users!')
                 return redirect('homepage')
         elif request.user.has_perm('users.delete_profile') and not request.user.has_perm('users.delete_user'):
             if request.user == self.selected_user or request.user.is_superuser:
                 return super().dispatch(request, *args, **kwargs)
             else:
-                messages.error(request, "You are not authorized to delete the accounts of other users!")
+                messages.error(request, 'You are not authorized to delete the accounts of other users!')
                 return redirect('homepage')
         else:
             return super().dispatch(request, *args, **kwargs)
@@ -55,7 +55,7 @@ class HimselfMixin(object):
 class CanUpdateAdminMixin(object):
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_superuser and self.selected_user.is_superuser:
-            messages.error(request, "Only a superuser can modify a superuser!")
+            messages.error(request, 'Only a superuser can modify a superuser!')
             return redirect('homepage')
         else:
             return super().dispatch(request, *args, **kwargs)
@@ -66,7 +66,7 @@ class CanUpdateAdminMixin(object):
 class CanDeleteAdminMixin(object):
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_superuser and self.selected_user.is_superuser:
-            messages.error(request, "Only a superuser can delete a superuser!")
+            messages.error(request, 'Only a superuser can delete a superuser!')
             return redirect('homepage')
         else:
             return super().dispatch(request, *args, **kwargs)

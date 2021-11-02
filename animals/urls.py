@@ -1,7 +1,7 @@
 from django.urls import path
 from animals.views import AnimalCreateView, AnimalDeleteView, AnimalInfoView, AnimalListView, AnimalUpdateView
 
-app_name = "animals"
+app_name = 'animals'
 
 urlpatterns = [
     path('animal-create', AnimalCreateView.as_view(), name='animal-create'),

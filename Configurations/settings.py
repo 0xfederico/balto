@@ -27,16 +27,16 @@ SECRET_KEY = 'django-insecure-sdv=@5@l(ml+&odwd@@4o^a&o5vhv3u8pac5xg@s=zmn-fs^d$
 DEBUG = True
 
 # ----------- if you don't want to see the site on other devices inside your LAN remove this block of code -----------
-allowed = ""
+allowed = ''
 for i in netifaces.interfaces():
     if i != 'lo':
         try:
             ip = str(netifaces.ifaddresses(i)[netifaces.AF_INET][0]['addr'])
-            if str(ip).startswith("192.168."):
+            if str(ip).startswith('192.168.'):
                 allowed = ip
         except KeyError:
             pass
-ALLOWED_HOSTS = ["127.0.0.1", "localhost", allowed if DEBUG else ""]  # run on terminal: python manage.py runserver 0.0.0.0:8000
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', allowed if DEBUG else '']  # run on terminal: python manage.py runserver 0.0.0.0:8000
 # ----------- delete to here and set: ALLOWED_HOSTS = []  -----------
 
 # Application definition
@@ -155,30 +155,30 @@ MEDIA_ROOT = BASE_DIR / 'static' / 'images' / 'apps'
 # Login and Users
 AUTH_USER_MODEL = 'users.User'
 
-LOGIN_URL = "users:user-login"
+LOGIN_URL = 'users:user-login'
 
-LOGIN_REDIRECT_URL = "homepage"
+LOGIN_REDIRECT_URL = 'homepage'
 
-# Prohibited permissions for users managed by the "users" app
+# Prohibited permissions for users managed by the 'users' app
 prohibited_permissions = [
     # -- logentry --
-    "add_logentry",
-    "change_logentry",
-    "delete_logentry",
-    "view_logentry",
+    'add_logentry',
+    'change_logentry',
+    'delete_logentry',
+    'view_logentry',
     # -- permission --
-    "add_permission",
-    "change_permission",
-    "delete_permission",
-    # "view_permission",
+    'add_permission',
+    'change_permission',
+    'delete_permission',
+    # 'view_permission',
     # -- contenttype --
-    "add_contenttype",
-    "change_contenttype",
-    "delete_contenttype",
-    "view_contenttype",
+    'add_contenttype',
+    'change_contenttype',
+    'delete_contenttype',
+    'view_contenttype',
     # -- session --
-    "add_session",
-    "change_session",
-    "delete_session",
-    "view_session",
+    'add_session',
+    'change_session',
+    'delete_session',
+    'view_session',
 ]

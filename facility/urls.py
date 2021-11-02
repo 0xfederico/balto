@@ -5,7 +5,7 @@ from facility.views import LegalInformationInfoView, LegalInformationUpdateView,
     AreaCreateView, AreaDeleteView, AreaInfoView, AreaListView, AreaUpdateView, AreaDeleteBoxView, AreaAddBoxesView, \
     AreaBoxesView, AreaDeleteAllBoxesView
 
-app_name = "facility"
+app_name = 'facility'
 
 urlpatterns = [
     # LEGAL INFORMATION

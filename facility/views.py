@@ -58,7 +58,7 @@ class AreaCreateView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionReq
     permission_denied_message = "You don't have permission to add areas"
 
     def get_success_url(self):
-        return reverse_lazy('facility:area-info', kwargs={"pk": self.object.pk})
+        return reverse_lazy('facility:area-info', kwargs={'pk': self.object.pk})
 
 
 class AreaDeleteView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, SuccessMessageMixin,
