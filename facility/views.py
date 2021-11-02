@@ -77,7 +77,7 @@ class AreaDeleteView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionReq
             self.object.delete()
         except ProtectedError:
             box_number = Box.objects.filter(located_area__pk=self.object.pk).count()
-            message_error = f'There are {box_number} boxes' if box_number > 1 else f'There is a box'
+            message_error = f'There are {box_number} boxes' if box_number > 1 else 'There is a box'
             messages.error(request, message_error + ' in this area, it cannot be deleted!')
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))  # return to the same url but with errors
         else:

@@ -135,13 +135,25 @@ class GroupDeleteView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRe
     permission_denied_message = "You don't have permission to delete groups"
     success_url = reverse_lazy('users:groups-list')
 
+    # A group cannot be canceled if it has users within it
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        group_users_count = User.objects.filter(groups__name=self.object.name).count()
+        if group_users_count > 0:
+            message_error = f'There are {group_users_count} users' if group_users_count > 1 else 'There is a user'
+            messages.error(request, message_error + ' in this group, it cannot be deleted!')
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))  # return to the same url but with errors
+        else:
+            self.object.delete()
+            return HttpResponseRedirect(self.get_success_url())
+
 
 class GroupAddUserView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, View):
     permission_required = 'users.group_add_users_to_group'
     permission_denied_message = "You don't have permission to add users to group"
 
     def dispatch(self, request: HttpRequest, *args, **kwargs):
-        self.group = Group.objects.filter(pk=kwargs['pk'])[0]
+        self.group = Group.objects.get(pk=kwargs['pk'])
         del kwargs['pk']  # we just need it to retrieve the group
         return super().dispatch(self.request, *args, **kwargs)
 
@@ -190,6 +202,27 @@ class GroupDeleteUserView(LoginRequiredMixin, NoPermissionMessageMixin, Permissi
 
     def get_success_url(self):
         return reverse_lazy('users:group-members', kwargs={'pk': self.object.pk})
+
+
+class GroupDeleteAllUsersView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, View):
+    permission_required = 'users.group_delete_users_from_group'
+    permission_denied_message = "You don't have permission to delete users from group"
+
+    def dispatch(self, request: HttpRequest, *args, **kwargs):
+        self.group = Group.objects.get(pk=kwargs['pk'])
+        del kwargs['pk']  # we just need it to retrieve the group
+        return super().dispatch(self.request, *args, **kwargs)
+
+    def get(self, request: HttpRequest):
+        context = {'group': self.group}
+        return render(request, 'users/group_delete_all_user.html', context)
+
+    def post(self, request: HttpRequest):
+        users = User.objects.filter(groups__name=self.group.name)
+        for u in users:
+            self.group.user_set.remove(u.pk)
+        messages.success(request, 'Removed all users from the group!')
+        return HttpResponseRedirect(reverse('users:group-members', kwargs={'pk': self.group.pk}))
 
 
 class GroupMembersView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, SuccessMessageMixin,

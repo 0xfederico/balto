@@ -44,6 +44,9 @@
     {% if perms.users.group_add_users_to_group %}
     <a href="{% url 'users:group-add-user' group.pk %}" class="btn btn-primary w-75">Add User</a>
     {% endif %}
+    {% if perms.users.group_delete_users_from_group %}
+    <a class="btn btn-danger w-75 m-2" href="{% url 'users:group-delete-all-users' group.pk %}">Delete All Users</a>
+    {% endif %}
     <input type="search" class="form-control my-2 w-75" aria-label="Search" placeholder="Search"
            oninput="filterElements(this)">
 </div>

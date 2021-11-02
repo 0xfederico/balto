@@ -35,10 +35,10 @@
     {% if perms.facility.area_add_boxes_to_area %}
     <a class="btn btn-primary w-75" href="{% url 'facility:area-add-boxes' area.pk %}">Add Boxes</a>
     {% endif %}
-    <input aria-label="Search" class="form-control my-2 w-75" oninput="filterElements(this)" placeholder="Search"
-           type="search">
     {% if perms.facility.area_delete_boxes_from_area %}
     <a class="btn btn-danger w-75 m-2" href="{% url 'facility:area-delete-all-boxes' area.pk %}">Delete All Boxes</a>
     {% endif %}
+    <input aria-label="Search" class="form-control my-2 w-75" oninput="filterElements(this)" placeholder="Search"
+           type="search">
 </div>
 {% endblock %}
