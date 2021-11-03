@@ -19,7 +19,7 @@
         <a href="{% url 'facility:box-info' box.pk %}"><img alt="Info" height="24" src="{% static 'images/info.png' %}"
                                                             width="24"></a>
         {% endif %}
-        {% if perms.facility.area_delete_boxes_from_area %}
+        {% if perms.facility.area_delete_boxes %}
         <a href="{% url 'facility:area-delete-box' area.pk box.pk %}"><img alt="Delete"
                                                                            height="24"
                                                                            src="{% static 'images/remove.png' %}"
@@ -32,10 +32,10 @@
 
 {% block table_before %}
 <div class="d-flex flex-column align-items-center">
-    {% if perms.facility.area_add_boxes_to_area %}
+    {% if perms.facility.area_add_boxes %}
     <a class="btn btn-primary w-75" href="{% url 'facility:area-add-boxes' area.pk %}">Add Boxes</a>
     {% endif %}
-    {% if perms.facility.area_delete_boxes_from_area %}
+    {% if perms.facility.area_delete_boxes %}
     <a class="btn btn-danger w-75 m-2" href="{% url 'facility:area-delete-all-boxes' area.pk %}">Delete All Boxes</a>
     {% endif %}
     <input aria-label="Search" class="form-control my-2 w-75" oninput="filterElements(this)" placeholder="Search"

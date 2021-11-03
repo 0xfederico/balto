@@ -30,7 +30,7 @@
         <a href="{% url 'users:user-info' member.pk %}"><img src="{% static 'images/info.png' %}" alt="Info" width="24"
                                                              height="24"></a>
         {% endif %}
-        {% if perms.users.group_delete_users_from_group %}
+        {% if perms.users.group_delete_users %}
         <a href="{% url 'users:group-delete-user' group.pk member.pk %}"><img src="{% static 'images/remove.png' %}"
                                                                               alt="Delete" width="24" height="24"></a>
         {% endif %}
@@ -41,10 +41,10 @@
 
 {% block table_before %}
 <div class="d-flex flex-column align-items-center">
-    {% if perms.users.group_add_users_to_group %}
+    {% if perms.users.group_add_users %}
     <a href="{% url 'users:group-add-user' group.pk %}" class="btn btn-primary w-75">Add User</a>
     {% endif %}
-    {% if perms.users.group_delete_users_from_group %}
+    {% if perms.users.group_delete_users %}
     <a class="btn btn-danger w-75 m-2" href="{% url 'users:group-delete-all-users' group.pk %}">Delete All Users</a>
     {% endif %}
     <input type="search" class="form-control my-2 w-75" aria-label="Search" placeholder="Search"

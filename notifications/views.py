@@ -73,18 +73,21 @@ class NotificationInfoView(LoginRequiredMixin, AnyPermissionsMixin, HimselfMixin
     permission_required = ('notifications.view_my_notifications', 'notifications.view_notification')
 
 
-class NotificationListView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin,
+class NotificationListView(LoginRequiredMixin, AnyPermissionsMixin, NoPermissionMessageMixin, PermissionRequiredMixin,
                            SuccessMessageMixin, ListView):
     model = Notification
     template_name = 'notifications/notification_list.html'
-    permission_required = 'notifications.view_my_notifications'
+    permission_required = ('notifications.view_my_notifications', 'notifications.view_notification')
     ordering = ['-created']
 
     def get_queryset(self):
         qs = super().get_queryset()
-        my_notifications = qs.filter(creator=self.request.user)
-        addressed_to_me_notifications = qs.filter(recipients=self.request.user)
-        return (my_notifications | addressed_to_me_notifications).distinct()  # union without duplicates
+        if self.request.user.has_perm('notifications.view_notification'):
+            return qs  # you have access to all notifications
+        else:
+            my_notifications = qs.filter(creator=self.request.user)
+            addressed_to_me_notifications = qs.filter(recipients=self.request.user)
+            return (my_notifications | addressed_to_me_notifications).distinct()  # union without duplicates
 
 
 class NotificationUpdateView(LoginRequiredMixin, AnyPermissionsMixin, HimselfMixin, CanUpdateAdminMixin,

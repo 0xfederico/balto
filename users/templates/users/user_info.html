@@ -45,7 +45,6 @@
                                 {% endfor %}
                             </div>
                         </div>
-                        {% if user.is_authenticated %}
                         <hr>
                         <div class="row d-flex justify-content-center align-items-center">
                             <div class="col-3">
@@ -64,12 +63,11 @@
                                 <span class="text-monospace">{{ object.email }}</span>
                             </div>
                         </div>
-                        {% endif %}
                         {% if perms.users.change_user or perms.users.change_profile and object.pk == request.user.pk or perms.users.delete_user or perms.users.delete_profile and object.pk == request.user.pk %} {# and has higher precedence than or #}
                         <hr>
                         <div class="row d-flex justify-content-center align-items-center">
                             {% if perms.users.change_user or perms.users.change_profile and object.pk == request.user.pk %} {# and has higher precedence than or #}
-                            <div class="col-12 {% if perms.users.delete_user or perms.users.delete_profile and object.pk == request.user.pk %}mb-3{% endif %}"> {# and has higher precedence than or #}
+                            <div class="col-12 mb-3">
                                 <a href="{% url 'users:user-update' object.pk %}">
                                     <button class="btn btn-outline-secondary" type="button">
                                         Edit
@@ -79,7 +77,7 @@
                             </div>
                             {% endif %}
                             {% if perms.users.delete_user or perms.users.delete_profile and object.pk == request.user.pk %} {# and has higher precedence than or #}
-                            <div class="col-12">
+                            <div class="col-12 mb-3">
                                 <a href="{% url 'users:user-delete' object.pk %}">
                                     <button class="btn btn-outline-secondary" type="button">
                                         Delete

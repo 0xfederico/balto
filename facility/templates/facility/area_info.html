@@ -20,6 +20,7 @@
                                 <p class="lead">{{ object.name }}</p>
                             </div>
                         </div>
+                        {% if perms.facility.change_area or perms.facility.area_view_boxes or perms.facility.delete_area %}
                         <hr>
                         <div class="row d-flex justify-content-center align-items-center">
                             {% if perms.facility.change_area %}
@@ -44,7 +45,7 @@
                             </div>
                             {% endif %}
                             {% if perms.facility.delete_area %}
-                            <div class="col-12">
+                            <div class="col-12 mb-3">
                                 <a href="{% url 'facility:area-delete' object.pk %}">
                                     <button class="btn btn-outline-secondary" type="button">
                                         Delete
@@ -54,6 +55,7 @@
                             </div>
                             {% endif %}
                         </div>
+                        {% endif %}
                         <hr>
                         <div class="row d-flex justify-content-center align-items-center">
                             <h4 class="mb-2">Created: <span class="lead">{{ object.created }}</span></h4>

@@ -27,6 +27,7 @@
                                 {% endfor %}
                             </div>
                         </div>
+                        {% if perms.auth.change_group or perms.users.group_view_members or perms.auth.delete_group %}
                         <hr>
                         <div class="row d-flex justify-content-center align-items-center">
                             {% if perms.auth.change_group %}
@@ -40,7 +41,7 @@
                             </div>
                             {% endif %}
                             {% if perms.users.group_view_members %}
-                            <div class="col-12 {% if perms.auth.delete_group %}mb-3{% endif %}">
+                            <div class="col-12 mb-3">
                                 <a href="{% url 'users:group-members' object.pk %}">
                                     <button class="btn btn-outline-secondary" type="button">
                                         All Members
@@ -51,7 +52,7 @@
                             </div>
                             {% endif %}
                             {% if perms.auth.delete_group %}
-                            <div class="col-12">
+                            <div class="col-12 mb-3">
                                 <a href="{% url 'users:group-delete' object.pk %}">
                                     <button class="btn btn-outline-secondary" type="button">
                                         Delete
@@ -61,6 +62,7 @@
                             </div>
                             {% endif %}
                         </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>

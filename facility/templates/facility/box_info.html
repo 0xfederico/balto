@@ -48,7 +48,7 @@
                         <hr>
                         <div class="row d-flex justify-content-center align-items-center">
                             {% if perms.facility.change_box %}
-                            <div class="col-12 {% if perms.facility.delete_box %}mb-3{% endif %}">
+                            <div class="col-12 mb-3">
                                 <a href="{% url 'facility:box-update' object.pk %}">
                                     <button class="btn btn-outline-secondary" type="button">
                                         Edit
@@ -58,7 +58,7 @@
                             </div>
                             {% endif %}
                             {% if perms.facility.delete_box %}
-                            <div class="col-12">
+                            <div class="col-12 mb-3">
                                 <a href="{% url 'facility:box-delete' object.pk %}">
                                     <button class="btn btn-outline-secondary" type="button">
                                         Delete

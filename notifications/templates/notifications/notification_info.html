@@ -64,7 +64,7 @@
                         <hr>
                         <div class="row d-flex justify-content-center align-items-center">
                             {% if perms.notifications.change_notification or perms.notifications.change_my_notifications and object.creator.pk == request.user.pk %} {# and has higher precedence than or #}
-                            <div class="col-12 {% if perms.notifications.delete_notification or perms.notifications.delete_my_notifications and object.creator.pk == request.user.pk %}mb-3{% endif %}">
+                            <div class="col-12 mb-3">
                                 <a href="{% url 'notifications:notification-update' object.pk %}">
                                     <button class="btn btn-outline-secondary" type="button">
                                         Edit
@@ -74,7 +74,7 @@
                             </div>
                             {% endif %}
                             {% if perms.notifications.delete_notification or perms.notifications.delete_my_notifications and object.creator.pk == request.user.pk %}
-                            <div class="col-12">
+                            <div class="col-12 mb-3">
                                 <a href="{% url 'notifications:notification-delete' object.pk %}">
                                     <button class="btn btn-outline-secondary" type="button">
                                         Delete

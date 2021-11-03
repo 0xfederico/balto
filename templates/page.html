@@ -9,8 +9,7 @@
             <img alt="Back" class="d-inline-block" height="35" width="35" src="{% static 'images/back.png' %}">
         </a>
         <a class="navbar-brand mx-auto" href="{% url 'homepage' %}">
-            <img alt="Balto" class="d-inline-block align-text-center" height="35" src="{% static 'images/logo.png' %}"
-                 width="35">
+            <img alt="Balto" class="d-inline-block align-text-center" height="35" src="{% static 'images/logo.png' %}" width="35">
             Balto
         </a>
         <button aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
@@ -25,32 +24,29 @@
                 {% if user.is_authenticated %}
                 <li class="nav-item dropdown">
                     <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle text-center"
-                       data-toggle="dropdown"
-                       href="#" id="navbarDropdownAccount" role="button">
+                       data-toggle="dropdown" href="#" id="navbarDropdownAccount" role="button">
                         Account
                     </a>
                     <div aria-labelledby="navbarDropdown" class="dropdown-menu">
                         <p class="text-center font-weight-bolder">Logged in as: @{{request.user.username}}</p>
                         <div class="dropdown-divider"></div>
-                        {% if perms.users.view_profile %}
+                        {% if perms.users.view_profile or perms.users.view_user %}
                         <a class="dropdown-item text-center" href="{% url 'users:user-info' request.user.pk %}">My Profile</a>
                         {% endif %}
-                        {% if perms.users.change_profile %}
+                        {% if perms.users.change_profile or perms.users.change_user %}
                         <a class="dropdown-item text-center" href="{% url 'users:user-update' request.user.pk %}">Edit Profile</a>
                         {% endif %}
-                        <a class="dropdown-item text-center" href="{% url 'users:user-password-change' %}">Change
-                            Password</a>
-                        {% if perms.users.delete_profile %}
+                        <a class="dropdown-item text-center" href="{% url 'users:user-password-change' %}">Change Password</a>
+                        {% if perms.users.delete_profile or perms.users.delete_user %}
                         <a class="dropdown-item text-center" href="{% url 'users:user-delete' request.user.pk %}">Delete Profile</a>
                         {% endif %}
                         <a class="dropdown-item text-center" href="{% url 'users:user-logout' %}">Logout</a>
                     </div>
                 </li>
-                {% if perms.auth.view_group or perms.auth.add_group or perms.users.view_user or perms.users.add_user %}
+                {% if perms.auth.view_group or perms.auth.add_group or perms.users.view_user or perms.users.add_user or perms.facility.view_area or perms.facility.add_area or perms.facility.view_box or perms.facility.add_box or perms.facility.view_legalinformation or perms.facility.change_legalinformation %}
                 <li class="nav-item dropdown">
                     <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle text-center"
-                       data-toggle="dropdown"
-                       href="#" id="navbarDropdownManagement" role="button">
+                       data-toggle="dropdown" href="#" id="navbarDropdownManagement" role="button">
                         Management
                     </a>
                     <div aria-labelledby="navbarDropdown" class="dropdown-menu">
@@ -94,8 +90,7 @@
                 {% if perms.animals.view_animal or perms.animals.add_animal %}
                 <li class="nav-item dropdown">
                     <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle text-center"
-                       data-toggle="dropdown"
-                       href="#" id="navbarDropdownAnimals" role="button">
+                       data-toggle="dropdown" href="#" id="navbarDropdownAnimals" role="button">
                         Animals
                     </a>
                     <div aria-labelledby="navbarDropdown" class="dropdown-menu">
@@ -103,27 +98,25 @@
                         <a class="dropdown-item text-center" href="{% url 'animals:animals-list' %}">All Animals</a>
                         {% endif %}
                         {% if perms.animals.add_animal %}
-                        <a class="dropdown-item text-center" href="{% url 'animals:animal-create' %}">Register
-                            Animal</a>
+                        <a class="dropdown-item text-center" href="{% url 'animals:animal-create' %}">Register Animal</a>
                         {% endif %}
                     </div>
                 </li>
                 {% endif %}
-                {% if perms.notifications.view_notification or perms.notifications.add_notification %}
+                {% if perms.notifications.view_notification or perms.notifications.view_my_notifications or perms.notifications.add_notification %}
                 <li class="nav-item dropdown">
                     <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle text-center"
-                       data-toggle="dropdown"
-                       href="#" id="navbarDropdownNotifications" role="button">
+                       data-toggle="dropdown" href="#" id="navbarDropdownNotifications" role="button">
                         Notifications
                     </a>
                     <div aria-labelledby="navbarDropdown" class="dropdown-menu">
                         {% if perms.notifications.view_notification %}
-                        <a class="dropdown-item text-center" href="{% url 'notifications:notifications-list' %}">All
-                            Notifications</a>
+                        <a class="dropdown-item text-center" href="{% url 'notifications:notifications-list' %}">All Notifications</a>
+                        {% elif perms.notifications.view_my_notifications %}
+                        <a class="dropdown-item text-center" href="{% url 'notifications:notifications-list' %}">My Notifications</a>
                         {% endif %}
                         {% if perms.notifications.add_notification %}
-                        <a class="dropdown-item text-center" href="{% url 'notifications:notification-create' %}">Create
-                            Notification</a>
+                        <a class="dropdown-item text-center" href="{% url 'notifications:notification-create' %}">Create Notification</a>
                         {% endif %}
                     </div>
                 </li>
@@ -156,20 +149,8 @@
 {% block footer %}
 <footer class="footer mt-auto pt-3 pb-2 bg-light">
     <div class="row text-center mr-0 ml-0 align-items-center">
-        <div class="col-md-4">
-            <h5>About</h5>
-            <p class="text-muted">
-                {% lorem %}
-            </p>
-        </div>
-        <div class="col-md-4 py-5 py-md-0">
-            <h5>Site Links</h5>
-            <ul class="list-unstyled text-small">
-                <li><a class="text-muted" href="#">test1</a></li>
-                <li><a class="text-muted" href="#">test2</a></li>
-                <li><a class="text-muted" href="#">test3</a></li>
-                <li><a class="text-muted" href="#">test4</a></li>
-            </ul>
+        <div class="col-md-8">
+            <p class="lead"><span class="copyleft">&copy;</span> Copyleft <script>document.write(new Date().getFullYear())</script> 0xDevelopers. All rights are not reserved.</p>
         </div>
         <div class="col-md-4">
             <button class="btn btn-outline-secondary" onclick="topFunction()" type="button">

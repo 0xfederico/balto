@@ -85,7 +85,7 @@ class AreaDeleteView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionReq
 
 
 class AreaAddBoxesView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, View):
-    permission_required = 'facility.area_add_boxes_to_area'
+    permission_required = 'facility.area_add_boxes'
     permission_denied_message = "You don't have permission to add boxes to an area"
 
     def dispatch(self, request: HttpRequest, *args, **kwargs):
@@ -114,7 +114,7 @@ class AreaAddBoxesView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionR
 
 
 class AreaDeleteAllBoxesView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, View):
-    permission_required = 'facility.area_delete_boxes_from_area'
+    permission_required = 'facility.area_delete_boxes'
     permission_denied_message = "You don't have permission to delete boxes from area"
 
     def dispatch(self, request: HttpRequest, *args, **kwargs):
@@ -141,7 +141,7 @@ class AreaDeleteBoxView(LoginRequiredMixin, NoPermissionMessageMixin, Permission
     form_class = AreaForm
     template_name = 'facility/area_delete_box.html'
     success_message = 'Box removed from Area correctly!'
-    permission_required = 'facility.area_delete_boxes_from_area'
+    permission_required = 'facility.area_delete_boxes'
     permission_denied_message = "You don't have permission to delete boxes from area"
 
     def get(self, request: HttpRequest, *args, **kwargs):

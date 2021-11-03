@@ -23,8 +23,8 @@ class User(AbstractUser, CreatedModifiedMixin):
 
     class Meta:
         ordering = ['username']
-        permissions = (('group_add_users_to_group', 'Can add users to group'),
-                       ('group_delete_users_from_group', 'Can delete users from group'),
+        permissions = (('group_add_users', 'Can add members to group'),
+                       ('group_delete_users', 'Can delete members from group'),
                        ('group_view_members', 'Can view group members'),
                        ('view_profile', 'Can view his own profile'),
                        ('change_profile', 'Can change his own profile'),

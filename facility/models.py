@@ -46,8 +46,8 @@ class Area(CreatedModifiedMixin, models.Model):
 
     class Meta:
         ordering = ['name']
-        permissions = (('area_add_boxes_to_area', 'Can add boxes to area'),
-                       ('area_delete_boxes_from_area', 'Can delete boxes from area'),
+        permissions = (('area_add_boxes', 'Can add boxes to area'),
+                       ('area_delete_boxes', 'Can delete boxes from area'),
                        ('area_view_boxes', 'Can view area boxes'))  # added to defaults
 
 

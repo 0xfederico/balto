@@ -8,7 +8,7 @@
     <div class="text-center pt-3 d-flex flex-column justify-content-center">
         <p>You are going to delete <b>[{{ object.pk }}] {{ object.title |truncatewords:5 }}</b> notification, are you sure?</p>
         <div class="d-flex justify-content-around">
-            {% if perms.notifications.view_notification %}
+            {% if perms.notifications.view_my_notifications or perms.notifications.view_notification %}
             <a href="{% url 'notifications:notifications-list' %}" class="text-decoration-none">
                 <button type="button" class="btn btn-lg btn-secondary">
                     Cancel
