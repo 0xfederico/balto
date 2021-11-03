@@ -18,7 +18,7 @@ class SingletonModel(models.Model):
 
     @classmethod
     def load(cls):
-        obj, = cls.objects.get_or_create(pk=1, defaults={'created': timezone.now()})
+        obj, created = cls.objects.get_or_create(pk=1, defaults={'created': timezone.now()})
         return obj
 
 

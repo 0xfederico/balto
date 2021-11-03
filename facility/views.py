@@ -22,6 +22,11 @@ class LegalInformationInfoView(LoginRequiredMixin, NoPermissionMessageMixin, Per
     permission_required = 'facility.view_legalinformation'
     permission_denied_message = "You don't have permission to view legal information"
 
+    def dispatch(self, request, *args, **kwargs):
+        if LegalInformation.objects.count() == 0:
+            LegalInformation.load()
+        return super().dispatch(request, *args, **kwargs)
+
     def get_object(self, queryset=None):
         return LegalInformation.objects.get(pk=1)
 
