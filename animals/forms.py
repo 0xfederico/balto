@@ -1,6 +1,5 @@
 from crispy_forms.helper import FormHelper
 from django import forms
-from django.forms import ModelChoiceField
 
 from animals.models import Animal, AnimalDescription, AnimalHealth, AnimalManagement
 from facility.models import Box
@@ -10,11 +9,7 @@ class AnimalForm(forms.ModelForm):
     helper = FormHelper()
     helper.form_method = 'POST'
 
-    class ChangedLabelCSMF(ModelChoiceField):
-        def label_from_instance(self, box):
-            return box.name
-
-    box = ChangedLabelCSMF(
+    box = forms.ModelChoiceField(
         label='Box',
         widget=forms.RadioSelect,
         queryset=Box.objects.all().order_by('name'),

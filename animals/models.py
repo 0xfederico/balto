@@ -70,11 +70,6 @@ class Animal(CreatedModifiedMixin, models.Model):
 
     class Meta:
         ordering = ['name']
-        permissions = (('animal.prepare_food', 'Can prepare food for animals'),
-                       ('animal.give_food', 'Can give food to animals'),
-                       ('animal.give_medicine', 'Can give medicine to animals'),
-                       ('animal.go_for_a_walk', 'Can go for a walk with animals'),
-                       ('animal.put_in_the_walking_area', 'Can put animals in the walking area '))  # added to defaults
 
     # when an animal is deleted, a cascade is applied to the three connected tables
     def delete(self, *args, **kwargs):

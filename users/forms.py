@@ -2,7 +2,6 @@ from crispy_forms.helper import FormHelper
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import Group, Permission
-from django.forms import ModelMultipleChoiceField
 
 from Configurations.settings import prohibited_permissions
 from users.models import User
@@ -47,7 +46,7 @@ class GroupForm(forms.ModelForm):
     helper = FormHelper()
     helper.form_method = 'POST'
 
-    class ChangedLabelCSMF(ModelMultipleChoiceField):
+    class ChangedLabelCSMF(forms.ModelMultipleChoiceField):
         def label_from_instance(self, permission):
             return permission.name
 

@@ -50,6 +50,10 @@ class Area(CreatedModifiedMixin, models.Model):
                        ('area_delete_boxes', 'Can delete boxes from area'),
                        ('area_view_boxes', 'Can view area boxes'))  # added to defaults
 
+    # this method is not implemented by default in models
+    def __str__(self):
+        return self.name
+
 
 class Box(CreatedModifiedMixin, models.Model):
     name = models.CharField(max_length=50, unique=True)

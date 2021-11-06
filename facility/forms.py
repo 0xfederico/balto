@@ -1,7 +1,6 @@
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from django import forms
-from django.forms import ModelChoiceField
 
 from facility.models import LegalInformation, Area, Box
 
@@ -32,11 +31,7 @@ class BoxForm(forms.ModelForm):
     helper = FormHelper()
     helper.form_method = 'POST'
 
-    class ChangedLabelCSMF(ModelChoiceField):
-        def label_from_instance(self, larea):
-            return larea.name
-
-    located_area = ChangedLabelCSMF(
+    located_area = forms.ModelChoiceField(
         label='Located Area',
         widget=forms.RadioSelect,
         queryset=Area.objects.all().order_by('name'),
