@@ -1,0 +1,54 @@
+{% extends 'page_list.html' %}
+
+{% load static %}
+
+{% block list_title %}Activities{% endblock %}
+{% block content_title %}Activities{% endblock %}
+
+{% block thead %}
+<th class="text-center">Icon</th>
+<th class="text-center">Name</th>
+<th class="text-center">Actions</th>
+{% endblock %}
+
+{% block tbody %}
+{% for activity in object_list %}
+<tr>
+    {% if activity.icon %}
+    <td class="text-center">
+        <img alt="Icon-pic" class="img-fluid" height="32" onclick="zoomImage(this);" src="{{ activity.icon.url }}"
+             width="32"/>
+    </td>
+    {% else %}
+    <td class="text-center">
+        <svg height="32" width="32">
+          <circle cx="15" cy="15" r="15" fill="grey"/>
+          Sorry, your browser does not support inline SVG.
+        </svg>
+    </td>
+    {% endif %}
+    <td class="text-center">{{ activity.name }}</td>
+    <td class="text-center">
+        {% if perms.activities.view_activity %}
+        <a href="{% url 'activities:activity-info' activity.pk %}"><img src="{% static 'images/info.png' %}" alt="Info" width="24" height="24"></a>
+        {% endif %}
+        {% if perms.activities.change_activity %}
+        <a href="{% url 'activities:activity-update' activity.pk %}"><img src="{% static 'images/pencil.png' %}" alt="Update" width="24" height="24"></a>
+        {% endif %}
+        {% if perms.activities.delete_activity %}
+        <a href="{% url 'activities:activity-delete' activity.pk %}"><img src="{% static 'images/remove.png' %}" alt="Delete" width="24" height="24"></a>
+        {% endif %}
+    </td>
+</tr>
+{% endfor %}
+{% endblock %}
+
+{% block table_before %}
+<div class="d-flex flex-column align-items-center">
+    {% if perms.activities.add_activity %}
+    <a href="{% url 'activities:activity-create' %}" class="btn btn-primary w-75">Register new Activity</a>
+    {% endif %}
+    <input type="search" class="form-control my-2 w-75" aria-label="Search" placeholder="Search"
+           oninput="filterElements(this)">
+</div>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'page.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}{{view_text}} Activity{% endblock %}
+
+{% block content %}
+<h1>{{view_text}} Activity</h1>
+<form enctype="multipart/form-data" id="wrapper_crispy_form" method="post">
+    {% csrf_token %}
+
+    {{ form.name | as_crispy_field }}
+    {{ form.action_to_be_performed | as_crispy_field }}
+    {{ form.icon | as_crispy_field }}
+
+    <div class="form-group">
+        <div class="">
+            <input class="btn btn-primary" id="submit-id-save" type="submit" value="{{view_text}}">
+        </div>
+    </div>
+</form>
+{% endblock %}

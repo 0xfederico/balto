@@ -6,6 +6,9 @@
 */
 
 /* <GENERIC> */
+html {
+  scroll-behavior: smooth;
+}
 form {
   padding: 0 2%;
 }
@@ -23,18 +26,15 @@ h1 {
 /* </GENERIC> */
 
 /* <FULLCALENDAR> */
-#calendar-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+#calendar {
+  min-height: 100%;
 }
 .fc-header-toolbar { /* the calendar will be butting up against the edges, but let's scoot in the header's buttons */
   padding: 1%;
 }
 .fc-daygrid-day-number {
   text-decoration: none !important;
+  color: black;
 }
 .fc-col-header-cell-cushion, .fc-col-header-cell-cushion:hover {
   text-decoration: none;
@@ -106,7 +106,7 @@ h1 {
 /* </MODAL IMAGE ZOOMING (W3C)> */
 
 /* <CUSTOM FilteredSelectMultiple> */
-#list-group-scrollbar-container {
+.list-group-scrollbar-container {
   max-height: 500px;
   overflow-y: scroll;
 }

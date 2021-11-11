@@ -22,15 +22,14 @@
         {% if box_error %}<span class="d-block field-error"><b>{{box_error}}</b></span>{% endif %}
         <div class="d-flex text-center my-3">
             <div class="col-10">
-                <input aria-label="Search" class="form-control my-2" id="list-group-input-search"
-                       oninput="FSM_filter(this, false, false)"
+                <input aria-label="Search" class="form-control my-2" oninput="FSM_filter(this, false, false)"
                        placeholder="Search" type="search">
             </div>
             <div class="col-2 ml-0 pl-0 d-flex align-items-center justify-content-center">
-                <button class="btn btn-secondary rounded-circle" onclick="FSM_clear_input()" type="button">X</button>
+                <button class="btn btn-secondary rounded-circle" onclick="FSM_clear_input(this)" type="button">X</button>
             </div>
         </div>
-        <div class="container" id="list-group-scrollbar-container">
+        <div class="container list-group-scrollbar-container">
             <div class="list-group w-100">
                 {% for box in form.box %}{{box}}{% endfor %}
                 <p class="text-center">There are no boxes available</p>

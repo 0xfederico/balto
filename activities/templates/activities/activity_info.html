@@ -1,0 +1,94 @@
+{% extends 'page.html' %}
+
+{% load static %}
+
+{% block title %}Activity Info{% endblock %}
+
+{% block content %}
+<h1>Activity Info</h1>
+<div class="container py-3 d-flex justify-content-center">
+    <div class="row justify-content-center w-100">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="container">
+                        <div class="mt-3 mb-5">
+                            {% if object.icon %}
+                            <img alt="Icon-pic" class="border border-dark rounded-circle img-fluid p-1"
+                                 height="75" onclick="zoomImage(this);" src="{{ object.icon.url }}" width="75"/>
+                            {% else %}
+                            <svg height="100" width="100">
+                              <circle cx="50" cy="50" r="40" fill="grey"/>
+                              Sorry, your browser does not support inline SVG.
+                            </svg>
+                            {% endif %}
+                        </div>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-5 mb-2">
+                                <b>Name:</b>
+                            </div>
+                            <div class="col-7 mb-2">
+                                <p class="lead"> {{ object.name }}</p>
+                            </div>
+                        </div>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-5 mb-2">
+                                <b>Action to be performed:</b>
+                            </div>
+                            <div class="col-7 mb-2">
+                                <p class="lead"> {{ object.action_to_be_performed }}</p>
+                            </div>
+                        </div>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-5 mb-2">
+                                <b>Groups that have permission to do this action:</b>
+                            </div>
+                            <div class="col-7 mb-2">
+                                {% for grp in groups %}
+                                    {% if perms.auth.view_group %}
+                                    <a href="{% url 'users:group-info' grp.pk %}" class="text-decoration-none">{{ grp.name }}</a>
+                                    {% else %}
+                                    <p class="lead">{{ grp.name }}</p>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% if perms.activities.change_activity or perms.activities.delete_activity %}
+                        <hr>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            {% if perms.activities.change_activity %}
+                            <div class="col-12 mb-3">
+                                <a href="{% url 'activities:activity-update' object.pk %}">
+                                    <button class="btn btn-outline-secondary" type="button">
+                                        Edit
+                                        <img alt="Update" height="24" src="{% static 'images/pencil.png' %}" width="24">
+                                    </button>
+                                </a>
+                            </div>
+                            {% endif %}
+                            {% if perms.activities.delete_activity %}
+                            <div class="col-12 mb-3">
+                                <a href="{% url 'activities:activity-delete' object.pk %}">
+                                    <button class="btn btn-outline-secondary" type="button">
+                                        Delete
+                                        <img alt="Delete" height="24" src="{% static 'images/remove.png' %}" width="24">
+                                    </button>
+                                </a>
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                        <hr>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <h4 class="mb-2">Created: <span class="lead">{{ object.created }}</span></h4>
+                        </div>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <h4 class="mb-2">Modified: <span class="lead">{{ object.modified }}</span></h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

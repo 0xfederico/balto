@@ -1,0 +1,109 @@
+{% extends 'page.html' %}
+
+{% load static %}
+
+{% block title %}Event Info{% endblock %}
+
+{% block content %}
+<h1>Event Info</h1>
+<div class="container py-3 d-flex justify-content-center">
+    <div class="row justify-content-center w-100">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="container">
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-5 mb-2">
+                                <b>Datetime:</b>
+                            </div>
+                            <div class="col-7 mb-2">
+                                <p class="lead"> {{ object.datetime }}</p>
+                            </div>
+                        </div>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-5 mb-2">
+                                <b>Users:</b>
+                            </div>
+                            <div class="col-7 mb-2">
+                                {% for user in object.users.all %}
+                                    {% if perms.users.view_user %}
+                                    <a class="text-decoration-none" href="{% url 'users:user-info' user.pk %}">{{ user.username }}</a>
+                                    {% else %}
+                                    <p class="lead">{{ user.username }}</p>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-5 mb-2">
+                                <b>Animals:</b>
+                            </div>
+                            <div class="col-7 mb-2">
+                                {% for animal in object.animals.all %}
+                                    {% if perms.animals.view_animal %}
+                                    <a class="text-decoration-none" href="{% url 'animals:animal-info' animal.pk %}">{{ animal.name }}</a>
+                                    {% else %}
+                                    <p class="lead">{{ animal.name }}</p>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-5 mb-2">
+                                <b>Activity:</b>
+                            </div>
+                            <div class="col-7 mb-2">
+                                {% if perms.activities.view_activity %}
+                                <a class="text-decoration-none" href="{% url 'activities:activity-info' object.activity.pk %}">{{ object.activity.name }}</a>
+                                {% else %}
+                                <p class="lead">{{ object.activity.name }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-5 mb-2">
+                                <b>Note:</b>
+                            </div>
+                            <div class="col-7 mb-2">
+                                <p class="lead">{{ object.note }}</p>
+                            </div>
+                        </div>
+                        {% if perms.activities.change_event or perms.activities.delete_event %}
+                        <hr>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            {% if perms.activities.change_event %}
+                            <div class="col-12 mb-3">
+                                <a href="{% url 'activities:event-update' object.pk %}">
+                                    <button class="btn btn-outline-secondary" type="button">
+                                        Edit
+                                        <img alt="Update" height="24" src="{% static 'images/pencil.png' %}" width="24">
+                                    </button>
+                                </a>
+                            </div>
+                            {% endif %}
+                            {% if perms.activities.delete_event %}
+                            <div class="col-12 mb-3">
+                                <a href="{% url 'activities:event-delete' object.pk %}">
+                                    <button class="btn btn-outline-secondary" type="button">
+                                        Delete
+                                        <img alt="Delete" height="24" src="{% static 'images/remove.png' %}" width="24">
+                                    </button>
+                                </a>
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                        <hr>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <h4 class="mb-2">Created: <span class="lead">{{ object.created }}</span></h4>
+                        </div>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <h4 class="mb-2">Modified: <span class="lead">{{ object.modified }}</span></h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

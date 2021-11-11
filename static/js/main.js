@@ -25,7 +25,7 @@ function filterElements(input) {
 //FilteredSelectMultiple filter elements
 function FSM_filter(input, choose_all, deselect_all) {
   let inp = input.value.toLowerCase();
-  let list_group_container = document.querySelectorAll("#list-group-scrollbar-container")[0];
+  let list_group_container = input.parentNode.parentNode.parentNode.querySelector('.list-group-scrollbar-container');
   let list_group = list_group_container.children[0].children;
 
   if (choose_all) {
@@ -62,8 +62,8 @@ function FSM_filter(input, choose_all, deselect_all) {
 }
 
 //FilteredSelectMultiple clear filter
-function FSM_clear_input() {
-  let input = document.querySelectorAll("#list-group-input-search")[0];
+function FSM_clear_input(button) {
+  let input = button.parentNode.parentNode.children[0].children[0];
   input.value = "";
   FSM_filter(input, false, false);
 }

@@ -1,0 +1,117 @@
+{% extends 'page.html' %}
+
+{% block title %}Calendar{% endblock %}
+
+{% block other_css_libs %}
+<!-- FullCalendar CSS -->
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/main.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block extra_head %}
+<!-- FullCalendar JS -->
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/main.min.js"></script>
+
+<!-- FullCalendar JS Locales -->
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/locales-all.min.js"></script>
+
+<!-- FullCalendar Init -->
+<script>
+    window.localStorage.removeItem('selected_day'); // reset when site reload
+    document.addEventListener('DOMContentLoaded', function() {
+      var calendarEl = document.querySelector('#calendar');
+      var calendar = new FullCalendar.Calendar(calendarEl, {
+        height: '100%',
+        headerToolbar: {
+          left: 'prevYear,prev,next,nextYear today',
+          right: 'title',
+        },
+        locale: navigator.language.substring(0, 2), // it is automatically set
+        dateClick: function(arg) {
+          // highlight selected date and unselect previous date highlighted
+          let sday = window.localStorage.getItem('selected_day');
+          if (sday != null) {
+            let SelectedDateStyleSheet = document.createElement('style');
+            document.head.appendChild(SelectedDateStyleSheet);
+            if (sday.includes(new Date().toISOString().slice(0, 10))) {
+              SelectedDateStyleSheet.sheet.insertRule('#calendar td[data-date="'+sday+'"] {background-color: var(--fc-today-bg-color,rgba(255,220,40,.15))}');
+            }
+            else {
+              SelectedDateStyleSheet.sheet.insertRule('#calendar td[data-date="'+sday+'"] {background-color: transparent}');
+            }
+          }
+          let SelectedDateStyleSheet = document.createElement('style');
+          document.head.appendChild(SelectedDateStyleSheet);
+          SelectedDateStyleSheet.sheet.insertRule('#calendar td[data-date="'+arg.dateStr+'"] {background-color: #009B77}');
+          window.localStorage.setItem('selected_day', arg.dateStr);
+
+          // make elements visible
+          document.querySelector('#activities-day-progress').classList.remove("d-none");
+          document.querySelector('#activities-day-progress').classList.add("d-block");
+          document.querySelector('#activities-day-progress').scrollIntoView();
+          document.querySelector('#selected-date').innerHTML = arg.dateStr;
+          document.querySelector('#selected-date').style.color = '#009B77';
+          document.querySelector('#selected-date').classList.remove("d-none");
+          document.querySelector('#selected-date').classList.add("d-block");
+
+          // HTTP GET
+          let old_activities = document.querySelectorAll('#activities-day-progress tbody td');
+          for (let i = 0; i < old_activities.length; i++) {
+            old_activities[i].innerHTML = ''; // clear all
+          }
+          $.ajax({
+            type: 'GET',
+            url: '{% url 'activities:events-list-day' '1970-01-01' %}'.replace('1970-01-01', arg.dateStr),
+            {# NOTE: Template tags are rendered by server-side Django, while this JS code is interpreted by the client-side browser. #}
+            {#       This means that the client side JS will have to replace a dummy date!!! #}
+            success: function (response) {
+                // table to show events
+                if (response.length > 0) {
+                  let activities_day_progress_animal = document.querySelectorAll('#activities-day-progress tbody th');
+                  for (let i = 0; i < response.length; i++) {
+                    for (let j = 0; j < response[i].animals.length; j++) {
+                      for (let k = 0; k < activities_day_progress_animal.length; k++) {
+                        if(activities_day_progress_animal[k].firstChild['href'].includes('/animals/'+response[i].animals[j]+'/animal-info')) {
+                          activities_day_progress_animal[k].parentElement.querySelector('td').innerHTML += '<a href="' + response[i].event + '"><img src="' + response[i].activity + '" alt="Icon-pic" width="40" height="40"></a>';
+                        }
+                      }
+                    }
+                  }
+                }
+            },
+            error: function (response) {
+                // in case of error data will not be shown data
+            }
+          });
+        },
+        selectable: false,
+        editable: false,
+      });
+
+      calendar.render();
+    });
+</script>
+{% endblock %}
+
+{% block content %}
+<h1>Calendar</h1>
+<div id='calendar'></div>
+<h2 class="d-none text-center mt-2" id='selected-date'></h2>
+<div class="container-fluid mt-5">
+    <table class="d-none table table-bordered" id='activities-day-progress'>
+        <thead>
+        <tr>
+            <th scope="col">Animals</th>
+            <th scope="col" style="width: 100%">Activities</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for animal in animals %}
+        <tr>
+            <th scope="row"><a href="{% url 'animals:animal-info' animal.pk %}">{{ animal.name }}</a></th>
+            <td></td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

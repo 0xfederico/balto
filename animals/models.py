@@ -71,6 +71,10 @@ class Animal(CreatedModifiedMixin, models.Model):
     class Meta:
         ordering = ['name']
 
+    # this method is not implemented by default in models
+    def __str__(self):
+        return self.name
+
     # when an animal is deleted, a cascade is applied to the three connected tables
     def delete(self, *args, **kwargs):
         super().delete(*args, **kwargs)

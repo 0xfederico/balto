@@ -17,15 +17,14 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
-from Configurations.views import FourZeroFour, Homepage, Calendar
+from Configurations.views import Homepage
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('404-not-found', FourZeroFour.as_view(), name='404-not-found'),
-    path('', Homepage.as_view(), name='homepage'),
-    path('calendar', Calendar.as_view(), name='calendar'),
-    path('animals/', include('animals.urls')),
-    path('users/', include('users.urls')),
-    path('notifications/', include('notifications.urls')),
-    path('facility/', include('facility.urls')),
+  path('admin/', admin.site.urls),
+  path('', Homepage.as_view(), name='homepage'),
+  path('animals/', include('animals.urls')),
+  path('users/', include('users.urls')),
+  path('notifications/', include('notifications.urls')),
+  path('facility/', include('facility.urls')),
+  path('activities/', include('activities.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -4,4 +4,47 @@
 
 {% block content %}
 <h1>Homepage</h1>
+<div class="container-fluid mt-3">
+    <div class="d-flex flex-row justify-content-between text-center">
+        <div class="col-6">
+            <b>Total Animals:</b>
+        </div>
+        <div class="col-6">
+            <p class="lead">{{animals}}</p>
+        </div>
+    </div>
+    <div class="d-flex flex-row justify-content-between text-center">
+        <div class="col-6">
+            <b>Total Users:</b>
+        </div>
+        <div class="col-6">
+            <p class="lead">{{users}}</p>
+        </div>
+    </div>
+    <div class="d-flex flex-row justify-content-between text-center">
+        <div class="col-6">
+            <b>Total Activities:</b>
+        </div>
+        <div class="col-6">
+            <p class="lead">{{activities}}</p>
+        </div>
+    </div>
+    <div class="d-flex flex-row justify-content-between text-center">
+        <div class="col-6">
+            <b>Total Boxes:</b>
+        </div>
+        <div class="col-6">
+            <p class="lead">{{boxes}}</p>
+        </div>
+    </div>
+    <div class="d-flex flex-row justify-content-between text-center">
+        <div class="col-6">
+            <b>Total Areas:</b>
+        </div>
+        <div class="col-6">
+            <p class="lead">{{areas}}</p>
+        </div>
+    </div>
+    <br><hr><br>
+</div>
 {% endblock %}
