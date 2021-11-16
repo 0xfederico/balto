@@ -47,46 +47,52 @@
                             Management
                         </a>
                         <div aria-labelledby="navbarDropdown" class="dropdown-menu">
-                            {% if perms.auth.view_group %}
-                            <a class="dropdown-item text-center" href="{% url 'users:groups-list' %}">All Groups</a>
+                            {% if perms.auth.view_group or perms.users.view_user or perms.facility.view_area or perms.facility.view_box or perms.activities.view_activity %}
+                                <p class="text-center font-weight-bolder">View</p>
+                                {% if perms.auth.view_group %}
+                                <a class="dropdown-item text-center" href="{% url 'users:groups-list' %}">Groups</a>
+                                {% endif %}
+                                {% if perms.users.view_user %}
+                                <a class="dropdown-item text-center" href="{% url 'users:users-list' %}">Users</a>
+                                {% endif %}
+                                {% if perms.facility.view_area %}
+                                <a class="dropdown-item text-center" href="{% url 'facility:areas-list' %}">Areas</a>
+                                {% endif %}
+                                {% if perms.facility.view_box %}
+                                <a class="dropdown-item text-center" href="{% url 'facility:boxes-list' %}">Boxes</a>
+                                {% endif %}
+                                {% if perms.activities.view_activity %}
+                                <a class="dropdown-item text-center" href="{% url 'activities:activities-list' %}">Activities</a>
+                                {% endif %}
                             {% endif %}
-                            {% if perms.auth.add_group %}
-                            <a class="dropdown-item text-center" href="{% url 'users:group-create' %}">Create Group</a>
+                            {% if perms.auth.add_group or perms.users.add_user or perms.facility.add_area or perms.facility.add_box or perms.activities.change_activity %}
+                                <div class="dropdown-divider"></div>
+                                <p class="text-center font-weight-bolder">Create</p>
+                                {% if perms.auth.add_group %}
+                                <a class="dropdown-item text-center" href="{% url 'users:group-create' %}">Group</a>
+                                {% endif %}
+                                {% if perms.users.add_user %}
+                                <a class="dropdown-item text-center" href="{% url 'users:user-create' %}">User</a>
+                                {% endif %}
+                                {% if perms.facility.add_area %}
+                                <a class="dropdown-item text-center" href="{% url 'facility:area-create' %}">Area</a>
+                                {% endif %}
+                                {% if perms.facility.add_box %}
+                                <a class="dropdown-item text-center" href="{% url 'facility:box-create' %}">Box</a>
+                                {% endif %}
+                                {% if perms.activities.change_activity %}
+                                <a class="dropdown-item text-center" href="{% url 'activities:activity-create' %}">Activity</a>
+                                {% endif %}
                             {% endif %}
-                            <div class="dropdown-divider"></div>
-                            {% if perms.users.view_user %}
-                            <a class="dropdown-item text-center" href="{% url 'users:users-list' %}">All Users</a>
-                            {% endif %}
-                            {% if perms.users.add_user %}
-                            <a class="dropdown-item text-center" href="{% url 'users:user-create' %}">Create User</a>
-                            {% endif %}
-                            <div class="dropdown-divider"></div>
-                            {% if perms.facility.view_area %}
-                            <a class="dropdown-item text-center" href="{% url 'facility:areas-list' %}">All Areas</a>
-                            {% endif %}
-                            {% if perms.facility.add_area %}
-                            <a class="dropdown-item text-center" href="{% url 'facility:area-create' %}">Create Area</a>
-                            {% endif %}
-                            <div class="dropdown-divider"></div>
-                            {% if perms.facility.view_box %}
-                            <a class="dropdown-item text-center" href="{% url 'facility:boxes-list' %}">All Boxes</a>
-                            {% endif %}
-                            {% if perms.facility.add_box %}
-                            <a class="dropdown-item text-center" href="{% url 'facility:box-create' %}">Create Box</a>
-                            {% endif %}
-                            <div class="dropdown-divider"></div>
-                            {% if perms.activities.view_activity %}
-                            <a class="dropdown-item text-center" href="{% url 'activities:activities-list' %}">All Activities</a>
-                            {% endif %}
-                            {% if perms.activities.change_activity %}
-                            <a class="dropdown-item text-center" href="{% url 'activities:activity-create' %}">Create Activity</a>
-                            {% endif %}
-                            <div class="dropdown-divider"></div>
-                            {% if perms.facility.view_legalinformation %}
-                            <a class="dropdown-item text-center" href="{% url 'facility:legalinformation-info' %}">View Legal Information</a>
-                            {% endif %}
-                            {% if perms.facility.change_legalinformation %}
-                            <a class="dropdown-item text-center" href="{% url 'facility:legalinformation-update' %}">Update Legal Information</a>
+                            {% if perms.facility.view_legalinformation or perms.facility.change_legalinformation %}
+                                <div class="dropdown-divider"></div>
+                                <p class="text-center font-weight-bolder">Legal Information</p>
+                                {% if perms.facility.view_legalinformation %}
+                                <a class="dropdown-item text-center" href="{% url 'facility:legalinformation-info' %}">View</a>
+                                {% endif %}
+                                {% if perms.facility.change_legalinformation %}
+                                <a class="dropdown-item text-center" href="{% url 'facility:legalinformation-update' %}">Update</a>
+                                {% endif %}
                             {% endif %}
                         </div>
                     </li>
@@ -99,10 +105,10 @@
                         </a>
                         <div aria-labelledby="navbarDropdown" class="dropdown-menu">
                             {% if perms.animals.view_animal %}
-                            <a class="dropdown-item text-center" href="{% url 'animals:animals-list' %}">All Animals</a>
+                            <a class="dropdown-item text-center" href="{% url 'animals:animals-list' %}">View</a>
                             {% endif %}
                             {% if perms.animals.add_animal %}
-                            <a class="dropdown-item text-center" href="{% url 'animals:animal-create' %}">Register Animal</a>
+                            <a class="dropdown-item text-center" href="{% url 'animals:animal-create' %}">Register</a>
                             {% endif %}
                         </div>
                     </li>
@@ -115,12 +121,12 @@
                         </a>
                         <div aria-labelledby="navbarDropdown" class="dropdown-menu">
                             {% if perms.notifications.view_notification %}
-                            <a class="dropdown-item text-center" href="{% url 'notifications:notifications-list' %}">All Notifications</a>
+                            <a class="dropdown-item text-center" href="{% url 'notifications:notifications-list' %}">View</a>
                             {% elif perms.notifications.view_my_notifications %}
                             <a class="dropdown-item text-center" href="{% url 'notifications:notifications-list' %}">My Notifications</a>
                             {% endif %}
                             {% if perms.notifications.add_notification %}
-                            <a class="dropdown-item text-center" href="{% url 'notifications:notification-create' %}">Create Notification</a>
+                            <a class="dropdown-item text-center" href="{% url 'notifications:notification-create' %}">Create and Send</a>
                             {% endif %}
                         </div>
                     </li>
@@ -133,7 +139,7 @@
                         </a>
                         <div aria-labelledby="navbarDropdown" class="dropdown-menu dropdown-menu-right">
                             {% if perms.activities.view_event %}
-                            <a class="dropdown-item text-center" href="{% url 'activities:events-list' %}">All Events</a>
+                            <a class="dropdown-item text-center" href="{% url 'activities:events-list' %}">View Events</a>
                             {% endif %}
                             {% if perms.activities.add_event %}
                             <a class="dropdown-item text-center" href="{% url 'activities:event-create' %}">Create Event</a>
