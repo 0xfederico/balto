@@ -7,21 +7,18 @@ from django.urls import reverse_lazy
 
 from django.views import View
 from django.views.generic import DetailView, UpdateView, CreateView, DeleteView, ListView, TemplateView
-
+from animals.models import Animal
 from Configurations.mixins import NoPermissionMessageMixin
 from activities.models import Activity, Event, custom_slugify
-from activities.forms import ActivityForm, EventForm
+from activities.forms import ActivityFormCreate, ActivityFormUpdate, EventForm
 from django.contrib.auth.models import Group, Permission
 
 
 # ------------------- Activities -------------------
-from animals.models import Animal
-
-
 class ActivityCreateView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, SuccessMessageMixin,
                          CreateView):
     model = Activity
-    form_class = ActivityForm
+    form_class = ActivityFormCreate
     template_name = 'activities/activity_create_or_update.html'
     success_message = 'Activity created correctly!'
     permission_required = 'activities.add_activity'
@@ -72,7 +69,7 @@ class ActivityListView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionR
 class ActivityUpdateView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, SuccessMessageMixin,
                          UpdateView):
     model = Activity
-    form_class = ActivityForm
+    form_class = ActivityFormUpdate
     template_name = 'activities/activity_create_or_update.html'
     success_message = 'Activity updated correctly!'
     permission_required = 'activities.change_activity'

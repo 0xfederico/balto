@@ -20,9 +20,19 @@ class ActivityForm(forms.ModelForm):
                       'action_to_be_performed': 'In the permission\'s name it will become "Can do Something"'}
         widgets = {'action_to_be_performed': forms.TextInput(attrs={'placeholder': 'Do something'})}
 
+
+class ActivityFormCreate(ActivityForm):
     def clean_name(self):
         name = self.cleaned_data['name']
         if Permission.objects.filter(codename=custom_slugify(name)).exists():
+            raise ValidationError('A permission with this name already exists')
+        return name
+
+
+class ActivityFormUpdate(ActivityForm):
+    def clean_name(self):
+        name = self.cleaned_data['name']
+        if 'name' in self.changed_data and Permission.objects.filter(codename=custom_slugify(name)).exists():
             raise ValidationError('A permission with this name already exists')
         return name
 

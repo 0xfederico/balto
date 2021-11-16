@@ -36,8 +36,10 @@ class Activity(CreatedModifiedMixin, models.Model):
             Permission.objects.create(codename=custom_slugify(self.name), name=f'Can {self.action_to_be_performed}',
                                       content_type=ContentType.objects.get(app_label='activities', model='activity'))
         else:
-            Permission.objects.filter(codename=custom_slugify(old_name)).update(codename=self.name,
-                                                                                name=self.action_to_be_performed)
+            permission_to_edit = Permission.objects.get(codename=custom_slugify(old_name))
+            permission_to_edit.codename = custom_slugify(self.name)
+            permission_to_edit.name = self.action_to_be_performed
+            permission_to_edit.save()
 
     # dynamic deletion of an Activity's permissions
     def delete(self, *args, **kwargs):
