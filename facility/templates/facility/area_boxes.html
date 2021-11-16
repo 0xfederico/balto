@@ -5,6 +5,14 @@
 {% block list_title %}{{ area.name }} Boxes{% endblock %}
 {% block content_title %}{{ area.name }} Boxes{% endblock %}
 
+{% block breadcrumb-items %}
+    <li class="breadcrumb-item"><b>Management</b></li>
+    <li class="breadcrumb-item"><a href="{% url 'facility:areas-list' %}">Areas</a></li>
+{% endblock %}
+{% block breadcrumb-active %}
+    <li class="breadcrumb-item active" aria-current="page">Boxes</li>
+{% endblock %}
+
 {% block thead %}
 <th class="text-center">Name</th>
 <th class="text-center">Actions</th>

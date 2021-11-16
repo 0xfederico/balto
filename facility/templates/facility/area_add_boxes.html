@@ -2,10 +2,19 @@
 
 {% load crispy_forms_tags %}
 
-{% block title %}Choose The Box{% endblock %}
+{% block title %}Add Box To {{ area.name }} Area{% endblock %}
+
+{% block breadcrumb-items %}
+    <li class="breadcrumb-item"><b>Management</b></li>
+    <li class="breadcrumb-item"><a href="{% url 'facility:areas-list' %}">Areas</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'facility:area-boxes' area.pk %}">Boxes</a></li>
+{% endblock %}
+{% block breadcrumb-active %}
+    <li class="breadcrumb-item active" aria-current="page">Add Box</li>
+{% endblock %}
 
 {% block content %}
-<h1>Select the boxes to add to the <b>{{ area.name }}</b> area</h1>
+<h1>Add Box To {{ area.name }} Area</h1>
 <form enctype="multipart/form-data" id="wrapper_crispy_form" method="post">
     {% csrf_token %}
     <div class="form-group" id="div_id_{{form.boxes.label | lower}}">

@@ -2,10 +2,18 @@
 
 {% load static %}
 
-{% block title %}Box Info{% endblock %}
+{% block title %}Info Box{% endblock %}
+
+{% block breadcrumb-items %}
+    <li class="breadcrumb-item"><b>Management</b></li>
+    <li class="breadcrumb-item"><a href="{% url 'facility:boxes-list' %}">Boxes</a></li>
+{% endblock %}
+{% block breadcrumb-active %}
+    <li class="breadcrumb-item active" aria-current="page">Info</li>
+{% endblock %}
 
 {% block content %}
-<h1>Box Info</h1>
+<h1>Info Box</h1>
 <div class="container py-3 d-flex justify-content-center">
     <div class="row justify-content-center w-100">
         <div class="col-12">

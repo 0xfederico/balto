@@ -2,9 +2,17 @@
 
 {% block title %}Delete User{% endblock %}
 
+{% block breadcrumb-items %}
+    <li class="breadcrumb-item"><b>Management</b></li>
+    <li class="breadcrumb-item"><a href="{% url 'users:users-list' %}">Users</a></li>
+{% endblock %}
+{% block breadcrumb-active %}
+    <li class="breadcrumb-item active" aria-current="page">Delete</li>
+{% endblock %}
+
 {% block content %}
+<h1>Delete User</h1>
 <form method="post">{% csrf_token %}
-    <h1>Delete User</h1>
     <div class="text-center pt-3 d-flex flex-column justify-content-center">
         <p>You are going to delete <b>{{ object.username }}</b> user, are you sure?</p>
         <div class="d-flex justify-content-around">

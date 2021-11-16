@@ -2,24 +2,22 @@
 
 {% load crispy_forms_tags %}
 
-{% block title %}{{view_text}} Activity{% endblock %}
+{% block title %}{{view_text}} Area{% endblock %}
 
 {% block breadcrumb-items %}
     <li class="breadcrumb-item"><b>Management</b></li>
-    <li class="breadcrumb-item"><a href="{% url 'activities:activities-list' %}">Activities</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'facility:areas-list' %}">Areas</a></li>
 {% endblock %}
 {% block breadcrumb-active %}
     <li class="breadcrumb-item active" aria-current="page">{{view_text}}</li>
 {% endblock %}
 
 {% block content %}
-<h1>{{view_text}} Activity</h1>
+<h1>{{view_text}} Area</h1>
 <form enctype="multipart/form-data" id="wrapper_crispy_form" method="post">
     {% csrf_token %}
 
     {{ form.name | as_crispy_field }}
-    {{ form.action_to_be_performed | as_crispy_field }}
-    {{ form.icon | as_crispy_field }}
 
     <div class="form-group">
         <div class="">

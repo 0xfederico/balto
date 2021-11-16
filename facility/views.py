@@ -57,13 +57,18 @@ class AreaCreateView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionReq
                      CreateView):
     model = Area
     form_class = AreaForm
-    template_name = 'facility/area_create.html'
+    template_name = 'facility/area_create_or_update.html'
     success_message = 'Area created correctly!'
     permission_required = 'facility.add_area'
     permission_denied_message = "You don't have permission to add areas"
 
     def get_success_url(self):
         return reverse_lazy('facility:area-info', kwargs={'pk': self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['view_text'] = 'Create'
+        return context
 
 
 class AreaDeleteView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, SuccessMessageMixin,
@@ -201,13 +206,18 @@ class AreaUpdateView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionReq
                      UpdateView):
     model = Area
     form_class = AreaForm
-    template_name = 'facility/area_update.html'
+    template_name = 'facility/area_create_or_update.html'
     success_message = 'Area updated correctly!'
     permission_required = 'facility.change_area'
     permission_denied_message = "You don't have permission to edit areas"
 
     def get_success_url(self):
         return reverse_lazy('facility:area-info', kwargs={'pk': self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['view_text'] = 'Update'
+        return context
 
 
 # ------------------- Boxes -------------------

@@ -4,6 +4,14 @@
 
 {% block title %}Update Legal Information{% endblock %}
 
+{% block breadcrumb-items %}
+    <li class="breadcrumb-item"><b>Management</b></li>
+    <li class="breadcrumb-item">Legal Information</li>
+{% endblock %}
+{% block breadcrumb-active %}
+    <li class="breadcrumb-item active" aria-current="page">Update</li>
+{% endblock %}
+
 {% block content %}
 <h1>Update Legal Information</h1>
 {% crispy form %}

@@ -2,10 +2,17 @@
 
 {% load static %}
 
-{% block title %}Notification Info{% endblock %}
+{% block title %}Info Notification{% endblock %}
+
+{% block breadcrumb-items %}
+    <li class="breadcrumb-item"><a href="{% url 'notifications:notifications-list' %}"><b>Notifications</b></a></li>
+{% endblock %}
+{% block breadcrumb-active %}
+    <li class="breadcrumb-item active" aria-current="page">Info</li>
+{% endblock %}
 
 {% block content %}
-<h1>Notification Info</h1>
+<h1>Info Notification</h1>
 <div class="container py-3 d-flex justify-content-center">
     <div class="row justify-content-center w-100">
         <div class="col-12">

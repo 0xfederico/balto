@@ -2,9 +2,18 @@
 
 {% block title %}Delete All Users From Group{% endblock %}
 
+{% block breadcrumb-items %}
+    <li class="breadcrumb-item"><b>Management</b></li>
+    <li class="breadcrumb-item"><a href="{% url 'users:groups-list' %}">Groups</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'users:group-members' group.pk %}">Members</a></li>
+{% endblock %}
+{% block breadcrumb-active %}
+    <li class="breadcrumb-item active" aria-current="page">Delete All Users</li>
+{% endblock %}
+
 {% block content %}
+<h1>Delete All Users From Group</h1>
 <form method="post">{% csrf_token %}
-    <h1>Delete All Users From Group</h1>
     <div class="text-center pt-3 d-flex flex-column justify-content-center">
         <p class="text-danger">You are going to remove ALL users from <b>{{ group.name }}</b> group,<br> ARE YOU TOTALLY SURE?</p>
         <div class="d-flex justify-content-around">

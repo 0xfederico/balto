@@ -4,6 +4,14 @@
 
 {% block title %}{{view_text}} Event{% endblock %}
 
+{% block breadcrumb-items %}
+    <li class="breadcrumb-item"><b>Calendar</b></li>
+    <li class="breadcrumb-item"><a href="{% url 'activities:events-list' %}">Events</a></li>
+{% endblock %}
+{% block breadcrumb-active %}
+    <li class="breadcrumb-item active" aria-current="page">{{view_text}}</li>
+{% endblock %}
+
 {% block content %}
 <h1>{{view_text}} Event</h1>
 <form enctype="multipart/form-data" id="wrapper_crispy_form" method="post">

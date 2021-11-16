@@ -5,6 +5,13 @@
 {% block list_title %}Groups{% endblock %}
 {% block content_title %}Groups{% endblock %}
 
+{% block breadcrumb-items %}
+    <li class="breadcrumb-item"><b>Management</b></li>
+{% endblock %}
+{% block breadcrumb-active %}
+    <li class="breadcrumb-item active" aria-current="page">Groups</li>
+{% endblock %}
+
 {% block thead %}
 <th class="text-center">Name</th>
 <th class="text-center">Actions</th>

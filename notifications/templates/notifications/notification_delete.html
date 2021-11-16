@@ -2,9 +2,16 @@
 
 {% block title %}Delete Notification{% endblock %}
 
+{% block breadcrumb-items %}
+    <li class="breadcrumb-item"><a href="{% url 'notifications:notifications-list' %}"><b>Notifications</b></a></li>
+{% endblock %}
+{% block breadcrumb-active %}
+    <li class="breadcrumb-item active" aria-current="page">Delete</li>
+{% endblock %}
+
 {% block content %}
+<h1>Delete Notification</h1>
 <form method="post">{% csrf_token %}
-    <h1>Delete Notification</h1>
     <div class="text-center pt-3 d-flex flex-column justify-content-center">
         <p>You are going to delete <b>[{{ object.pk }}] {{ object.title |truncatewords:5 }}</b> notification, are you sure?</p>
         <div class="d-flex justify-content-around">

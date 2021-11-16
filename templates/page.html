@@ -4,11 +4,8 @@
 
 {% block header %}
 <header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light d-lg-flex flex-lg-row justify-content-lg-between">
-        <a href="{{request.META.HTTP_REFERER}}">
-            <img alt="Back" class="d-inline-block" height="35" width="35" src="{% static 'images/back.png' %}">
-        </a>
-        <a class="navbar-brand mx-auto" href="{% url 'homepage' %}">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="{% url 'homepage' %}">
             <img alt="Balto" class="d-inline-block align-text-center" height="35" src="{% static 'images/logo.png' %}" width="35">
             Balto
         </a>
@@ -16,8 +13,8 @@
                 data-target="#navbarNav" data-toggle="collapse" type="button">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse flex-grow-0" id="navbarNav">
-            <ul class="navbar-nav">
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <a class="nav-link text-center" href="{% url 'homepage' %}">Home</a>
                 </li>
@@ -43,7 +40,7 @@
                             <a class="dropdown-item text-center" href="{% url 'users:user-logout' %}">Logout</a>
                         </div>
                     </li>
-                    {% if perms.auth.view_group or perms.auth.add_group or perms.users.view_user or perms.users.add_user or perms.facility.view_area or perms.facility.add_area or perms.facility.view_box or perms.facility.add_box or perms.facility.view_legalinformation or perms.facility.change_legalinformation or perms.activities.view_activity or perms.activities.change_activity %}
+                    {% if perms.auth.view_group or perms.auth.add_group or perms.users.view_user or perms.users.add_user or perms.facility.view_area or perms.facility.add_area or perms.facility.view_box or perms.facility.add_box or perms.activities.view_activity or perms.activities.change_activity or perms.facility.view_legalinformation or perms.facility.change_legalinformation %}
                     <li class="nav-item dropdown">
                         <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle text-center"
                            data-toggle="dropdown" href="#" id="navbarDropdownManagement" role="button">
@@ -78,18 +75,18 @@
                             <a class="dropdown-item text-center" href="{% url 'facility:box-create' %}">Create Box</a>
                             {% endif %}
                             <div class="dropdown-divider"></div>
-                            {% if perms.facility.view_legalinformation %}
-                            <a class="dropdown-item text-center" href="{% url 'facility:legalinformation-info' %}">View Legal Information</a>
-                            {% endif %}
-                            {% if perms.facility.change_legalinformation %}
-                            <a class="dropdown-item text-center" href="{% url 'facility:legalinformation-update' %}">Update Legal Information</a>
-                            {% endif %}
-                            <div class="dropdown-divider"></div>
                             {% if perms.activities.view_activity %}
                             <a class="dropdown-item text-center" href="{% url 'activities:activities-list' %}">All Activities</a>
                             {% endif %}
                             {% if perms.activities.change_activity %}
                             <a class="dropdown-item text-center" href="{% url 'activities:activity-create' %}">Create Activity</a>
+                            {% endif %}
+                            <div class="dropdown-divider"></div>
+                            {% if perms.facility.view_legalinformation %}
+                            <a class="dropdown-item text-center" href="{% url 'facility:legalinformation-info' %}">View Legal Information</a>
+                            {% endif %}
+                            {% if perms.facility.change_legalinformation %}
+                            <a class="dropdown-item text-center" href="{% url 'facility:legalinformation-update' %}">Update Legal Information</a>
                             {% endif %}
                         </div>
                     </li>

@@ -4,6 +4,14 @@
 
 {% block title %}{{view_text}} User{% endblock %}
 
+{% block breadcrumb-items %}
+    <li class="breadcrumb-item"><b>Management</b></li>
+    <li class="breadcrumb-item"><a href="{% url 'users:users-list' %}">Users</a></li>
+{% endblock %}
+{% block breadcrumb-active %}
+    <li class="breadcrumb-item active" aria-current="page">{{view_text}}</li>
+{% endblock %}
+
 {% block content %}
 <h1>{{view_text}} User</h1>
 <form enctype="multipart/form-data" id="wrapper_crispy_form" method="post">

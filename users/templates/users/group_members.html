@@ -5,6 +5,14 @@
 {% block list_title %}{{ group.name }} Members{% endblock %}
 {% block content_title %}{{ group.name }} Members{% endblock %}
 
+{% block breadcrumb-items %}
+    <li class="breadcrumb-item"><b>Management</b></li>
+    <li class="breadcrumb-item"><a href="{% url 'users:groups-list' %}">Groups</a></li>
+{% endblock %}
+{% block breadcrumb-active %}
+    <li class="breadcrumb-item active" aria-current="page">Members</li>
+{% endblock %}
+
 {% block thead %}
 <th class="text-center">Photo</th>
 <th class="text-center">Username</th>

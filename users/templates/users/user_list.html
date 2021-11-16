@@ -5,6 +5,13 @@
 {% block list_title %}Users{% endblock %}
 {% block content_title %}Users{% endblock %}
 
+{% block breadcrumb-items %}
+    <li class="breadcrumb-item"><b>Management</b></li>
+{% endblock %}
+{% block breadcrumb-active %}
+    <li class="breadcrumb-item active" aria-current="page">Users</li>
+{% endblock %}
+
 {% block thead %}
 <th class="text-center">Photo</th>
 <th class="text-center">Username</th>

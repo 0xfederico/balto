@@ -2,10 +2,19 @@
 
 {% load crispy_forms_tags %}
 
-{% block title %}Choose The User{% endblock %}
+{% block title %}Add User To {{ group.name }} Group{% endblock %}
+
+{% block breadcrumb-items %}
+    <li class="breadcrumb-item"><b>Management</b></li>
+    <li class="breadcrumb-item"><a href="{% url 'users:groups-list' %}">Groups</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'users:group-members' group.pk %}">Members</a></li>
+{% endblock %}
+{% block breadcrumb-active %}
+    <li class="breadcrumb-item active" aria-current="page">Add User</li>
+{% endblock %}
 
 {% block content %}
-<h1>Select the users to add to the <b>{{ group.name }}</b> group</h1>
+<h1>Add User To {{ group.name }} Group</h1>
 <form enctype="multipart/form-data" id="wrapper_crispy_form" method="post">
     {% csrf_token %}
     <div class="form-group" id="div_id_{{form.users.label | lower}}">

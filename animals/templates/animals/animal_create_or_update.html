@@ -4,6 +4,13 @@
 
 {% block title %}{{view_text}} Animal{% endblock %}
 
+{% block breadcrumb-items %}
+    <li class="breadcrumb-item"><a href="{% url 'animals:animals-list' %}"><b>Animals</b></a></li>
+{% endblock %}
+{% block breadcrumb-active %}
+    <li class="breadcrumb-item active" aria-current="page">{{view_text}}</li>
+{% endblock %}
+
 {% block content %}
 <h1>{{view_text}} Animal</h1>
 <form enctype="multipart/form-data" id="wrapper_crispy_form" method="post">

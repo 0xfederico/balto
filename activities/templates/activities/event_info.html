@@ -2,10 +2,18 @@
 
 {% load static %}
 
-{% block title %}Event Info{% endblock %}
+{% block title %}Info Event{% endblock %}
+
+{% block breadcrumb-items %}
+    <li class="breadcrumb-item"><b>Calendar</b></li>
+    <li class="breadcrumb-item"><a href="{% url 'activities:events-list' %}">Events</a></li>
+{% endblock %}
+{% block breadcrumb-active %}
+    <li class="breadcrumb-item active" aria-current="page">Info</li>
+{% endblock %}
 
 {% block content %}
-<h1>Event Info</h1>
+<h1>Info Event</h1>
 <div class="container py-3 d-flex justify-content-center">
     <div class="row justify-content-center w-100">
         <div class="col-12">

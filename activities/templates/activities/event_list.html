@@ -2,6 +2,13 @@
 
 {% block title %}Calendar{% endblock %}
 
+{% block breadcrumb-items %}
+    <li class="breadcrumb-item"><b>Calendar</b></li>
+{% endblock %}
+{% block breadcrumb-active %}
+    <li class="breadcrumb-item active" aria-current="page">Events</li>
+{% endblock %}
+
 {% block other_css_libs %}
 <!-- FullCalendar CSS -->
 <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/main.min.css" rel="stylesheet">

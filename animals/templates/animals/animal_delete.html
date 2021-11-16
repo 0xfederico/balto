@@ -2,9 +2,16 @@
 
 {% block title %}Remove Animal{% endblock %}
 
+{% block breadcrumb-items %}
+    <li class="breadcrumb-item"><a href="{% url 'animals:animals-list' %}"><b>Animals</b></a></li>
+{% endblock %}
+{% block breadcrumb-active %}
+    <li class="breadcrumb-item active" aria-current="page">Remove</li>
+{% endblock %}
+
 {% block content %}
+<h1>Remove Animal</h1>
 <form method="post">{% csrf_token %}
-    <h1>Remove Animal</h1>
     <div class="text-center pt-3 d-flex flex-column justify-content-center">
         <p>You are going to remove <strong>{{ object.name }}</strong> animal, are you sure?</p>
         <div class="d-flex justify-content-around">
