@@ -148,7 +148,9 @@ class RetrieveDayActivitiesView(LoginRequiredMixin, NoPermissionMessageMixin, Pe
     permission_denied_message = "You don't have permission to view events"
 
     def dispatch(self, request: HttpRequest, *args, **kwargs):
-        data = []
+        data = [[
+            (i.pk, i.name, reverse_lazy('animals:animal-info', kwargs={'pk': i.pk})) for i in Animal.objects.all()
+        ]]
         events = Event.objects.filter(datetime__date=kwargs['date'])
         for event in events:
             information = dict()

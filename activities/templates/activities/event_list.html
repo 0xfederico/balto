@@ -71,19 +71,27 @@
             {# NOTE: Template tags are rendered by server-side Django, while this JS code is interpreted by the client-side browser. #}
             {#       This means that the client side JS will have to replace a dummy date!!! #}
             success: function (response) {
-                // table to show events
-                if (response.length > 0) {
-                  let activities_day_progress_animal = document.querySelectorAll('#activities-day-progress tbody th');
-                  for (let i = 0; i < response.length; i++) {
-                    for (let j = 0; j < response[i].animals.length; j++) {
-                      for (let k = 0; k < activities_day_progress_animal.length; k++) {
-                        if(activities_day_progress_animal[k].firstChild['href'].includes('/animals/'+response[i].animals[j]+'/animal-info')) {
-                          activities_day_progress_animal[k].parentElement.querySelector('td').innerHTML += '<a href="' + response[i].event + '"><img src="' + response[i].activity + '" alt="Icon-pic" width="40" height="40"></a>';
-                        }
-                      }
-                    }
+              // table to show events
+              let activities_day_progress_animal = document.querySelector('#activities-day-progress tbody');
+              let all_animals = response.shift();
+              let table_body = '';
+              for (let i = 0; i < all_animals.length; i++) {
+                table_body += '<tr>';
+                {% if perms.animals.view_animal %}
+                table_body += '<th scope="row"><a href="'+all_animals[i][2]+'">'+all_animals[i][1]+'</a></th>';
+                {% else %}
+                table_body += '<th scope="row">'+all_animals[i][1]+'</th>';
+                {% endif %}
+                table_body += '<td>';
+                for (let j = 0; j < response.length; j++) {
+                  if (response[j].animals.includes(all_animals[i][0])) {
+                    table_body += '<a href="'+response[j].event+'"><img src="'+response[j].activity+'" alt="Icon-pic" width="40" height="40"></a>';
                   }
                 }
+                table_body += '</td>';
+                table_body += '</tr>';
+              }
+              activities_day_progress_animal.innerHTML = table_body;
             },
             error: function (response) {
                 // in case of error data will not be shown data
@@ -111,14 +119,7 @@
             <th scope="col" style="width: 100%">Activities</th>
         </tr>
         </thead>
-        <tbody>
-        {% for animal in animals %}
-        <tr>
-            <th scope="row"><a href="{% url 'animals:animal-info' animal.pk %}">{{ animal.name }}</a></th>
-            <td></td>
-        </tr>
-        {% endfor %}
-        </tbody>
+        <tbody></tbody>
     </table>
 </div>
 {% endblock %}
