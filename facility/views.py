@@ -15,8 +15,7 @@ from facility.models import LegalInformation, Area, Box
 
 
 # ------------------- LEGAL INFORMATION -------------------
-class LegalInformationInfoView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin,
-                               SuccessMessageMixin, DetailView):
+class LegalInformationInfoView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, DetailView):
     model = LegalInformation
     template_name = 'facility/legalinformation_info.html'
     permission_required = 'facility.view_legalinformation'
@@ -171,8 +170,7 @@ class AreaDeleteBoxView(LoginRequiredMixin, NoPermissionMessageMixin, Permission
         return reverse_lazy('facility:area-boxes', kwargs={'pk': self.object.pk})
 
 
-class AreaBoxesView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, SuccessMessageMixin,
-                    DetailView):
+class AreaBoxesView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, DetailView):
     model = Area
     template_name = 'facility/area_boxes.html'
     permission_required = 'facility.area_view_boxes'
@@ -185,16 +183,14 @@ class AreaBoxesView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequ
         return self.render_to_response(context)
 
 
-class AreaInfoView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, SuccessMessageMixin,
-                   DetailView):
+class AreaInfoView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, DetailView):
     model = Area
     template_name = 'facility/area_info.html'
     permission_required = 'facility.view_area'
     permission_denied_message = "You don't have permission to view this area"
 
 
-class AreaListView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, SuccessMessageMixin,
-                   ListView):
+class AreaListView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, ListView):
     model = Area
     template_name = 'facility/area_list.html'
     permission_required = 'facility.view_area'
@@ -270,16 +266,14 @@ class BoxDeleteView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequ
             return HttpResponseRedirect(success_url)
 
 
-class BoxInfoView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, SuccessMessageMixin,
-                  DetailView):
+class BoxInfoView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, DetailView):
     model = Box
     template_name = 'facility/box_info.html'
     permission_required = 'facility.view_box'
     permission_denied_message = "You don't have permission to view this box"
 
 
-class BoxListView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, SuccessMessageMixin,
-                  ListView):
+class BoxListView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, ListView):
     model = Box
     template_name = 'facility/box_list.html'
     permission_required = 'facility.view_box'

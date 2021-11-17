@@ -58,15 +58,14 @@ class UserDeleteView(LoginRequiredMixin, AnyPermissionsMixin, SaveSelectedUserMi
 
 
 class UserInfoView(LoginRequiredMixin, AnyPermissionsMixin, SaveSelectedUserMixin, HimselfMixin,
-                   NoPermissionMessageMixin, PermissionRequiredMixin, SuccessMessageMixin, DetailView):
+                   NoPermissionMessageMixin, PermissionRequiredMixin, DetailView):
     model = User
     template_name = 'users/user_info.html'
     permission_required = ('users.view_profile', 'users.view_user')
     permission_denied_message = "You don't have permission to view this user"
 
 
-class UserListView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, SuccessMessageMixin,
-                   ListView):
+class UserListView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, ListView):
     model = User
     template_name = 'users/user_list.html'
     permission_required = 'users.view_user'
@@ -225,8 +224,7 @@ class GroupDeleteAllUsersView(LoginRequiredMixin, NoPermissionMessageMixin, Perm
         return HttpResponseRedirect(reverse('users:group-members', kwargs={'pk': self.group.pk}))
 
 
-class GroupMembersView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, SuccessMessageMixin,
-                       DetailView):
+class GroupMembersView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, DetailView):
     model = Group
     template_name = 'users/group_members.html'
     permission_required = 'users.group_view_members'
@@ -239,8 +237,7 @@ class GroupMembersView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionR
         return self.render_to_response(context)
 
 
-class GroupInfoView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, SuccessMessageMixin,
-                    DetailView):
+class GroupInfoView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, DetailView):
     model = Group
     template_name = 'users/group_info.html'
     permission_required = 'auth.view_group'
@@ -248,8 +245,7 @@ class GroupInfoView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequ
     ordering = ['name']
 
 
-class GroupListView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, SuccessMessageMixin,
-                    ListView):
+class GroupListView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, ListView):
     model = Group
     template_name = 'users/group_list.html'
     permission_required = 'auth.view_group'

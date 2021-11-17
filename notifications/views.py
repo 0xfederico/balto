@@ -67,14 +67,14 @@ class NotificationDeleteView(LoginRequiredMixin, AnyPermissionsMixin, HimselfMix
 
 
 class NotificationInfoView(LoginRequiredMixin, AnyPermissionsMixin, HimselfMixin, CanViewAdminMixin,
-                           NoPermissionMessageMixin, PermissionRequiredMixin, SuccessMessageMixin, DetailView):
+                           NoPermissionMessageMixin, PermissionRequiredMixin, DetailView):
     model = Notification
     template_name = 'notifications/notification_info.html'
     permission_required = ('notifications.view_my_notifications', 'notifications.view_notification')
 
 
 class NotificationListView(LoginRequiredMixin, AnyPermissionsMixin, NoPermissionMessageMixin, PermissionRequiredMixin,
-                           SuccessMessageMixin, ListView):
+                           ListView):
     model = Notification
     template_name = 'notifications/notification_list.html'
     permission_required = ('notifications.view_my_notifications', 'notifications.view_notification')

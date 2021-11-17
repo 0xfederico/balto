@@ -43,8 +43,7 @@ class ActivityDeleteView(LoginRequiredMixin, NoPermissionMessageMixin, Permissio
     success_url = reverse_lazy('activities:activities-list')
 
 
-class ActivityInfoView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, SuccessMessageMixin,
-                       DetailView):
+class ActivityInfoView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, DetailView):
     model = Activity
     template_name = 'activities/activity_info.html'
     permission_required = 'activities.view_activity'
@@ -57,8 +56,7 @@ class ActivityInfoView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionR
         return context
 
 
-class ActivityListView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, SuccessMessageMixin,
-                       ListView):
+class ActivityListView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, ListView):
     model = Activity
     template_name = 'activities/activity_list.html'
     permission_required = 'activities.view_activity'
@@ -127,16 +125,14 @@ class EventDeleteView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRe
     success_url = reverse_lazy('activities:events-list')
 
 
-class EventInfoView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, SuccessMessageMixin,
-                    DetailView):
+class EventInfoView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, DetailView):
     model = Event
     template_name = 'activities/event_info.html'
     permission_required = 'activities.view_event'
     permission_denied_message = "You don't have permission to view this event"
 
 
-class ChooseDayView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, SuccessMessageMixin,
-                    TemplateView):
+class ChooseDayView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, TemplateView):
     template_name = 'activities/event_list.html'
     permission_required = 'activities.view_event'
     permission_denied_message = "You don't have permission to view events"
@@ -147,8 +143,7 @@ class ChooseDayView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequ
         return context
 
 
-class RetrieveDayActivitiesView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin,
-                                SuccessMessageMixin, View):
+class RetrieveDayActivitiesView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, View):
     permission_required = 'activities.view_event'
     permission_denied_message = "You don't have permission to view events"
 

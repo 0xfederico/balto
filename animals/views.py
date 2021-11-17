@@ -86,8 +86,7 @@ class AnimalDeleteView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionR
     success_url = reverse_lazy('animals:animals-list')
 
 
-class AnimalInfoView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, SuccessMessageMixin,
-                     DetailView):
+class AnimalInfoView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, DetailView):
     model = Animal
     template_name = 'animals/animal_info.html'
     permission_required = 'animals.view_animal'
@@ -102,8 +101,7 @@ class AnimalInfoView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionReq
         return context
 
 
-class AnimalListView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, SuccessMessageMixin,
-                     ListView):
+class AnimalListView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, ListView):
     model = Animal
     template_name = 'animals/animal_list.html'
     permission_required = 'animals.view_animal'
