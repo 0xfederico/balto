@@ -83,14 +83,12 @@
 
 {% block header %}{% endblock %}
 
-{% if request.user.is_authenticated %}
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     {% block breadcrumb-items %}{% endblock %}
     {% block breadcrumb-active %}{% endblock %}
   </ol>
 </nav>
-{% endif %}
 
 {% block modal %}{% endblock %}
 

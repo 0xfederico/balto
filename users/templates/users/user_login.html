@@ -4,6 +4,14 @@
 
 {% block title %}Login{% endblock %}
 
+{% block breadcrumb-items %}
+    <li class="breadcrumb-item"><b>Management</b></li>
+    <li class="breadcrumb-item">Account</li>
+{% endblock %}
+{% block breadcrumb-active %}
+    <li class="breadcrumb-item active" aria-current="page">Login</li>
+{% endblock %}
+
 {% block content %}
 <h1>Login</h1>
 <form class="mb-5" method="post">{% csrf_token %}

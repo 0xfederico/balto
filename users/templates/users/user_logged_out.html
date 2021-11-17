@@ -2,6 +2,14 @@
 
 {% block title %}Logged out{% endblock %}
 
+{% block breadcrumb-items %}
+    <li class="breadcrumb-item"><b>Management</b></li>
+    <li class="breadcrumb-item">Account</li>
+{% endblock %}
+{% block breadcrumb-active %}
+    <li class="breadcrumb-item active" aria-current="page">Logged Out</li>
+{% endblock %}
+
 {% block content %}
 <h1>Logged out Successfully</h1>
 <div class="pt-3 text-center">

@@ -2,14 +2,18 @@
 
 from django.contrib import messages
 from django.db import models
-from django.shortcuts import redirect
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 from django.utils import timezone
 
 
 class NoPermissionMessageMixin(object):
     def handle_no_permission(self):
-        messages.error(self.request, self.__class__.permission_denied_message)
-        return redirect('homepage')
+        if self.request.user.is_authenticated:
+            messages.error(self.request, self.__class__.permission_denied_message)
+            return HttpResponseRedirect(reverse('homepage'))
+        else:
+            return super().handle_no_permission()
 
 
 class CreatedModifiedMixin(models.Model):

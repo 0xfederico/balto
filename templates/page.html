@@ -24,7 +24,7 @@
                            data-toggle="dropdown" href="#" id="navbarDropdownAccount" role="button">
                             Account
                         </a>
-                        <div aria-labelledby="navbarDropdown" class="dropdown-menu">
+                        <div aria-labelledby="navbarDropdown" class="dropdown-menu dropdown-menu-right">
                             <p class="text-center font-weight-bolder">Logged in as: @{{request.user.username}}</p>
                             <div class="dropdown-divider"></div>
                             {% if perms.users.view_profile or perms.users.view_user %}
@@ -46,7 +46,7 @@
                            data-toggle="dropdown" href="#" id="navbarDropdownManagement" role="button">
                             Management
                         </a>
-                        <div aria-labelledby="navbarDropdown" class="dropdown-menu">
+                        <div aria-labelledby="navbarDropdown" class="dropdown-menu dropdown-menu-right">
                             {% if perms.auth.view_group or perms.users.view_user or perms.facility.view_area or perms.facility.view_box or perms.activities.view_activity %}
                                 <p class="text-center font-weight-bolder">View</p>
                                 {% if perms.auth.view_group %}
@@ -103,7 +103,7 @@
                            data-toggle="dropdown" href="#" id="navbarDropdownAnimals" role="button">
                             Animals
                         </a>
-                        <div aria-labelledby="navbarDropdown" class="dropdown-menu">
+                        <div aria-labelledby="navbarDropdown" class="dropdown-menu dropdown-menu-right">
                             {% if perms.animals.view_animal %}
                             <a class="dropdown-item text-center" href="{% url 'animals:animals-list' %}">View</a>
                             {% endif %}
@@ -119,7 +119,7 @@
                            data-toggle="dropdown" href="#" id="navbarDropdownNotifications" role="button">
                             Notifications
                         </a>
-                        <div aria-labelledby="navbarDropdown" class="dropdown-menu">
+                        <div aria-labelledby="navbarDropdown" class="dropdown-menu dropdown-menu-right">
                             {% if perms.notifications.view_notification %}
                             <a class="dropdown-item text-center" href="{% url 'notifications:notifications-list' %}">View</a>
                             {% elif perms.notifications.view_my_notifications %}
