@@ -9,8 +9,7 @@ from users.models import User
 
 # ------------------- USER -------------------
 class AdminCreateForm(UserCreationForm):
-    helper = FormHelper()
-    helper.form_method = 'POST'
+    helper = FormHelper()  # enable graphic finishes
 
     class Meta:
         model = User
@@ -19,9 +18,7 @@ class AdminCreateForm(UserCreationForm):
 
 
 class AdminUpdateForm(UserChangeForm):
-    helper = FormHelper()
-    helper.form_method = 'POST'
-
+    helper = FormHelper()  # enable graphic finishes
     password = None
 
     class Meta:
@@ -31,9 +28,7 @@ class AdminUpdateForm(UserChangeForm):
 
 
 class UserUpdateForm(UserChangeForm):
-    helper = FormHelper()
-    helper.form_method = 'POST'
-
+    helper = FormHelper()  # enable graphic finishes
     password = None
 
     class Meta:
@@ -43,8 +38,7 @@ class UserUpdateForm(UserChangeForm):
 
 # ------------------- GROUP -------------------
 class GroupForm(forms.ModelForm):
-    helper = FormHelper()
-    helper.form_method = 'POST'
+    helper = FormHelper()  # enable graphic finishes
 
     class ChangedLabelCSMF(forms.ModelMultipleChoiceField):
         def label_from_instance(self, permission):
@@ -64,8 +58,7 @@ class GroupForm(forms.ModelForm):
 
 
 class GroupAddUserForm(forms.Form):
-    helper = FormHelper()
-    helper.form_method = 'POST'
+    helper = FormHelper()  # enable graphic finishes
 
     # The override is necessary to be able to pass as argument the members of the group
     # and exclude them from the selection

@@ -28,3 +28,8 @@ urlpatterns = [
   path('facility/', include('facility.urls')),
   path('activities/', include('activities.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+handler400 = 'Configurations.views.handler400'  # BadRequest
+handler403 = 'Configurations.views.handler403'  # PermissionDenied
+handler404 = 'Configurations.views.handler404'  # PageNotFound
+handler500 = 'Configurations.views.handler500'  # ServerError

@@ -2,7 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import ProtectedError
 from django.http import HttpResponseRedirect, HttpRequest
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
 from django.urls import reverse_lazy, reverse
 from django.views import View
@@ -27,7 +27,7 @@ class LegalInformationInfoView(LoginRequiredMixin, NoPermissionMessageMixin, Per
         return super().dispatch(request, *args, **kwargs)
 
     def get_object(self, queryset=None):
-        return LegalInformation.objects.get(pk=1)
+        return get_object_or_404(LegalInformation, pk=1)
 
 
 class LegalInformationUpdateView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin,
@@ -45,7 +45,7 @@ class LegalInformationUpdateView(LoginRequiredMixin, NoPermissionMessageMixin, P
         return super().dispatch(request, *args, **kwargs)
 
     def get_object(self, queryset=None):
-        return LegalInformation.objects.get(pk=1)
+        return get_object_or_404(LegalInformation, pk=1)
 
     def get_success_url(self):
         return reverse_lazy('facility:legalinformation-info')
@@ -156,7 +156,7 @@ class AreaDeleteBoxView(LoginRequiredMixin, NoPermissionMessageMixin, Permission
     def get(self, request: HttpRequest, *args, **kwargs):
         self.object = self.get_object()
         context = {'area': self.object,
-                   'delete_box': Box.objects.get(pk=kwargs['bpk'])}
+                   'delete_box': get_object_or_404(Box, pk=kwargs['bpk'])}
         return self.render_to_response(context)
 
     def delete(self, request: HttpRequest, *args, **kwargs):

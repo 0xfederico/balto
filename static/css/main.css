@@ -43,6 +43,12 @@ h1 {
 }
 /* </FULLCALENDAR> */
 
+/* <CHARTJS> */
+.chart-wrapper {
+  max-width: 500px;
+}
+/* </CHARTJS> */
+
 /* <MODAL IMAGE ZOOMING (W3C)> */
 #modal {
   display: none; /* Hidden by default */

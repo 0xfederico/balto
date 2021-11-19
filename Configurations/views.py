@@ -1,9 +1,11 @@
+from django.shortcuts import render
+from django.utils import timezone
 from django.views.generic import TemplateView
+from datetime import date
+from datetime import timedelta
 
-from activities.models import Activity
+from activities.models import Event, Activity
 from animals.models import Animal
-from facility.models import Box, Area
-from users.models import User
 
 
 class Homepage(TemplateView):
@@ -11,45 +13,43 @@ class Homepage(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['animals'] = Animal.objects.count()
-        context['users'] = User.objects.count()
-        context['activities'] = Activity.objects.count()
-        context['boxes'] = Box.objects.count()
-        context['areas'] = Area.objects.count()
+
+        # Events number in the last week
+        today = date.today()
+        last_week = sorted([str(today - timedelta(days=i)) for i in range(0, 7)])
+        last_week_events = [len(Event.objects.filter(datetime__date=day)) for day in last_week]
+        context['dates'] = last_week
+        context['eventsnumber'] = last_week_events
+
+        # Number of events per activities in the last week
+        activities = sorted([i.name for i in Activity.objects.all()])
+        events_per_activity = [len(Event.objects.filter(activity__name=activity,
+                                                        datetime__range=[timezone.now() - timedelta(days=7),
+                                                                         timezone.now()]))
+                               for activity in activities]
+        context['activities'] = activities
+        context['eventsactivity'] = events_per_activity
+
+        # Number of activities made per animal today
+        animals = sorted([(i.pk, i.name) for i in Animal.objects.all()], key=lambda k: k[1])
+        activities_per_animal_today = [len(Event.objects.filter(datetime__date=date.today(),
+                                                                animals=animal[0])) for animal in animals]
+        context['animals'] = [j[1] for j in animals]
+        context['activitiesnumber'] = activities_per_animal_today
         return context
 
 
-class BadRequest(TemplateView):
-    template_name = '400.html'
-
-    def get(self, request, *args, **kwargs):
-        response = super().get(request, *args, **kwargs)
-        response.status_code = 400
-        return response
+def handler400(request, *args, **kwargs):
+    return render(request, '400.html', context={}, status=400)
 
 
-class PermissionDenied(TemplateView):
-    template_name = '403.html'
-
-    def get(self, request, *args, **kwargs):
-        response = super().get(request, *args, **kwargs)
-        response.status_code = 403
-        return response
+def handler403(request, *args, **kwargs):
+    return render(request, '403.html', context={}, status=403)
 
 
-class PageNotFound(TemplateView):
-    template_name = '404.html'
-
-    def get(self, request, *args, **kwargs):
-        response = super().get(request, *args, **kwargs)
-        response.status_code = 404
-        return response
+def handler404(request, *args, **kwargs):
+    return render(request, '404.html', context={}, status=404)
 
 
-class ServerError(TemplateView):
-    template_name = '500.html'
-
-    def get(self, request, *args, **kwargs):
-        response = super().get(request, *args, **kwargs)
-        response.status_code = 500
-        return response
+def handler500(request, *args, **kwargs):
+    return render(request, '500.html', context={}, status=500)

@@ -1,4 +1,5 @@
 from django.db import models
+from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from datetime import date
 from django.utils.text import slugify
@@ -30,22 +31,26 @@ class Activity(CreatedModifiedMixin, models.Model):
     # dynamic creation/update of an Activity's permissions
     def save(self, *args, **kwargs):
         is_new_object = self.pk is None
-        old_name = Activity.objects.get(pk=self.pk).name if not is_new_object else None  # avoid exception
+        old_name = get_object_or_404(Activity, pk=self.pk).name if not is_new_object else None  # avoid exception
         super().save(*args, **kwargs)
         if is_new_object:
             Permission.objects.create(codename=custom_slugify(self.name), name=f'Can {self.action_to_be_performed}',
-                                      content_type=ContentType.objects.get(app_label='activities', model='activity'))
+                                      content_type=get_object_or_404(ContentType, app_label='activities',
+                                                                     model='activity'))
         else:
-            permission_to_edit = Permission.objects.get(codename=custom_slugify(old_name))
+            permission_to_edit = get_object_or_404(Permission, codename=custom_slugify(old_name))
             permission_to_edit.codename = custom_slugify(self.name)
             permission_to_edit.name = self.action_to_be_performed
             permission_to_edit.save()
 
     # dynamic deletion of an Activity's permissions
     def delete(self, *args, **kwargs):
-        old_name = Activity.objects.get(pk=self.pk).name
+        old_name = get_object_or_404(Activity, pk=self.pk).name
         super().delete(*args, **kwargs)
         Permission.objects.filter(codename=custom_slugify(old_name)).delete()
+
+    class Meta:
+        ordering = ['name']
 
 
 class Event(CreatedModifiedMixin, models.Model):
@@ -54,3 +59,7 @@ class Event(CreatedModifiedMixin, models.Model):
     users = models.ManyToManyField(User, related_name='events')
     activity = models.ForeignKey(Activity, related_name='events', on_delete=models.CASCADE)
     note = models.TextField(blank=True, null=True)
+
+    class Meta:
+        ordering = ['-datetime']
+        permissions = (('search', 'Can do research in events'),)  # added to defaults

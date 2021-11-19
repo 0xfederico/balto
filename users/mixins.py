@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 
 from users.forms import UserUpdateForm
 from users.models import User
@@ -18,7 +18,7 @@ class IsNotAdminUpdateMixin(object):
 class SaveSelectedUserMixin(object):
     def dispatch(self, request, *args, **kwargs):
         try:
-            self.selected_user = User.objects.get(pk=kwargs['pk'])
+            self.selected_user = get_object_or_404(User, pk=kwargs['pk'])
         except ObjectDoesNotExist:
             return redirect('404-not-found')
         return super().dispatch(request, *args, **kwargs)

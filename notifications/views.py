@@ -1,5 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpRequest, HttpResponseRedirect
@@ -17,7 +17,7 @@ class ReadNotificationView(LoginRequiredMixin, View):
     def post(self, request: HttpRequest):
         notification_pk = request.POST.get('notification_pk')
         current_user_pk = request.user.pk
-        recipient_read = RecipientsUser.objects.get(notification=notification_pk, user=current_user_pk)
+        recipient_read = get_object_or_404(RecipientsUser, notification=notification_pk, user=current_user_pk)
         recipient_read.read = True
         recipient_read.read_at = timezone.now()
         recipient_read.save()

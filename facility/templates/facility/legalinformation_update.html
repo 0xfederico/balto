@@ -14,5 +14,24 @@
 
 {% block content %}
 <h1>Update Legal Information</h1>
-{% crispy form %}
+<form enctype="multipart/form-data" id="wrapper_crispy_form" method="post">
+    {% csrf_token %}
+
+    {{ form.email | as_crispy_field }}
+    {{ form.name | as_crispy_field }}
+    {{ form.region | as_crispy_field }}
+    {{ form.city | as_crispy_field }}
+    {{ form.province | as_crispy_field }}
+    {{ form.address | as_crispy_field }}
+    {{ form.mobile_phone | as_crispy_field }}
+    {{ form.landline_phone | as_crispy_field }}
+    {{ form.about_us | as_crispy_field }}
+    {{ form.responsible | as_crispy_field }}
+
+    <div class="form-group">
+        <div class="">
+            <input class="btn btn-primary" id="submit-id-save" type="submit" value="Update">
+        </div>
+    </div>
+</form>
 {% endblock %}

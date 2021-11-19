@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.contrib.auth.models import Group
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponseRedirect, HttpRequest
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views import View
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView, DetailView
@@ -152,7 +152,7 @@ class GroupAddUserView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionR
     permission_denied_message = "You don't have permission to add users to group"
 
     def dispatch(self, request: HttpRequest, *args, **kwargs):
-        self.group = Group.objects.get(pk=kwargs['pk'])
+        self.group = get_object_or_404(Group, pk=kwargs['pk'])
         del kwargs['pk']  # we just need it to retrieve the group
         return super().dispatch(self.request, *args, **kwargs)
 
@@ -191,7 +191,7 @@ class GroupDeleteUserView(LoginRequiredMixin, NoPermissionMessageMixin, Permissi
     def get(self, request: HttpRequest, *args, **kwargs):
         self.object = self.get_object()
         context = {'group': self.object,
-                   'delete_user': User.objects.get(pk=kwargs['upk'])}
+                   'delete_user': get_object_or_404(User, pk=kwargs['upk'])}
         return self.render_to_response(context)
 
     def delete(self, request: HttpRequest, *args, **kwargs):
@@ -208,7 +208,7 @@ class GroupDeleteAllUsersView(LoginRequiredMixin, NoPermissionMessageMixin, Perm
     permission_denied_message = "You don't have permission to delete users from group"
 
     def dispatch(self, request: HttpRequest, *args, **kwargs):
-        self.group = Group.objects.get(pk=kwargs['pk'])
+        self.group = get_object_or_404(Group, pk=kwargs['pk'])
         del kwargs['pk']  # we just need it to retrieve the group
         return super().dispatch(self.request, *args, **kwargs)
 

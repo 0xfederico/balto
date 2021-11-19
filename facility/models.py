@@ -59,6 +59,9 @@ class Box(CreatedModifiedMixin, models.Model):
     name = models.CharField(max_length=50, unique=True)
     located_area = models.ForeignKey(Area, related_name='composedby', on_delete=models.PROTECT, null=True)
 
+    class Meta:
+        ordering = ['name']
+
     # this method is not implemented by default in models
     def __str__(self):
         return self.name

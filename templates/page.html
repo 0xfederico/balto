@@ -18,7 +18,12 @@
                 <li class="nav-item">
                     <a class="nav-link text-center" href="{% url 'homepage' %}">Home</a>
                 </li>
-                {% if user.is_authenticated %}
+                {% if perms.activities.search %}
+                <li class="nav-item">
+                    <a class="nav-link text-center" href="{% url 'activities:search' %}">Search</a>
+                </li>
+                {% endif %}
+                {% if request.user.is_authenticated %}
                     <li class="nav-item dropdown">
                         <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle text-center"
                            data-toggle="dropdown" href="#" id="navbarDropdownAccount" role="button">
@@ -139,7 +144,7 @@
                         </a>
                         <div aria-labelledby="navbarDropdown" class="dropdown-menu dropdown-menu-right">
                             {% if perms.activities.view_event %}
-                            <a class="dropdown-item text-center" href="{% url 'activities:events-list' %}">View Events</a>
+                            <a class="dropdown-item text-center" href="{% url 'activities:events-list-day' %}">View Events</a>
                             {% endif %}
                             {% if perms.activities.add_event %}
                             <a class="dropdown-item text-center" href="{% url 'activities:event-create' %}">Create Event</a>

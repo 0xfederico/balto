@@ -4,7 +4,7 @@
 
 {% block breadcrumb-items %}
     <li class="breadcrumb-item"><b>Calendar</b></li>
-    <li class="breadcrumb-item"><a href="{% url 'activities:events-list' %}">Events</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'activities:events-list-day' %}">Events</a></li>
 {% endblock %}
 {% block breadcrumb-active %}
     <li class="breadcrumb-item active" aria-current="page">Delete</li>
@@ -17,7 +17,7 @@
         <p>You are going to delete <b>[{{ object.pk }}] {{ object.datetime }} - {{ object.activity }}</b> event, are you sure?</p>
         <div class="d-flex justify-content-around">
             {% if perms.facility.view_event %}
-            <a href="{% url 'activities:events-list' %}" class="text-decoration-none">
+            <a href="{% url 'activities:events-list-day' %}" class="text-decoration-none">
                 <button type="button" class="btn btn-lg btn-secondary">
                     Cancel
                 </button>

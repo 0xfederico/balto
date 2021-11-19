@@ -22,6 +22,35 @@ function filterElements(input) {
   }
 }
 
+//search page column filer
+function filterBy(input, predicate) {
+  let search_user_value = document.querySelector("#search-user").value.toLowerCase();
+  let search_animal_value = document.querySelector("#search-animal").value.toLowerCase();
+  let search_activity_value = document.querySelector("#search-activity").value.toLowerCase();
+  let table = document.querySelector("#results-table");
+  let user_clean = search_user_value.length == 0;
+  let animal_clean = search_animal_value.length == 0;
+  let activity_clean = search_activity_value.length == 0;
+  let rows = table.tBodies[0].children;
+
+  for (let i = 0; i < rows.length; i++) {
+    if (user_clean && animal_clean && activity_clean) {
+      rows[i].style.display = "table-row";
+    }
+    else {
+      let columns = rows[i].children;
+      if ((user_clean || columns[1].textContent.toLowerCase().includes(search_user_value)) &&
+          (animal_clean || columns[2].textContent.toLowerCase().includes(search_animal_value)) &&
+          (activity_clean || columns[3].textContent.toLowerCase().includes(search_activity_value))) {
+          rows[i].style.display = "table-row";
+      }
+      else {
+        rows[i].style.display = "none";
+      }
+    }
+  }
+}
+
 //FilteredSelectMultiple filter elements
 function FSM_filter(input, choose_all, deselect_all) {
   let inp = input.value.toLowerCase();

@@ -6,8 +6,7 @@ from users.models import User
 
 
 class NotificationForm(forms.ModelForm):
-    helper = FormHelper()
-    helper.form_method = 'POST'
+    helper = FormHelper()  # enable graphic finishes
 
     recipients = forms.ModelMultipleChoiceField(
         label='Recipient users',

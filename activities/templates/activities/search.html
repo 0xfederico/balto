@@ -1,0 +1,53 @@
+{% extends 'page.html' %}
+
+{% load static %}
+
+{% block title %}Search{% endblock %}
+
+{% block breadcrumb-active %}
+<li aria-current="page" class="breadcrumb-item active">Search</li>
+{% endblock %}
+
+{% block content %}
+<h1>Search</h1>
+<div class="container-fluid">
+    <input id="search-user" aria-label="Search" class="form-control my-2 w-100" oninput="filterBy()" placeholder="Search by user username" type="search">
+    <input id="search-animal" aria-label="Search" class="form-control my-2 w-100" oninput="filterBy()" placeholder="Search by animal name" type="search">
+    <input id="search-activity" aria-label="Search" class="form-control my-2 w-100" oninput="filterBy()" placeholder="Search by activity name" type="search">
+    <br><br>
+    <div style="overflow-x:auto;">
+        <table class="table table-bordered" id="results-table">
+            <thead>
+            <tr>
+                <th scope="col">Datetime</th>
+                <th scope="col">User</th>
+                <th scope="col">Animal</th>
+                <th scope="col">Activity</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for event in events %}
+            <tr>
+                <th>{{event.datetime}}</th>
+                {% if perms.users.view_user %}
+                <td>{% for user in event.users.all %}<a class="mr-2" href="{% url 'users:user-info' user.pk %}">{{user}}</a>{% endfor%}</td>
+                {% else %}
+                <td>{% for user in event.users.all %}{{user}}&nbsp;{% endfor %}</td>
+                {% endif %}
+                {% if perms.animals.view_animal %}
+                <td>{% for animal in event.animals.all %}<a class="mr-2" href="{% url 'animals:animal-info' animal.pk %}">{{animal}}</a>{% endfor %}</td>
+                {% else %}
+                <td>{% for animal in event.animals.all %}{{animal}}&nbsp;{% endfor %}</td>
+                {% endif %}
+                {% if perms.activities.view_activity %}
+                <td><a href="{% url 'activities:activity-info' event.activity.pk %}">{{event.activity}}</a></td>
+                {% else %}
+                <td>{{event.activity}}</td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

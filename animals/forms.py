@@ -6,8 +6,7 @@ from facility.models import Box
 
 
 class AnimalForm(forms.ModelForm):
-    helper = FormHelper()
-    helper.form_method = 'POST'
+    helper = FormHelper()  # enable graphic finishes
 
     box = forms.ModelChoiceField(
         label='Box',
@@ -29,9 +28,7 @@ class AnimalForm(forms.ModelForm):
 
 
 class AnimalDescriptionForm(forms.ModelForm):
-    helper = FormHelper()
-    helper.form_id = 'animaldescription_crispy_form'
-    helper.form_method = 'POST'
+    helper = FormHelper()  # enable graphic finishes
 
     class Meta:
         model = AnimalDescription
@@ -39,9 +36,7 @@ class AnimalDescriptionForm(forms.ModelForm):
 
 
 class AnimalManagementForm(forms.ModelForm):
-    helper = FormHelper()
-    helper.form_id = 'animalmanagement_crispy_form'
-    helper.form_method = 'POST'
+    helper = FormHelper()  # enable graphic finishes
 
     class Meta:
         model = AnimalManagement
@@ -50,9 +45,7 @@ class AnimalManagementForm(forms.ModelForm):
 
 
 class AnimalHealthForm(forms.ModelForm):
-    helper = FormHelper()
-    helper.form_id = 'animalhealth_crispy_form'
-    helper.form_method = 'POST'
+    helper = FormHelper()  # enable graphic finishes
 
     class Meta:
         model = AnimalHealth

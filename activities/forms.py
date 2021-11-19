@@ -9,8 +9,7 @@ from users.models import User
 
 
 class ActivityForm(forms.ModelForm):
-    helper = FormHelper()
-    helper.form_method = 'POST'
+    helper = FormHelper()  # enable graphic finishes
 
     class Meta:
         model = Activity
@@ -38,8 +37,7 @@ class ActivityFormUpdate(ActivityForm):
 
 
 class EventForm(forms.ModelForm):
-    helper = FormHelper()
-    helper.form_method = 'POST'
+    helper = FormHelper()  # enable graphic finishes
 
     # The override is necessary to be able to pass as argument the current logged in user
     def __init__(self, *args, **kwargs):

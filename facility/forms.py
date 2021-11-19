@@ -1,15 +1,11 @@
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit
 from django import forms
 
 from facility.models import LegalInformation, Area, Box
 
 
 class LegalInformationForm(forms.ModelForm):
-    helper = FormHelper()
-    helper.form_id = 'legal_information_crispy_form'
-    helper.form_method = 'POST'
-    helper.add_input(Submit('submit', 'Update'))
+    helper = FormHelper()  # enable graphic finishes
 
     class Meta:
         model = LegalInformation
@@ -18,9 +14,7 @@ class LegalInformationForm(forms.ModelForm):
 
 
 class AreaForm(forms.ModelForm):
-    helper = FormHelper()
-    helper.form_id = 'area_crispy_form'
-    helper.form_method = 'POST'
+    helper = FormHelper()  # enable graphic finishes
 
     class Meta:
         model = Area
@@ -28,8 +22,7 @@ class AreaForm(forms.ModelForm):
 
 
 class BoxForm(forms.ModelForm):
-    helper = FormHelper()
-    helper.form_method = 'POST'
+    helper = FormHelper()  # enable graphic finishes
 
     located_area = forms.ModelChoiceField(
         label='Located Area',
@@ -45,8 +38,7 @@ class BoxForm(forms.ModelForm):
 
 
 class AreaAddBoxesForm(forms.Form):
-    helper = FormHelper()
-    helper.form_method = 'POST'
+    helper = FormHelper()  # enable graphic finishes
 
     # The override is necessary to be able to pass as argument the boxes of the area and exclude them from the selection
     def __init__(self, *args, **kwargs):
