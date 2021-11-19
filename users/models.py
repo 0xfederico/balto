@@ -12,13 +12,13 @@ def user_directory_path(self, filename):
 
 
 class User(AbstractUser, CreatedModifiedMixin):
-    email = models.EmailField(blank=False, unique=True, verbose_name='Your email')
+    email = models.EmailField(blank=False, unique=True, help_text='Your email')
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)  # DOC: Set this flag to False instead of deleting accounts
     phone = models.CharField(max_length=10, validators=[RegexValidator(regex=r'^\d{10}$',
                                                                        message='phone numbers are 10 digits long')],
-                             blank=False, unique=True, verbose_name='Your phone number')
-    photo = models.ImageField(upload_to=user_directory_path, verbose_name='Choose your profile picture', blank=True,
+                             blank=False, unique=True, help_text='Your phone number')
+    photo = models.ImageField(upload_to=user_directory_path, help_text='Choose your profile picture', blank=True,
                               null=True)
 
     class Meta:

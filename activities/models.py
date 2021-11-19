@@ -22,7 +22,7 @@ class Activity(CreatedModifiedMixin, models.Model):
     name = models.CharField(max_length=100)
     action_to_be_performed = models.CharField(max_length=255)
     icon = models.ImageField(upload_to=activity_directory_path,
-                             verbose_name='choose an icon to represent the activity')
+                             help_text='Choose an icon to represent the activity')
 
     # this method is not implemented by default in models
     def __str__(self):

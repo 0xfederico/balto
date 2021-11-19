@@ -56,10 +56,10 @@ class Animal(CreatedModifiedMixin, models.Model):
     microchip = models.CharField(max_length=15, validators=[RegexValidator(regex=r'^\d{15}$',
                                                                            message='the microchip code is 15 numbers '
                                                                                    'long')],
-                                 unique=True, verbose_name='microchip code', help_text='insert 15 numbers')
+                                 unique=True, verbose_name='Microchip code', help_text='15 numbers')
     check_in_date = models.DateField()
     birth_date = models.DateField()
-    photo = models.ImageField(upload_to=animal_directory_path, verbose_name='Choose the profile picture of the animal',
+    photo = models.ImageField(upload_to=animal_directory_path, help_text='Choose the profile picture of the animal',
                               blank=True)
     description = models.OneToOneField(AnimalDescription, related_name='animal', on_delete=models.PROTECT, blank=True,
                                        null=True)
