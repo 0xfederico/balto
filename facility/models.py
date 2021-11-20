@@ -30,12 +30,12 @@ class LegalInformation(CreatedModifiedMixin, SingletonModel):
     province = models.CharField(max_length=50)
     address = models.CharField(max_length=255)
     mobile_phone = models.CharField(max_length=10, validators=[RegexValidator(regex=r'^\d{10}$',
-                                                                              message='phone numbers are '
+                                                                              message='mobile phone numbers are '
                                                                                       '10 digits long')],
                                     blank=False, help_text='Your mobile phone number')
-    landline_phone = models.CharField(max_length=10, validators=[RegexValidator(regex=r'^\d{10}$',
-                                                                                message='phone numbers are '
-                                                                                        '10 digits long')],
+    landline_phone = models.CharField(max_length=9, validators=[RegexValidator(regex=r'^\d{9}$',
+                                                                               message='landline phone numbers are '
+                                                                                       '9 digits long')],
                                       blank=False, help_text='Your landline phone number')
     about_us = models.TextField()
     responsible = models.CharField(max_length=50)

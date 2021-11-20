@@ -11,6 +11,16 @@
 {% block content %}
 <h1>Search</h1>
 <div class="container-fluid">
+    <div class="d-flex flex-row flex-wrap justify-content-around">
+        <div class="border border-dark rounded p-3 mb-3">
+            <p>Start date</p>
+            <input id="search-start-date" class="dateinput" type="date" oninput="filterBy()">
+        </div>
+        <div class="border border-dark rounded p-3 mb-3">
+            <p>End date</p>
+            <input id="search-end-date" class="dateinput" type="date" oninput="filterBy()">
+        </div>
+    </div>
     <input id="search-user" aria-label="Search" class="form-control my-2 w-100" oninput="filterBy()" placeholder="Search by user username" type="search">
     <input id="search-animal" aria-label="Search" class="form-control my-2 w-100" oninput="filterBy()" placeholder="Search by animal name" type="search">
     <input id="search-activity" aria-label="Search" class="form-control my-2 w-100" oninput="filterBy()" placeholder="Search by activity name" type="search">
@@ -19,7 +29,7 @@
         <table class="table table-bordered" id="results-table">
             <thead>
             <tr>
-                <th scope="col">Datetime</th>
+                <th scope="col">Datetime (YYYY-MM-DD HH:MM:SS AA)</th>
                 <th scope="col">User</th>
                 <th scope="col">Animal</th>
                 <th scope="col">Activity</th>
@@ -28,21 +38,53 @@
             <tbody>
             {% for event in events %}
             <tr>
-                <th>{{event.datetime}}</th>
+                <th>{{event.datetime | date:"Y-n-d g:i:s A"}}</th>
                 {% if perms.users.view_user %}
-                <td>{% for user in event.users.all %}<a class="mr-2" href="{% url 'users:user-info' user.pk %}">{{user}}</a>{% endfor%}</td>
+                <td>
+                    <div class="d-flex flex-wrap">
+                        {% for user in event.users.all %}
+                            <a class="mr-2" href="{% url 'users:user-info' user.pk %}">{{user}}</a>
+                        {% endfor%}
+                    </div>
+                </td>
                 {% else %}
-                <td>{% for user in event.users.all %}{{user}}&nbsp;{% endfor %}</td>
+                <td>
+                    <div class="d-flex flex-wrap">
+                        {% for user in event.users.all %}
+                            <p class="mr-2">{{user}}</p>
+                        {% endfor %}
+                    </div>
+                </td>
                 {% endif %}
                 {% if perms.animals.view_animal %}
-                <td>{% for animal in event.animals.all %}<a class="mr-2" href="{% url 'animals:animal-info' animal.pk %}">{{animal}}</a>{% endfor %}</td>
+                <td>
+                    <div class="d-flex flex-wrap">
+                        {% for animal in event.animals.all %}
+                            <a class="mr-2" href="{% url 'animals:animal-info' animal.pk %}">{{animal}}</a>
+                        {% endfor %}
+                    </div>
+                </td>
                 {% else %}
-                <td>{% for animal in event.animals.all %}{{animal}}&nbsp;{% endfor %}</td>
+                <td>
+                    <div class="d-flex flex-wrap">
+                        {% for animal in event.animals.all %}
+                            <p class="mr-2">{{animal}}</p>
+                        {% endfor %}
+                    </div>
+                </td>
                 {% endif %}
                 {% if perms.activities.view_activity %}
-                <td><a href="{% url 'activities:activity-info' event.activity.pk %}">{{event.activity}}</a></td>
+                <td>
+                    <div class="d-flex flex-wrap">
+                        <a href="{% url 'activities:activity-info' event.activity.pk %}">{{event.activity}}</a>
+                    </div>
+                </td>
                 {% else %}
-                <td>{{event.activity}}</td>
+                <td>
+                    <div class="d-flex flex-wrap">
+                        <p>{{event.activity}}</p>
+                    </div>
+                </td>
                 {% endif %}
             </tr>
             {% endfor %}

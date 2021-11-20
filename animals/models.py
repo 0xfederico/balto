@@ -34,7 +34,7 @@ class AnimalManagement(models.Model):
     sociability_with_children = models.BooleanField(blank=True)
     needs_another_dog = models.BooleanField(blank=True)
     needs_garden = models.BooleanField(blank=True)
-    walk_equipment = models.CharField(max_length=20, blank=True)
+    walk_equipment = models.CharField(max_length=255, blank=True)
     FLAG_WARNING_CHOICES = (
         ('green', 'Green',),
         ('yellow', 'Yellow',),

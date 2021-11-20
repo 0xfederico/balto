@@ -15,7 +15,7 @@
 {% block content %}
 <h1>Homepage</h1>
 <div class="container-fluid mt-5">
-    <h3>Events number in the last week</h3>
+    <h3 class="text-center">Events number in the last week</h3>
     <div class="row justify-content-center">
         <div class="chart-wrapper w-100">
             <canvas id="last-week-events-number" width="500" height="500" ></canvas>
@@ -24,7 +24,7 @@
 </div>
 {% if request.user.is_authenticated %}
 <div class="container-fluid mt-5">
-    <h3>Number of events per activities in the last week</h3>
+    <h3 class="text-center">Number of events per activities in the last week</h3>
     <div class="row justify-content-center">
         <div class="chart-wrapper w-100">
             <canvas id="last-week-events-per-activity-number" width="500" height="500" ></canvas>
@@ -32,7 +32,7 @@
     </div>
 </div>
 <div class="container-fluid mt-5">
-    <h3>Number of activities made per animal today</h3>
+    <h3 class="text-center">Number of activities made per animal today</h3>
     <div class="row justify-content-center">
         <div class="chart-wrapper w-100">
             <canvas id="today-activities-per-animal-number" width="500" height="500" ></canvas>

@@ -27,21 +27,31 @@ function filterBy(input, predicate) {
   let search_user_value = document.querySelector("#search-user").value.toLowerCase();
   let search_animal_value = document.querySelector("#search-animal").value.toLowerCase();
   let search_activity_value = document.querySelector("#search-activity").value.toLowerCase();
+  let search_start_date_value = document.querySelector("#search-start-date").value.toLowerCase();
+  let search_end_date_value = document.querySelector("#search-end-date").value.toLowerCase();
   let table = document.querySelector("#results-table");
   let user_clean = search_user_value.length == 0;
   let animal_clean = search_animal_value.length == 0;
   let activity_clean = search_activity_value.length == 0;
+  let start_date_clean = search_start_date_value.length == 0;
+  let end_date_clean = search_end_date_value.length == 0;
   let rows = table.tBodies[0].children;
 
   for (let i = 0; i < rows.length; i++) {
-    if (user_clean && animal_clean && activity_clean) {
+    if (start_date_clean && end_date_clean && user_clean && animal_clean && activity_clean) {
       rows[i].style.display = "table-row";
     }
     else {
       let columns = rows[i].children;
-      if ((user_clean || columns[1].textContent.toLowerCase().includes(search_user_value)) &&
-          (animal_clean || columns[2].textContent.toLowerCase().includes(search_animal_value)) &&
-          (activity_clean || columns[3].textContent.toLowerCase().includes(search_activity_value))) {
+      let user_strings = Array.from(columns[1].children[0].children).map(function (e) { return e.textContent.toLowerCase(); });
+      let animal_strings = Array.from(columns[2].children[0].children).map(function (e) { return e.textContent.toLowerCase(); });
+      let activity_strings = Array.from(columns[3].children[0].children).map(function (e) { return e.textContent.toLowerCase(); });
+
+      if ((start_date_clean || new Date(columns[0].textContent.toLowerCase().split(' ')[0]) > new Date(search_start_date_value)) &&
+          (end_date_clean || new Date(columns[0].textContent.toLowerCase().split(' ')[0]) < new Date(search_end_date_value)) &&
+          (user_clean || user_strings.some((element) => element.includes(search_user_value))) &&
+          (animal_clean || animal_strings.some((element) => element.includes(search_animal_value))) &&
+          (activity_clean || activity_strings.some((element) => element.includes(search_activity_value)))) {
           rows[i].style.display = "table-row";
       }
       else {
