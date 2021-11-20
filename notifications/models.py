@@ -21,3 +21,6 @@ class RecipientsUser(models.Model):
     notification = models.ForeignKey(Notification, on_delete=models.CASCADE)
     read_at = models.DateTimeField(null=True, blank=True)
     read = models.BooleanField(default=False)
+
+    class Meta:
+        default_permissions = ()  # remove create/delete/update/view permissions for this model (unused)
