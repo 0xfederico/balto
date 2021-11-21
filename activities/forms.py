@@ -2,6 +2,7 @@ from crispy_forms.helper import FormHelper
 from django import forms
 from django.contrib.auth.models import Permission
 from django.core.exceptions import ValidationError
+from django.utils import timezone
 
 from activities.models import Activity, Event, custom_slugify
 from animals.models import Animal
@@ -24,7 +25,7 @@ class ActivityFormCreate(ActivityForm):
     def clean_name(self):
         name = self.cleaned_data['name']
         if Permission.objects.filter(codename=custom_slugify(name)).exists():
-            raise ValidationError('A permission with this name already exists')
+            raise ValidationError('A permission with this name already exists.')
         return name
 
 
@@ -32,7 +33,7 @@ class ActivityFormUpdate(ActivityForm):
     def clean_name(self):
         name = self.cleaned_data['name']
         if 'name' in self.changed_data and Permission.objects.filter(codename=custom_slugify(name)).exists():
-            raise ValidationError('A permission with this name already exists')
+            raise ValidationError('A permission with this name already exists.')
         return name
 
 
@@ -47,6 +48,12 @@ class EventForm(forms.ModelForm):
                                                               queryset=User.objects.all().order_by('username'),
                                                               help_text='Select at least one user involved in the event',
                                                               required=True, initial=currentuser)
+
+    def clean_datetime(self):
+        datetime = self.cleaned_data['datetime']
+        if datetime > timezone.now():
+            raise forms.ValidationError('The datetime cannot be in the future.')
+        return datetime
 
     animals = forms.ModelMultipleChoiceField(
         label='Animals',

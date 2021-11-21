@@ -1,5 +1,6 @@
 from crispy_forms.helper import FormHelper
 from django import forms
+from django.utils import timezone
 
 from animals.models import Animal, AnimalDescription, AnimalHealth, AnimalManagement
 from facility.models import Box
@@ -7,6 +8,18 @@ from facility.models import Box
 
 class AnimalForm(forms.ModelForm):
     helper = FormHelper()  # enable graphic finishes
+
+    def clean_check_in_date(self):
+        date = self.cleaned_data['check_in_date']
+        if date > timezone.now().date():
+            raise forms.ValidationError('The check-in date cannot be in the future.')
+        return date
+
+    def clean_birth_date(self):
+        date = self.cleaned_data['birth_date']
+        if date > timezone.now().date():
+            raise forms.ValidationError('The birth date cannot be in the future.')
+        return date
 
     box = forms.ModelChoiceField(
         label='Box',
