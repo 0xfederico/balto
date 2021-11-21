@@ -118,8 +118,12 @@ class AreaAddBoxesView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionR
             messages.success(request, 'Boxes added to Area correctly!')
             return HttpResponseRedirect(reverse('facility:area-boxes', kwargs={'pk': self.area.pk}))
         else:
-            return render(request, 'facility/area_add_boxes.html',
-                          {'form': form, 'boxes_error': form.fields['boxes'].error_messages['required']})
+            returned_data_form = dict()
+            returned_data_form['area'] = self.area
+            returned_data_form['form'] = form
+            if 'boxes' in form.errors.as_data():  # check if the error is in the boxes field
+                returned_data_form['boxes_error'] = form.fields['boxes'].error_messages['required']
+            return render(self.request, 'facility/area_add_boxes.html', returned_data_form)
 
 
 class AreaDeleteAllBoxesView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, View):

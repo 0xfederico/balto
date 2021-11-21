@@ -173,6 +173,7 @@ class GroupAddUserView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionR
             return HttpResponseRedirect(reverse('users:group-members', kwargs={'pk': self.group.pk}))
         else:
             returned_data_form = dict()
+            returned_data_form['group'] = self.group
             returned_data_form['form'] = form
             if 'users' in form.errors.as_data():  # check if the error is in the users field
                 returned_data_form['users_error'] = form.fields['users'].error_messages['required']
