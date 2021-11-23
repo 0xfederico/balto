@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, Permission
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponseRedirect, HttpRequest
 from django.shortcuts import render, get_object_or_404
@@ -13,6 +13,12 @@ from users.forms import GroupForm, GroupAddUserForm, AdminCreateForm, AdminUpdat
 from users.mixins import IsNotAdminUpdateMixin, SaveSelectedUserMixin, HimselfMixin, \
     CanUpdateAdminMixin, CanDeleteAdminMixin
 from users.models import User
+
+
+def get_user_permissions(user):
+    if user.is_superuser:
+        return Permission.objects.all()
+    return user.user_permissions.all() | Permission.objects.filter(group__user=user)
 
 
 # ------------------- USER -------------------
@@ -63,6 +69,11 @@ class UserInfoView(LoginRequiredMixin, AnyPermissionsMixin, SaveSelectedUserMixi
     template_name = 'users/user_info.html'
     permission_required = ('users.view_profile', 'users.view_user')
     permission_denied_message = "You don't have permission to view this user"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permissions'] = get_user_permissions(self.object)
+        return context
 
 
 class UserListView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, ListView):

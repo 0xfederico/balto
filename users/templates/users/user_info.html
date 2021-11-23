@@ -71,6 +71,22 @@
                                 <span class="text-monospace">{{ object.email }}</span>
                             </div>
                         </div>
+                        <hr>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-3 mb-2">
+                                <img alt="Permissions" height="32" src="{% static 'images/permissions.png' %}"
+                                     width="32">
+                            </div>
+                            <div class="col-9 mb-2">
+                                {% if object.is_superuser %}
+                                <span class="display-4 font-weight-bold">&infin;</span>
+                                {% else %}
+                                    {% for permission in permissions %}
+                                        <span class="badge badge-success">{{ permission.name }}</span>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
                         {% if perms.users.change_user or perms.users.change_profile and object.pk == request.user.pk or perms.users.delete_user or perms.users.delete_profile and object.pk == request.user.pk %} {# and has higher precedence than or #}
                         <hr>
                         <div class="row d-flex justify-content-center align-items-center">
