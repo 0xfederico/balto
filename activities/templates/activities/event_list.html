@@ -109,6 +109,11 @@
 
 {% block content %}
 <h1>Calendar</h1>
+<div class="d-flex flex-column align-items-center mt-3 mb-5">
+    {% if perms.activities.add_event %}
+    <a href="{% url 'activities:event-create' %}" class="btn btn-primary w-75">Register new Event</a>
+    {% endif %}
+</div>
 <div id='calendar'></div>
 <h2 class="d-none text-center mt-2" id='selected-date'></h2>
 <div class="container-fluid mt-5">

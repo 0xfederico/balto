@@ -91,7 +91,9 @@ class EventCreateView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRe
     success_message = 'Event created correctly!'
     permission_required = 'activities.add_event'
     permission_denied_message = "You don't have permission to add events"
-    success_url = reverse_lazy('activities:events-list-day')
+
+    def get_success_url(self):
+        return reverse_lazy('activities:event-info', kwargs={'pk': self.object.pk})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -136,7 +138,7 @@ class DayActivitiesView(LoginRequiredMixin, NoPermissionMessageMixin, Permission
     permission_required = 'activities.view_event'
     permission_denied_message = "You don't have permission to view events"
 
-    def dispatch(self, request: HttpRequest, *args, **kwargs):
+    def get(self, request: HttpRequest, **kwargs):
         if 'date' in kwargs:
             data = [[
                 (i.pk, i.name, reverse_lazy('animals:animal-info', kwargs={'pk': i.pk})) for i in Animal.objects.all()
@@ -162,7 +164,9 @@ class EventUpdateView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRe
     success_message = 'Event updated correctly!'
     permission_required = 'activities.change_event'
     permission_denied_message = "You don't have permission to edit events"
-    success_url = reverse_lazy('activities:events-list-day')
+
+    def get_success_url(self):
+        return reverse_lazy('activities:event-info', kwargs={'pk': self.object.pk})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
