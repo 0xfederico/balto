@@ -272,11 +272,7 @@ class ViewsTests(TestCase):
         # delete activity
         response = client.post(reverse_lazy('activities:activity-delete', kwargs={'pk': self.activity.pk}), follow=True)
         self.assertEqual(response.redirect_chain, [(f'/activities/activities-list/', 302)])
-        try:
-            activity = Activity.objects.get(pk=self.activity.pk)
-        except Activity.DoesNotExist:
-            activity = None
-        self.assertIsNone(activity, 'The activity was not deleted correctly.')
+        self.assertRaises(Activity.DoesNotExist, Activity.objects.get, pk=self.activity.pk)
 
     def test_activity_info(self):
         client = Client()
@@ -398,11 +394,7 @@ class ViewsTests(TestCase):
         # delete event
         response = client.post(reverse_lazy('activities:event-delete', kwargs={'pk': self.event.pk}), follow=True)
         self.assertEqual(response.redirect_chain, [(f'/activities/events-list/', 302)])
-        try:
-            event = Event.objects.get(pk=self.event.pk)
-        except Event.DoesNotExist:
-            event = None
-        self.assertIsNone(event, 'The event was not deleted correctly.')
+        self.assertRaises(Event.DoesNotExist, Event.objects.get, pk=self.event.pk)
 
     def test_event_info(self):
         client = Client()
