@@ -19,10 +19,6 @@ h1 {
   font-size: 80%;
   color: #dc3545;
 }
-.copyleft {
-  display:inline-block;
-  transform: rotate(180deg);
-}
 /* </GENERIC> */
 
 /* <FULLCALENDAR> */

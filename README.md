@@ -3,7 +3,8 @@
 [1. Installation (Debian based distributions)](#1-installation-debian-based-distributions)<br>
 [2. Populate the database](#2-populate-the-database)<br>
 [3. Start the **development** server](#3-start-the-development-server)<br>
-[4. Used technologies](#4-used-technologies)
+[4. Used technologies](#4-used-technologies)<br>
+[5. License](#5-license)
 
 ## 0. Introduction
 Balto is an FLOSS project for the management of a kennel and the recording of daily activities
@@ -19,7 +20,7 @@ Main features:
 - Research in events with different filters.
 
 ## 1. Installation (Debian based distributions)
-Install python 3.X: `apt install python3 pipenv`<br>
+Install python 3.X & pipenv: `apt install python3 pipenv`<br>
 Change directory: `cd {insert_your_folder}`<br>
 Clone repository: `git clone git@gitlab.com:0xfederico/balto.git`<br>
 Change directory: `cd balto`<br>
@@ -47,3 +48,7 @@ Two execution options are supported:
 - Pillow
 - django-sslserver
 - netifaces
+
+## 5. License
+**GNU AFFERO GENERAL PUBLIC LICENSE Version 3**.<br>
+Please read the [`LICENSE`](/LICENSE) file.
