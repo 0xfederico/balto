@@ -119,11 +119,11 @@ class AnimalUpdateView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionR
     def get(self, request: HttpRequest, pk):
         animal = get_object_or_404(Animal, pk=pk)
         context = {'form': AnimalForm(instance=animal), 'view_text': 'Update'}
-        if request.user.has_perm('animals.add_animaldescription'):
+        if request.user.has_perm('animals.change_animaldescription'):
             context['description_form'] = AnimalDescriptionForm(instance=animal.description)
-        if request.user.has_perm('animals.add_animalmanagement'):
+        if request.user.has_perm('animals.change_animalmanagement'):
             context['management_form'] = AnimalManagementForm(instance=animal.management)
-        if request.user.has_perm('animals.add_animalhealth'):
+        if request.user.has_perm('animals.change_animalhealth'):
             context['health_form'] = AnimalHealthForm(instance=animal.health)
         return render(request, self.template_name, context)
 
@@ -131,11 +131,11 @@ class AnimalUpdateView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionR
     def post(self, request: HttpRequest, pk):
         animal = get_object_or_404(Animal, pk=pk)
         forms = [AnimalForm(request.POST, request.FILES, instance=animal)]
-        if request.user.has_perm('animals.add_animaldescription'):
+        if request.user.has_perm('animals.change_animaldescription'):
             forms.append(AnimalDescriptionForm(request.POST, instance=animal.description))
-        if request.user.has_perm('animals.add_animalmanagement'):
+        if request.user.has_perm('animals.change_animalmanagement'):
             forms.append(AnimalManagementForm(request.POST, instance=animal.management))
-        if request.user.has_perm('animals.add_animalhealth'):
+        if request.user.has_perm('animals.change_animalhealth'):
             forms.append(AnimalHealthForm(request.POST, instance=animal.health))
 
         if all(map(lambda f: f.is_valid(), forms)):

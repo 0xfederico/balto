@@ -21,11 +21,17 @@ class AnimalDescription(models.Model):
     origin = models.CharField(max_length=40, blank=True)
     particular_signs = models.TextField(blank=True)
 
+    class Meta:
+        default_permissions = ('add', 'change', 'view')  # remove delete permissions for this model (unused)
+
 
 class AnimalHealth(models.Model):
     pathologies = models.CharField(max_length=255, blank=True)
     diet = models.CharField(max_length=255, blank=True)
     note = models.TextField(blank=True)
+
+    class Meta:
+        default_permissions = ('add', 'change', 'view')  # remove delete permissions for this model (unused)
 
 
 class AnimalManagement(models.Model):
@@ -43,6 +49,9 @@ class AnimalManagement(models.Model):
         ('black', 'Black',),
     )
     flag_warning = models.CharField(max_length=15, choices=FLAG_WARNING_CHOICES, blank=True)
+
+    class Meta:
+        default_permissions = ('add', 'change', 'view')  # remove delete permissions for this model (unused)
 
 
 class Animal(CreatedModifiedMixin, models.Model):
