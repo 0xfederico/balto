@@ -1,8 +1,7 @@
-from datetime import timedelta
-
 from django.test import TestCase, Client
 from django.urls import reverse_lazy
 from django.utils import timezone
+from datetime import timedelta
 import tempfile
 import os
 import re
@@ -12,7 +11,6 @@ import django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Configurations.settings')
 django.setup()
 
-from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import Permission
 from activities.models import Activity, Event, custom_slugify
 from animals.models import Animal
@@ -72,34 +70,22 @@ class ArchitecturalConsistencyTests(TestCase):
         self.assertTrue(isinstance(self.animal1.box, Box), 'animal1.box is not an instance of Box.')
         self.assertTrue(isinstance(self.animal2.box, Box), 'animal2.box is not an instance of Box.')
         self.assertTrue(isinstance(self.event.activity, Activity), 'event.activity is not an instance of Activity.')
-        self.assertEqual([u for u in self.event.users.all()],
-                         [u for u in User.objects.all()], 'users do not match.')
-        self.assertEqual([a for a in self.event.animals.all()],
-                         [a for a in Animal.objects.all()], 'users do not match.')
+        self.assertEqual(list(self.event.users.all()), list(User.objects.all()), 'users do not match.')
+        self.assertEqual(list(self.event.animals.all()), list(Animal.objects.all()), 'animals do not match.')
 
     def test_remove_special_characters_custom_slugify(self):
         self.assertNotIn('-', custom_slugify(self.activity.name),
                          'there are illegal characters for the permission name')
 
     def test_activity_created_the_related_permission_successfully(self):
-        retrieved_permission = None
-        for permission in [p for p in Permission.objects.all()]:
-            if permission.codename == custom_slugify(self.activity.name) \
-                    and permission.content_type == ContentType.objects.get_for_model(Activity):
-                retrieved_permission = permission
-        self.assertIsNotNone(retrieved_permission, 'creating the activity did not generate the related permission')
-
+        self.assertTrue(len(Permission.objects.filter(codename=custom_slugify(self.activity.name))) == 1,
+                        msg='creating the activity did not generate the related permission')
         self.activity.delete()
-
-        retrieved_permission = None
-        for permission in [p for p in Permission.objects.all()]:
-            if permission.codename == custom_slugify(self.activity.name) \
-                    and permission.content_type == ContentType.objects.get_for_model(Activity):
-                retrieved_permission = permission
-        self.assertIsNone(retrieved_permission, 'deleting the activity did not remove the related permission')
+        self.assertTrue(len(Permission.objects.filter(codename=custom_slugify(self.activity.name))) == 0,
+                        msg='deleting the activity did not remove the related permission')
 
 
-#You may need to add 'testserver' to ALLOWED_HOSTS.
+# You may need to add 'testserver' to ALLOWED_HOSTS.
 from Configurations.settings import ALLOWED_HOSTS
 ALLOWED_HOSTS.append('testserver')
 
@@ -268,7 +254,6 @@ class ViewsTests(TestCase):
         self.user.user_permissions.add(Permission.objects.get(codename='delete_activity'))
         self.assertTrue(client.login(username='user', password='hello123hello123'),
                         'The user cannot log in to test ActivityDeleteView.')
-
         # delete activity
         response = client.post(reverse_lazy('activities:activity-delete', kwargs={'pk': self.activity.pk}), follow=True)
         self.assertEqual(response.redirect_chain, [(f'/activities/activities-list/', 302)])
@@ -279,7 +264,6 @@ class ViewsTests(TestCase):
         self.user.user_permissions.add(Permission.objects.get(codename='view_activity'))
         self.assertTrue(client.login(username='user', password='hello123hello123'),
                         'The user cannot log in to test ActivityInfoView.')
-
         # info activity
         response = client.get(reverse_lazy('activities:activity-info', kwargs={'pk': self.activity.pk}))
         self.assertEqual(response.context_data['object'], self.activity, 'The activity does not match.')
@@ -289,7 +273,6 @@ class ViewsTests(TestCase):
         self.user.user_permissions.add(Permission.objects.get(codename='view_activity'))
         self.assertTrue(client.login(username='user', password='hello123hello123'),
                         'The user cannot log in to test ActivityListView.')
-
         # list activity
         response = client.get(reverse_lazy('activities:activities-list'))
         self.assertQuerysetEqual(response.context_data['object_list'], Activity.objects.all(),
@@ -390,7 +373,6 @@ class ViewsTests(TestCase):
         self.user.user_permissions.add(Permission.objects.get(codename='delete_event'))
         self.assertTrue(client.login(username='user', password='hello123hello123'),
                         'The user cannot log in to test EventDeleteView.')
-
         # delete event
         response = client.post(reverse_lazy('activities:event-delete', kwargs={'pk': self.event.pk}), follow=True)
         self.assertEqual(response.redirect_chain, [(f'/activities/events-list/', 302)])
@@ -401,7 +383,6 @@ class ViewsTests(TestCase):
         self.user.user_permissions.add(Permission.objects.get(codename='view_event'))
         self.assertTrue(client.login(username='user', password='hello123hello123'),
                         'The user cannot log in to test EventInfoView.')
-
         # info event
         response = client.get(reverse_lazy('activities:event-info', kwargs={'pk': self.event.pk}))
         self.assertEqual(response.context_data['object'], self.event, 'The event does not match.')
@@ -411,7 +392,6 @@ class ViewsTests(TestCase):
         self.user.user_permissions.add(Permission.objects.get(codename='search'))
         self.assertTrue(client.login(username='user', password='hello123hello123'),
                         'The user cannot log in to test SearchView.')
-
         # search events
         response = client.get(reverse_lazy('activities:search'))
         self.assertQuerysetEqual(response.context_data['events'], Event.objects.all(), msg='The events does not match.')

@@ -1,9 +1,8 @@
-from datetime import timedelta
-
 from django.db.models import ProtectedError
 from django.test import TestCase, Client
 from django.urls import reverse_lazy
 from django.utils import timezone
+from datetime import timedelta
 import re
 import os
 import django
@@ -86,7 +85,6 @@ class ArchitecturalConsistencyTests(TestCase):
 
 # You may need to add 'testserver' to ALLOWED_HOSTS.
 from Configurations.settings import ALLOWED_HOSTS
-
 ALLOWED_HOSTS.append('testserver')
 
 
@@ -276,7 +274,6 @@ class ViewsTests(TestCase):
         self.user.user_permissions.add(Permission.objects.get(codename='delete_animal'))
         self.assertTrue(client.login(username='user', password='hello123hello123'),
                         'The user cannot log in to test AnimalDeleteView.')
-
         # delete animal
         response = client.post(reverse_lazy('animals:animal-delete', kwargs={'pk': self.animal.pk}), follow=True)
         self.assertEqual(response.redirect_chain, [(f'/animals/animals-list/', 302)])
@@ -293,7 +290,6 @@ class ViewsTests(TestCase):
         self.user.user_permissions.add(Permission.objects.get(codename='view_animaldescription'))
         self.assertTrue(client.login(username='user', password='hello123hello123'),
                         'The user cannot log in to test AnimalInfoView.')
-
         # info animal
         response = client.get(reverse_lazy('animals:animal-info', kwargs={'pk': self.animal.pk}))
         self.assertEqual(response.context_data['object'], self.animal, 'The animal does not match.')
@@ -308,7 +304,6 @@ class ViewsTests(TestCase):
         self.user.user_permissions.add(Permission.objects.get(codename='view_animal'))
         self.assertTrue(client.login(username='user', password='hello123hello123'),
                         'The user cannot log in to test AnimalListView.')
-
         # list animal
         response = client.get(reverse_lazy('animals:animals-list'))
         self.assertQuerysetEqual(response.context_data['object_list'], Animal.objects.all(),
