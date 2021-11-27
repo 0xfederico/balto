@@ -26,7 +26,7 @@ def refill_forms(forms, request, template_name, view_text):
     except (KeyError, AttributeError):
         pass
     else:
-        return render(request, template_name, returned_data_form)
+        return render(request, template_name, returned_data_form, status=200)
 
 
 class AnimalCreateView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, View):
@@ -44,7 +44,7 @@ class AnimalCreateView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionR
             context['management_form'] = AnimalManagementForm()
         if request.user.has_perm('animals.add_animalhealth'):
             context['health_form'] = AnimalHealthForm()
-        return render(request, self.template_name, context)
+        return render(request, self.template_name, context, status=200)
 
     # based on permissions, the allowed forms are retrieved, if they are valid all objects are saved
     def post(self, request: HttpRequest):
@@ -125,7 +125,7 @@ class AnimalUpdateView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionR
             context['management_form'] = AnimalManagementForm(instance=animal.management)
         if request.user.has_perm('animals.change_animalhealth'):
             context['health_form'] = AnimalHealthForm(instance=animal.health)
-        return render(request, self.template_name, context)
+        return render(request, self.template_name, context, status=200)
 
     # based on permissions, the allowed forms are retrieved, if they are valid all objects are saved
     def post(self, request: HttpRequest, pk):

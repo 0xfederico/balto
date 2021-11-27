@@ -106,7 +106,7 @@ class AreaAddBoxesView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionR
         context = {'area': self.area,
                    # In the second argument it is passed the list of area boxes
                    'form': AreaAddBoxesForm(request.GET, boxes=[b.pk for b in self.area.composedby.all()])}
-        return render(request, 'facility/area_add_boxes.html', context)
+        return render(request, 'facility/area_add_boxes.html', context, status=200)
 
     def post(self, request: HttpRequest):
         # In the second argument it is passed the list of area boxes
@@ -137,7 +137,7 @@ class AreaDeleteAllBoxesView(LoginRequiredMixin, NoPermissionMessageMixin, Permi
 
     def get(self, request: HttpRequest):
         context = {'area': self.area}
-        return render(request, 'facility/area_delete_all_boxes.html', context)
+        return render(request, 'facility/area_delete_all_boxes.html', context, status=200)
 
     def post(self, request: HttpRequest):
         boxes = self.area.composedby.all()

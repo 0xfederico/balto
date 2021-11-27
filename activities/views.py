@@ -153,7 +153,7 @@ class DayActivitiesView(LoginRequiredMixin, NoPermissionMessageMixin, Permission
             return HttpResponse(json.dumps(data, indent=4, sort_keys=False, default=str),
                                 content_type="application/json")
         else:
-            return render(request, 'activities/event_list.html', {})
+            return render(request, 'activities/event_list.html', {}, status=200)
 
 
 class EventUpdateView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, SuccessMessageMixin,
