@@ -13,9 +13,6 @@ class SingletonModel(models.Model):
         self.pk = 1
         super().save(*args, **kwargs)
 
-    def delete(self, *args, **kwargs):
-        pass
-
     @classmethod
     def load(cls):
         obj, created = cls.objects.get_or_create(pk=1, defaults={'created': timezone.now()})
@@ -39,6 +36,9 @@ class LegalInformation(CreatedModifiedMixin, SingletonModel):
                                       blank=False, help_text='Your landline phone number')
     about_us = models.TextField()
     responsible = models.CharField(max_length=50)
+
+    class Meta:
+        default_permissions = ('change', 'view')  # remove add/delete permissions for this model (unused)
 
 
 class Area(CreatedModifiedMixin, models.Model):

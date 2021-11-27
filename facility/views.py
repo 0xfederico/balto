@@ -36,7 +36,7 @@ class LegalInformationUpdateView(LoginRequiredMixin, NoPermissionMessageMixin, P
     form_class = LegalInformationForm
     template_name = 'facility/legalinformation_update.html'
     success_message = 'Legal information updated correctly!'
-    permission_required = ('facility.add_legalinformation', 'facility.change_legalinformation')
+    permission_required = 'facility.change_legalinformation'
     permission_denied_message = "You don't have permission to insert legal information"
 
     def dispatch(self, request, *args, **kwargs):
@@ -88,7 +88,7 @@ class AreaDeleteView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionReq
             box_number = Box.objects.filter(located_area__pk=self.object.pk).count()
             message_error = f'There are {box_number} boxes' if box_number > 1 else 'There is a box'
             messages.error(request, message_error + ' in this area, it cannot be deleted!')
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))  # return to the same url but with errors
+            return render(request, self.template_name, {}, status=200)
         else:
             return HttpResponseRedirect(self.get_success_url())
 
@@ -258,16 +258,15 @@ class BoxDeleteView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequ
     # a box cannot be canceled if it has an animal inside it
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
-        success_url = self.get_success_url()
         try:
             self.object.delete()
         except ProtectedError:
             animal_number = Animal.objects.filter(box__pk=self.object.pk).count()
             message_error = f'There are {animal_number} animals' if animal_number > 1 else f'There is an animal'
             messages.error(request, message_error + ' in this box, it cannot be deleted!')
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))  # return to the same url but with errors
+            return render(request, self.template_name, {}, status=200)
         else:
-            return HttpResponseRedirect(success_url)
+            return HttpResponseRedirect(self.get_success_url())
 
 
 class BoxInfoView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, DetailView):
