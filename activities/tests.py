@@ -276,7 +276,7 @@ class ViewsTests(TestCase):
         # list activity
         response = client.get(reverse_lazy('activities:activities-list'))
         self.assertQuerysetEqual(response.context_data['object_list'], Activity.objects.all(),
-                                 msg='The activities does not match.')
+                                 msg='The activities do not match.')
 
     # --------------
     # --- Events ---
@@ -394,4 +394,4 @@ class ViewsTests(TestCase):
                         'The user cannot log in to test SearchView.')
         # search events
         response = client.get(reverse_lazy('activities:search'))
-        self.assertQuerysetEqual(response.context_data['events'], Event.objects.all(), msg='The events does not match.')
+        self.assertQuerysetEqual(response.context_data['events'], Event.objects.all(), msg='The events do not match.')

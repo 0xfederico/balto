@@ -307,4 +307,4 @@ class ViewsTests(TestCase):
         # list animal
         response = client.get(reverse_lazy('animals:animals-list'))
         self.assertQuerysetEqual(response.context_data['object_list'], Animal.objects.all(),
-                                 msg='The animals does not match.')
+                                 msg='The animals do not match.')
