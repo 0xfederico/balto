@@ -17,7 +17,7 @@ class HimselfMixin(object):
             if request.user == self.get_object().creator or request.user.is_superuser:
                 return super().dispatch(request, *args, **kwargs)
             else:
-                messages.error(request, 'You are not authorized to change notifications of other users!')
+                messages.error(request, 'You are not authorized to modify notifications of other users!')
                 return redirect('homepage')
         elif request.user.has_perm('notifications.delete_my_notifications') and not request.user.has_perm(
                 'notifications.delete_notification'):

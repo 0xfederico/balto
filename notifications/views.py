@@ -10,6 +10,7 @@ from Configurations.mixins import NoPermissionMessageMixin, AnyPermissionsMixin
 from notifications.forms import NotificationForm
 from notifications.mixins import HimselfMixin, CanDeleteAdminMixin, CanUpdateAdminMixin, CanViewAdminMixin
 from notifications.models import Notification, RecipientsUser
+from users.models import User
 
 
 class ReadNotificationView(LoginRequiredMixin, View):
@@ -71,6 +72,7 @@ class NotificationInfoView(LoginRequiredMixin, AnyPermissionsMixin, HimselfMixin
     model = Notification
     template_name = 'notifications/notification_info.html'
     permission_required = ('notifications.view_my_notifications', 'notifications.view_notification')
+    permission_denied_message = "You don't have permission to view this notification"
 
 
 class NotificationListView(LoginRequiredMixin, AnyPermissionsMixin, NoPermissionMessageMixin, PermissionRequiredMixin,
@@ -78,12 +80,15 @@ class NotificationListView(LoginRequiredMixin, AnyPermissionsMixin, NoPermission
     model = Notification
     template_name = 'notifications/notification_list.html'
     permission_required = ('notifications.view_my_notifications', 'notifications.view_notification')
+    permission_denied_message = "You don't have permission to view notifications"
     ordering = ['-created']
 
     def get_queryset(self):
         qs = super().get_queryset()
-        if self.request.user.has_perm('notifications.view_notification'):
+        if self.request.user.is_superuser:
             return qs  # you have access to all notifications
+        elif self.request.user.has_perm('notifications.view_notification'):
+            return qs.exclude(creator__in=[user for user in User.objects.all() if user.is_superuser])
         else:
             my_notifications = qs.filter(creator=self.request.user)
             addressed_to_me_notifications = qs.filter(recipients=self.request.user)
