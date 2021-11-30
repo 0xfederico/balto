@@ -425,7 +425,7 @@ class ViewsTests(TestCase):
         self.user.user_permissions.add(Permission.objects.get(codename='area_view_boxes'))
         self.assertTrue(client.login(username='user', password='hello123hello123'),
                         'The user cannot log in to test AreaBoxesView.')
-        # list area
+        # list area boxes
         response = client.get(reverse_lazy('facility:area-boxes', kwargs={'pk': self.area1.pk}))
         self.assertEqual(response.context_data['area'], self.area1, msg='The area does not match.')
         self.assertQuerysetEqual(response.context_data['boxes'], self.area1.composedby.all(),

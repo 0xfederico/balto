@@ -152,13 +152,13 @@ class GroupDeleteView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRe
         if group_users_count > 0:
             message_error = f'There are {group_users_count} users' if group_users_count > 1 else 'There is a user'
             messages.error(request, message_error + ' in this group, it cannot be deleted!')
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))  # return to the same url but with errors
+            return render(request, self.template_name, {}, status=200)
         else:
             self.object.delete()
             return HttpResponseRedirect(self.get_success_url())
 
 
-class GroupAddUserView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, View):
+class GroupAddUsersView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequiredMixin, View):
     permission_required = 'users.group_add_users'
     permission_denied_message = "You don't have permission to add users to group"
 
