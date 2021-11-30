@@ -4,7 +4,8 @@
 [2. Populate the database](#2-populate-the-database)<br>
 [3. Start the **development** server](#3-start-the-development-server)<br>
 [4. Used technologies](#4-used-technologies)<br>
-[5. License](#5-license)
+[5. License](#5-license)<br>
+[6. Commit Emoticons](#6-commit-emoticons)
 
 ## 0. Introduction
 Balto is an FLOSS project for the management of a kennel and the recording of daily activities
@@ -52,3 +53,6 @@ Two execution options are supported:
 ## 5. License
 **GNU AFFERO GENERAL PUBLIC LICENSE Version 3**.<br>
 Please read the [`LICENSE`](/LICENSE) file.
+
+## 6. Commit emoticons
+The meaning of emoticons at the beginning of commit: https://gist.github.com/parmentf/035de27d6ed1dce0b36a
