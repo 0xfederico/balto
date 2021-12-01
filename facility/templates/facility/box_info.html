@@ -44,9 +44,11 @@
                                 {% if object.who_lives_here.all %}
                                 {% for animal in object.who_lives_here.all %}
                                     {% if perms.animals.view_animal %}
-                                    <a href="{% url 'animals:animal-info' animal.pk %}" class="text-decoration-none">{{ animal.name }}</a>
+                                    <a class="text-decoration-none" href="{% url 'animals:animal-info' animal.pk %}">
+                                        <span class="badge badge-success">{{ animal.name }}</span>
+                                    </a>
                                     {% else %}
-                                    <p class="lead">{{ animal.name }}</p>
+                                    <span class="badge badge-warning">{{ animal.name }}</span>
                                     {% endif %}
                                 {% endfor %}
                                 {% endif %}

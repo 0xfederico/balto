@@ -48,7 +48,7 @@
                                         <span class="badge badge-success">{{ recipient.username }}</span>
                                     </a>
                                     {% else %}
-                                    <span class="badge badge-success">{{ recipient.username }}</span>
+                                    <span class="badge badge-warning">{{ recipient.username }}</span>
                                     {% endif %}
                                 {% endfor %}
                             </div>
@@ -63,7 +63,7 @@
                                         <span class="badge badge-success">{{ object.creator.username }}</span>
                                     </a>
                                 {% else %}
-                                <span class="badge badge-success">{{ object.creator.username }}</span>
+                                <span class="badge badge-warning">{{ object.creator.username }}</span>
                                 {% endif %}
                             </div>
                         </div>

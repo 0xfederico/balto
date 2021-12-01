@@ -45,10 +45,10 @@
                                 {% for group in object.groups.all %}
                                     {% if perms.auth.view_group %}
                                     <a class="text-decoration-none" href="{% url 'users:group-info' group.pk %}">
-                                        <span class="badge badge-info">{{ group }}</span>
+                                        <span class="badge badge-success">{{ group }}</span>
                                     </a>
                                     {% else %}
-                                    <span class="badge badge-info">{{ group }}</span>
+                                    <span class="badge badge-warning">{{ group }}</span>
                                     {% endif %}
                                 {% endfor %}
                             </div>
@@ -82,7 +82,7 @@
                                 <span class="display-4 font-weight-bold">&infin;</span>
                                 {% else %}
                                     {% for permission in permissions %}
-                                        <span class="badge badge-success">{{ permission.name }}</span>
+                                        <span class="badge badge-secondary">{{ permission.name }}</span>
                                     {% endfor %}
                                 {% endif %}
                             </div>

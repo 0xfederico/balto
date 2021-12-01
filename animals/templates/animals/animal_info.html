@@ -89,9 +89,11 @@
                             </div>
                             <div class="col-7 mb-2">
                                 {% if perms.facility.view_box %}
-                                <a href="{% url 'facility:box-info' object.box.pk %}" class="text-decoration-none">{{ object.box.name }}</a>
+                                <a class="text-decoration-none" href="{% url 'facility:box-info' object.box.pk %}">
+                                    <span class="badge badge-success">{{ object.box.name }}</span>
+                                </a>
                                 {% else %}
-                                <p class="lead">{{ object.box.name }}</p>
+                                <span class="badge badge-warning">{{ object.box.name }}</span>
                                 {% endif %}
                             </div>
                         </div>

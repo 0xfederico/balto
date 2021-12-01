@@ -54,9 +54,11 @@
                             <div class="col-7 mb-2">
                                 {% for grp in groups %}
                                     {% if perms.auth.view_group %}
-                                    <a href="{% url 'users:group-info' grp.pk %}" class="text-decoration-none">{{ grp.name }}</a>
+                                    <a class="text-decoration-none" href="{% url 'users:group-info' grp.pk %}">
+                                        <span class="badge badge-success">{{ grp.name }}</span>
+                                    </a>
                                     {% else %}
-                                    <p class="lead">{{ grp.name }}</p>
+                                    <span class="badge badge-warning">{{ grp.name }}</span>
                                     {% endif %}
                                 {% endfor %}
                             </div>

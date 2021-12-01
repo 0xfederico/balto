@@ -40,7 +40,10 @@ class Activity(CreatedModifiedMixin, models.Model):
         else:
             permission_to_edit = get_object_or_404(Permission, codename=custom_slugify(old_name))
             permission_to_edit.codename = custom_slugify(self.name)
-            permission_to_edit.name = self.action_to_be_performed
+            if str(self.action_to_be_performed).startswith('Can '):
+                permission_to_edit.name = self.action_to_be_performed
+            else:
+                permission_to_edit.name = f'Can {self.action_to_be_performed}'
             permission_to_edit.save()
 
     # dynamic deletion of an Activity's permissions
