@@ -42,7 +42,7 @@
         <div class="container list-group-scrollbar-container">
             <div class="list-group w-100">
                 {% for permission in form.permissions %}{{permission}}{% endfor %}
-                <p class="text-center">There are no permissions available</p>
+                <p class="text-center">There are no permissions available, check you haven't broken the database...</p>
             </div>
             <small class="form-text text-muted" id="hint_id_{{form.permissions.label | lower}}">{{form.permissions.help_text}}</small>
         </div>

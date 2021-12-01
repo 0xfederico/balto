@@ -48,7 +48,7 @@
         <div class="container list-group-scrollbar-container">
             <div class="list-group w-100">
                 {% for group in form.groups %}{{group}}{% endfor %}
-                <p class="text-center">There are no groups available</p>
+                <p class="text-center">There are no groups available{% if perms.auth.add_group %}, <a href="{% url 'users:group-create' %}" target="_blank">create one</a> and come back here!{% endif %}</p>
             </div>
             <small class="form-text text-muted" id="hint_id_{{form.groups.label | lower}}">{{form.groups.help_text}}</small>
         </div>

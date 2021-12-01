@@ -42,7 +42,7 @@
         <div class="container list-group-scrollbar-container">
             <div class="list-group w-100">
                 {% for animal in form.animals %}{{animal}}{% endfor %}
-                <p class="text-center">There are no animals available</p>
+                <p class="text-center">There are no animals available{% if perms.animals.add_animal %}, <a href="{% url 'animals:animal-create' %}" target="_blank">register one</a> and come back here!{% endif %}</p>
             </div>
             <small class="form-text text-muted" id="hint_id_{{form.animals.label | lower}}">{{form.animals.help_text}}</small>
         </div>
@@ -72,7 +72,7 @@
         <div class="container list-group-scrollbar-container">
             <div class="list-group w-100">
                 {% for usr in form.users %}{{usr}}{% endfor %}
-                <p class="text-center">There are no users available</p>
+                <p class="text-center">There are no users available{% if perms.users.add_user%}, <a href="{% url 'users:user-create' %}" target="_blank">create one</a> and come back here!{% endif %}</p>
             </div>
             <small class="form-text text-muted" id="hint_id_{{form.users.label | lower}}">{{form.users.help_text}}</small>
         </div>
@@ -92,7 +92,7 @@
         <div class="container list-group-scrollbar-container">
             <div class="list-group w-100">
                 {% for activity in form.activity %}{{activity}}{% endfor %}
-                <p class="text-center">There are no activities available</p>
+                <p class="text-center">There are no activities available{% if perms.activities.add_activity %}, <a href="{% url 'activities:activity-create' %}" target="_blank">create one</a> and come back here!{% endif %}</p>
             </div>
             <small class="form-text text-muted" id="hint_id_{{form.activity.label | lower}}">{{form.activity.help_text}}</small>
         </div>

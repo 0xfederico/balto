@@ -42,7 +42,7 @@
         <div class="container list-group-scrollbar-container">
             <div class="list-group w-100">
                 {% for recipient in form.recipients %}{{recipient}}{% endfor %}
-                <p class="text-center">There are no recipients available</p>
+                <p class="text-center">There are no recipients available{% if perms.users.add_user%}, <a href="{% url 'users:user-create' %}" target="_blank">create one</a> and come back here!{% endif %}</p>
             </div>
             <small class="form-text text-muted" id="hint_id_{{form.recipients.label | lower}}">{{form.recipients.help_text}}</small>
         </div>

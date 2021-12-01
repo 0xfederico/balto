@@ -42,7 +42,7 @@
         <div class="container list-group-scrollbar-container">
             <div class="list-group w-100">
                 {% for box in form.boxes %}{{box}}{% endfor %}
-                <p class="text-center">There are no boxes available</p>
+                <p class="text-center">There are no boxes available{% if perms.facility.add_box %}, <a href="{% url 'facility:box-create' %}" target="_blank">create one</a> and come back here!{% endif %}</p>
             </div>
             <small class="form-text text-muted" id="hint_id_{{form.boxes.label | lower}}">{{form.boxes.help_text}}</small>
         </div>
