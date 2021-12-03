@@ -143,7 +143,7 @@ class DayActivitiesView(LoginRequiredMixin, NoPermissionMessageMixin, Permission
             data = [[
                 (i.pk, i.name, reverse_lazy('animals:animal-info', kwargs={'pk': i.pk})) for i in Animal.objects.all()
             ]]
-            events = Event.objects.filter(datetime__date=kwargs['date'])
+            events = Event.objects.filter(datetime__date=kwargs['date']).order_by('datetime')  # oldest first
             for event in events:
                 information = dict()
                 information['animals'] = [i.pk for i in event.animals.all()]
