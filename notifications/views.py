@@ -75,6 +75,12 @@ class NotificationInfoView(LoginRequiredMixin, AnyPermissionsMixin, HimselfInfoM
     permission_required = ('notifications.view_my_notifications', 'notifications.view_notification')
     permission_denied_message = "You don't have permission to view this notification"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['who_read_the_notification'] = RecipientsUser.objects.filter(notification=self.object.pk, read=True)\
+            .order_by('-read_at')
+        return context
+
 
 class NotificationListView(LoginRequiredMixin, AnyPermissionsMixin, NoPermissionMessageMixin, PermissionRequiredMixin,
                            ListView):

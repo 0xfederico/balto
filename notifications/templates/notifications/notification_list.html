@@ -19,7 +19,7 @@
 <tr>
     <td class="text-center">{{ notification.title | truncatewords:3 }}</td>
     <td class="text-center">
-        {% if perms.notifications.view_notification or perms.notifications.view_my_notifications and notification.creator.pk == request.user.pk %} {# and has higher precedence than or #}
+        {% if perms.notifications.view_notification or perms.notifications.view_my_notifications and notification.creator.pk == request.user.pk or request.user in notification.recipients.all %} {# and has higher precedence than or #}
         <a href="{% url 'notifications:notification-info' notification.pk %}"><img alt="Info"
                                                                                    height="24" src="{% static 'images/info.png' %}"
                                                                                    width="24"></a>

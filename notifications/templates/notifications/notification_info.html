@@ -53,6 +53,27 @@
                                 {% endfor %}
                             </div>
                         </div>
+                        <br>
+                        <div class="row d-flex justify-content-start">
+                            <div class="col-7 mb-2">
+                                <b>Who read the notification:</b>
+                            </div>
+                            <div class="col-12 mb-2">
+                                {% for recipient_user in who_read_the_notification %}
+                                <div class="d-flex flex-row flex-wrap justify-content-around">
+                                    {% if perms.users.view_user or perms.users.view_profile and recipient_user.user.pk == request.user.pk %} {# and has higher precedence than or #}
+                                    <a class="text-decoration-none" href="{% url 'users:user-info' recipient_user.user.pk %}">
+                                        <span class="badge badge-success">{{ recipient_user.user.username }}</span>
+                                    </a>
+                                    {% else %}
+                                    <span class="badge badge-warning">{{ recipient_user.user.username }}</span>
+                                    {% endif %}
+                                    <p class="lead">{{recipient_user.read_at}}</p>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <hr><br>
                         <div class="row d-flex justify-content-center align-items-center">
                             <div class="col-5 mb-2">
                                 <b>Creator:</b>

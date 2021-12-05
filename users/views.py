@@ -18,7 +18,7 @@ from users.models import User
 def get_user_permissions(user):
     if user.is_superuser:
         return Permission.objects.all()
-    return user.user_permissions.all() | Permission.objects.filter(group__user=user)
+    return (user.user_permissions.all() | Permission.objects.filter(group__user=user)).distinct()
 
 
 # ------------------- USER -------------------

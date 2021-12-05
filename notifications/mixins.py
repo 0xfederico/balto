@@ -7,7 +7,8 @@ class HimselfInfoMixin(object):
     def dispatch(self, request, *args, **kwargs):
         if request.user.has_perm('notifications.view_my_notifications') and not request.user.has_perm(
                 'notifications.view_notification'):
-            if request.user == self.get_object().creator or request.user.is_superuser:
+            if request.user == self.get_object().creator or request.user.is_superuser or\
+                    request.user in self.get_object().recipients.all():
                 return super().dispatch(request, *args, **kwargs)
             else:
                 messages.error(request, 'You are not authorized to view notifications of other users!')
@@ -67,7 +68,8 @@ class CanDeleteAdminMixin(object):
 # check if a non-superuser is trying to view notifications of a superuser
 class CanViewAdminMixin(object):
     def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_superuser and self.get_object().creator.is_superuser:
+        if not request.user.is_superuser and self.get_object().creator.is_superuser and\
+                request.user not in self.get_object().recipients.all():
             messages.error(request, 'Only a superuser can view notifications of a superuser!')
             return redirect('homepage')
         else:

@@ -23,6 +23,7 @@
     {{ form.email | as_crispy_field }}
     {{ form.phone | as_crispy_field }}
     {{ form.photo | as_crispy_field }}
+    {% if perms.users.add_user and view_text == "Create" or perms.users.change_user and view_text == "Update" and not object.is_superuser and not request.user.pk == object.pk %}
     <div class="form-group" id="div_id_{{form.groups.label | lower}}">
         <label class="">{{form.groups.label | title}}{% if form.groups.field.required %}*{% endif %}</label>
         {% if groups_error %}<span class="d-block field-error"><b>{{groups_error}}</b></span>{% endif %}
@@ -53,6 +54,7 @@
             <small class="form-text text-muted" id="hint_id_{{form.groups.label | lower}}">{{form.groups.help_text}}</small>
         </div>
     </div>
+    {% endif %}
     {% if view_text == "Create" %}
     {{ form.password1 | as_crispy_field }}
     {{ form.password2 | as_crispy_field }}
