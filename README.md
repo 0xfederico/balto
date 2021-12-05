@@ -44,11 +44,14 @@ Two execution options are supported:
 
 ## 4. Used technologies
 - Python 3.9
-- Django
-- django-crispy-forms
-- Pillow
-- django-sslserver
-- netifaces
+- [Django Web Framework](https://www.djangoproject.com/)
+- [Django Crispy Forms](https://github.com/django-crispy-forms/django-crispy-forms)
+- [Pillow library](https://github.com/python-pillow/Pillow)
+- [Django sslserver](https://github.com/teddziuba/django-sslserver)
+- [Netifaces library](https://pypi.org/project/netifaces/)
+- [ChartJS library](https://github.com/chartjs/Chart.js)
+- [Bootstrap Framework v4.6](https://getbootstrap.com/docs/4.6/getting-started/introduction/)
+- [Fullcalendar library](https://github.com/fullcalendar/fullcalendar)
 
 ## 5. License
 **GNU AFFERO GENERAL PUBLIC LICENSE Version 3**.<br>
