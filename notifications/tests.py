@@ -73,18 +73,34 @@ class ArchitecturalConsistencyTests(TestCase):
     def test_cancellation_of_notification(self):
         self.notification.delete()
         self.assertRaises(RecipientsUser.DoesNotExist, RecipientsUser.objects.get, notification=self.notification.pk)
+        self.assertRaises(RecipientsUser.DoesNotExist, RecipientsUser.objects.get, user=self.user2.pk)
+        self.assertRaises(RecipientsUser.DoesNotExist, RecipientsUser.objects.get, user=self.user3.pk)
+        self.assertRaises(RecipientsUser.DoesNotExist, RecipientsUser.objects.get, user=self.user4.pk)
+        self.assertIsNotNone(User.objects.get(pk=self.user1.pk))
+        self.assertIsNotNone(User.objects.get(pk=self.user2.pk))
+        self.assertIsNotNone(User.objects.get(pk=self.user3.pk))
+        self.assertIsNotNone(User.objects.get(pk=self.user4.pk))
 
     def test_cancellation_of_creator(self):
         self.user1.delete()
-        self.assertRaises(RecipientsUser.DoesNotExist, RecipientsUser.objects.get, user=self.user1.pk)
+        self.assertRaises(RecipientsUser.DoesNotExist, RecipientsUser.objects.get, notification=self.notification.pk)
+        self.assertRaises(RecipientsUser.DoesNotExist, RecipientsUser.objects.get, user=self.user2.pk)
+        self.assertRaises(RecipientsUser.DoesNotExist, RecipientsUser.objects.get, user=self.user3.pk)
+        self.assertRaises(RecipientsUser.DoesNotExist, RecipientsUser.objects.get, user=self.user4.pk)
+        self.assertIsNotNone(User.objects.get(pk=self.user2.pk))
+        self.assertIsNotNone(User.objects.get(pk=self.user3.pk))
+        self.assertIsNotNone(User.objects.get(pk=self.user4.pk))
 
     def test_cancellation_of_recipients(self):
         self.user2.delete()
         self.user3.delete()
         self.user4.delete()
+        self.assertRaises(RecipientsUser.DoesNotExist, RecipientsUser.objects.get, notification=self.notification.pk)
         self.assertRaises(RecipientsUser.DoesNotExist, RecipientsUser.objects.get, user=self.user2.pk)
         self.assertRaises(RecipientsUser.DoesNotExist, RecipientsUser.objects.get, user=self.user3.pk)
         self.assertRaises(RecipientsUser.DoesNotExist, RecipientsUser.objects.get, user=self.user4.pk)
+        self.assertIsNotNone(User.objects.get(pk=self.user1.pk))
+        self.assertIsNotNone(Notification.objects.get(pk=self.notification.pk))
         self.assertEqual(self.notification.recipients.count(), 0, 'not all recipients have been deleted.')
 
 
