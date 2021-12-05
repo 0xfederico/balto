@@ -10,8 +10,8 @@ from django.views.generic import CreateView, UpdateView, DeleteView, ListView, D
 
 from Configurations.mixins import NoPermissionMessageMixin, AnyPermissionsMixin
 from users.forms import GroupForm, GroupAddUserForm, AdminCreateForm, AdminUpdateForm
-from users.mixins import IsNotAdminUpdateMixin, SaveSelectedUserMixin, HimselfMixin, \
-    CanUpdateAdminMixin, CanDeleteAdminMixin
+from users.mixins import IsNotAdminUpdateMixin, SaveSelectedUserMixin, HimselfInfoMixin, HimselfUpdateMixin, \
+    HimselfDeleteMixin, CanUpdateAdminMixin, CanDeleteAdminMixin
 from users.models import User
 
 
@@ -52,7 +52,7 @@ class UserCreateView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionReq
         return render(self.request, self.template_name, {**self.get_context_data(), **returned_data_form})
 
 
-class UserDeleteView(LoginRequiredMixin, AnyPermissionsMixin, SaveSelectedUserMixin, HimselfMixin,
+class UserDeleteView(LoginRequiredMixin, AnyPermissionsMixin, SaveSelectedUserMixin, HimselfDeleteMixin,
                      CanDeleteAdminMixin, NoPermissionMessageMixin, PermissionRequiredMixin,
                      SuccessMessageMixin, DeleteView):
     model = User
@@ -63,7 +63,7 @@ class UserDeleteView(LoginRequiredMixin, AnyPermissionsMixin, SaveSelectedUserMi
     success_url = reverse_lazy('users:users-list')
 
 
-class UserInfoView(LoginRequiredMixin, AnyPermissionsMixin, SaveSelectedUserMixin, HimselfMixin,
+class UserInfoView(LoginRequiredMixin, AnyPermissionsMixin, SaveSelectedUserMixin, HimselfInfoMixin,
                    NoPermissionMessageMixin, PermissionRequiredMixin, DetailView):
     model = User
     template_name = 'users/user_info.html'
@@ -85,7 +85,7 @@ class UserListView(LoginRequiredMixin, NoPermissionMessageMixin, PermissionRequi
 
 
 class UserUpdateView(LoginRequiredMixin, IsNotAdminUpdateMixin, AnyPermissionsMixin, SaveSelectedUserMixin,
-                     HimselfMixin, CanUpdateAdminMixin, NoPermissionMessageMixin, PermissionRequiredMixin,
+                     HimselfUpdateMixin, CanUpdateAdminMixin, NoPermissionMessageMixin, PermissionRequiredMixin,
                      SuccessMessageMixin, UpdateView):
     model = User
     form_class = AdminUpdateForm

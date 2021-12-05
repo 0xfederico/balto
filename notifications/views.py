@@ -8,7 +8,8 @@ from django.views import View
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 from Configurations.mixins import NoPermissionMessageMixin, AnyPermissionsMixin
 from notifications.forms import NotificationForm
-from notifications.mixins import HimselfMixin, CanDeleteAdminMixin, CanUpdateAdminMixin, CanViewAdminMixin
+from notifications.mixins import HimselfInfoMixin, HimselfUpdateMixin, HimselfDeleteMixin, CanDeleteAdminMixin,\
+    CanUpdateAdminMixin, CanViewAdminMixin
 from notifications.models import Notification, RecipientsUser
 from users.models import User
 
@@ -57,7 +58,7 @@ class NotificationCreateView(LoginRequiredMixin, NoPermissionMessageMixin, Permi
         return render(self.request, self.template_name, {**self.get_context_data(), **returned_data_form})
 
 
-class NotificationDeleteView(LoginRequiredMixin, AnyPermissionsMixin, HimselfMixin, CanDeleteAdminMixin,
+class NotificationDeleteView(LoginRequiredMixin, AnyPermissionsMixin, HimselfDeleteMixin, CanDeleteAdminMixin,
                              NoPermissionMessageMixin, PermissionRequiredMixin, SuccessMessageMixin, DeleteView):
     model = Notification
     template_name = 'notifications/notification_delete.html'
@@ -67,7 +68,7 @@ class NotificationDeleteView(LoginRequiredMixin, AnyPermissionsMixin, HimselfMix
     success_url = reverse_lazy('notifications:notifications-list')
 
 
-class NotificationInfoView(LoginRequiredMixin, AnyPermissionsMixin, HimselfMixin, CanViewAdminMixin,
+class NotificationInfoView(LoginRequiredMixin, AnyPermissionsMixin, HimselfInfoMixin, CanViewAdminMixin,
                            NoPermissionMessageMixin, PermissionRequiredMixin, DetailView):
     model = Notification
     template_name = 'notifications/notification_info.html'
@@ -95,7 +96,7 @@ class NotificationListView(LoginRequiredMixin, AnyPermissionsMixin, NoPermission
             return (my_notifications | addressed_to_me_notifications).distinct()  # union without duplicates
 
 
-class NotificationUpdateView(LoginRequiredMixin, AnyPermissionsMixin, HimselfMixin, CanUpdateAdminMixin,
+class NotificationUpdateView(LoginRequiredMixin, AnyPermissionsMixin, HimselfUpdateMixin, CanUpdateAdminMixin,
                              NoPermissionMessageMixin, PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Notification
     form_class = NotificationForm

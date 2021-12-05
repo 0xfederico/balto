@@ -2,8 +2,8 @@ from django.contrib import messages
 from django.shortcuts import redirect
 
 
-# check if a user is viewing/editing/deleting another user's notifications
-class HimselfMixin(object):
+# check if a user is viewing another user's notifications
+class HimselfInfoMixin(object):
     def dispatch(self, request, *args, **kwargs):
         if request.user.has_perm('notifications.view_my_notifications') and not request.user.has_perm(
                 'notifications.view_notification'):
@@ -12,14 +12,28 @@ class HimselfMixin(object):
             else:
                 messages.error(request, 'You are not authorized to view notifications of other users!')
                 return redirect('homepage')
-        elif request.user.has_perm('notifications.change_my_notifications') and not request.user.has_perm(
+        else:
+            return super().dispatch(request, *args, **kwargs)
+
+
+# check if a user is modifying another user's notifications
+class HimselfUpdateMixin(object):
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.has_perm('notifications.change_my_notifications') and not request.user.has_perm(
                 'notifications.change_notification'):
             if request.user == self.get_object().creator or request.user.is_superuser:
                 return super().dispatch(request, *args, **kwargs)
             else:
                 messages.error(request, 'You are not authorized to modify notifications of other users!')
                 return redirect('homepage')
-        elif request.user.has_perm('notifications.delete_my_notifications') and not request.user.has_perm(
+        else:
+            return super().dispatch(request, *args, **kwargs)
+
+
+# check if a user is deleting another user's notifications
+class HimselfDeleteMixin(object):
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.has_perm('notifications.delete_my_notifications') and not request.user.has_perm(
                 'notifications.delete_notification'):
             if request.user == self.get_object().creator or request.user.is_superuser:
                 return super().dispatch(request, *args, **kwargs)

@@ -24,9 +24,9 @@ class SaveSelectedUserMixin(object):
         return super().dispatch(request, *args, **kwargs)
 
 
-# check if a user is viewing/editing/deleting another user's profile
+# check if a user is viewing another user's profile
 # dependency: SaveSelectedUserMixin
-class HimselfMixin(object):
+class HimselfInfoMixin(object):
     def dispatch(self, request, *args, **kwargs):
         if request.user.has_perm('users.view_profile') and not request.user.has_perm('users.view_user'):
             if request.user == self.selected_user or request.user.is_superuser:
@@ -34,13 +34,29 @@ class HimselfMixin(object):
             else:
                 messages.error(request, 'You are not authorized to view the accounts of other users!')
                 return redirect('homepage')
-        elif request.user.has_perm('users.change_profile') and not request.user.has_perm('users.change_user'):
+        else:
+            return super().dispatch(request, *args, **kwargs)
+
+
+# check if a user is modifying another user's profile
+# dependency: SaveSelectedUserMixin
+class HimselfUpdateMixin(object):
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.has_perm('users.change_profile') and not request.user.has_perm('users.change_user'):
             if request.user == self.selected_user or request.user.is_superuser:
                 return super().dispatch(request, *args, **kwargs)
             else:
                 messages.error(request, 'You are not authorized to modify the accounts of other users!')
                 return redirect('homepage')
-        elif request.user.has_perm('users.delete_profile') and not request.user.has_perm('users.delete_user'):
+        else:
+            return super().dispatch(request, *args, **kwargs)
+
+
+# check if a user is deleting another user's profile
+# dependency: SaveSelectedUserMixin
+class HimselfDeleteMixin(object):
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.has_perm('users.delete_profile') and not request.user.has_perm('users.delete_user'):
             if request.user == self.selected_user or request.user.is_superuser:
                 return super().dispatch(request, *args, **kwargs)
             else:
