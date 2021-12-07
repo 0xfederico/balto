@@ -215,7 +215,6 @@ class ViewsTests(TestCase):
         notification2.save()
         notification2.recipients.add(self.user1)
         notification2.recipients.add(self.user2)
-        notification2.recipients.add(self.user3)
         notification2.recipients.add(self.user4)
 
         notification3 = Notification.objects.create(title='test-test', text='test', creator=self.user1)
@@ -236,7 +235,8 @@ class ViewsTests(TestCase):
         self.assertTrue(client.login(username='user3', password='hello123hello123'),
                         'The user3 cannot log in to test Notifications Himself permissions.')
 
-        # unauthorized
+        pattern = re.compile(r'You are not authorized to (view|modify|delete) notifications of other users!')
+
         permissions = [Permission.objects.get(codename='view_my_notifications'),
                        Permission.objects.get(codename='change_my_notifications'),
                        Permission.objects.get(codename='delete_my_notifications')]
@@ -244,19 +244,36 @@ class ViewsTests(TestCase):
         for permission in permissions:
             self.user3.user_permissions.add(permission)
 
+        # unauthorized
         responses = [client.get(reverse_lazy('notifications:notification-delete', kwargs={'pk': self.notification.pk}),
-                                follow=True),
-                     client.get(reverse_lazy('notifications:notification-info', kwargs={'pk': self.notification.pk}),
                                 follow=True),
                      client.get(reverse_lazy('notifications:notification-update', kwargs={'pk': self.notification.pk}),
                                 follow=True)]
-
-        pattern = re.compile(r'You are not authorized to (view|modify|delete) notifications of other users!')
         for response in responses:
             self.assertTrue(pattern.search(
                 re.sub(' +', ' ', response.content.decode('utf-8').strip().replace('\n', ''))
             ))
             self.assertEqual(response.redirect_chain, [('/', 302)])
+
+        # my notifications or addressed to me notifications
+        response = client.get(
+            reverse_lazy('notifications:notification-info', kwargs={'pk': notification2.pk}), follow=True)
+        self.assertTrue(pattern.search(
+            re.sub(' +', ' ', response.content.decode('utf-8').strip().replace('\n', ''))
+        ))
+        self.assertEqual(response.redirect_chain, [('/', 302)])
+
+        response = client.get(
+            reverse_lazy('notifications:notification-info', kwargs={'pk': notification3.pk}), follow=True)
+        self.assertFalse(pattern.search(
+            re.sub(' +', ' ', response.content.decode('utf-8').strip().replace('\n', ''))
+        ))
+        self.assertNotEqual(response.redirect_chain, [('/', 302)])
+
+        response = client.get(reverse_lazy('notifications:notifications-list'))
+        for notification in response.context_data['object_list']:
+            self.assertTrue(notification.creator == self.user3 or self.user3 in notification.recipients.all(),
+                            'user3 can see notifications for which he is not authorized!')
 
         # authorized
         responses = [client.get(reverse_lazy('notifications:notification-delete', kwargs={'pk': notification4.pk}),
@@ -265,18 +282,11 @@ class ViewsTests(TestCase):
                                 follow=True),
                      client.get(reverse_lazy('notifications:notification-update', kwargs={'pk': notification4.pk}),
                                 follow=True)]
-
         for response in responses:
             self.assertFalse(pattern.search(
                 re.sub(' +', ' ', response.content.decode('utf-8').strip().replace('\n', ''))
             ))
             self.assertNotEqual(response.redirect_chain, [('/', 302)])
-
-        # my notifications or addressed to me notifications
-        response = client.get(reverse_lazy('notifications:notifications-list'))
-        for notification in response.context_data['object_list']:
-            self.assertTrue(notification.creator == self.user3 or self.user3 in notification.recipients.all(),
-                            'user3 can see notifications for which he is not authorized!')
 
     def test_permissions_admin(self):
         client = Client()
@@ -297,12 +307,10 @@ class ViewsTests(TestCase):
 
         responses = [client.get(reverse_lazy('notifications:notification-delete',
                                              kwargs={'pk': self.admin_notification.pk}), follow=True),
-                     client.get(reverse_lazy('notifications:notification-info',
-                                             kwargs={'pk': self.admin_notification.pk}), follow=True),
                      client.get(reverse_lazy('notifications:notification-update',
                                              kwargs={'pk': self.admin_notification.pk}), follow=True)]
 
-        pattern = re.compile(r'Only a superuser can (modify|delete|view) notifications of a superuser!')
+        pattern = re.compile(r'Only a superuser can (modify|delete) notifications of a superuser!')
         for response in responses:
             self.assertTrue(pattern.search(
                 re.sub(' +', ' ', response.content.decode('utf-8').strip().replace('\n', ''))
