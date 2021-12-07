@@ -137,6 +137,11 @@ class ViewsTests(TestCase):
         self.assertTrue(client.login(username='user', password='hello123hello123'),
                         'The user cannot log in to test Animals permissions.')
 
+        pattern_health = re.compile(r'<h3.*>.*Health.*</h3>')
+        pattern_management = re.compile(r'<h3.*>.*Management.*</h3>')
+        pattern_description = re.compile(r'<h3.*>.*Description.*</h3>')
+
+        # no permissions
         responses = [client.get(reverse_lazy('animals:animal-create'), follow=True),
                      client.get(reverse_lazy('animals:animal-delete', kwargs={'pk': self.animal.pk}), follow=True),
                      client.get(reverse_lazy('animals:animal-info', kwargs={'pk': self.animal.pk}), follow=True),
@@ -147,12 +152,9 @@ class ViewsTests(TestCase):
             self.assertContains(response, "You don\'t have permission to")
             self.assertEqual(response.redirect_chain, [('/', 302)])
 
+        # + add and change permissions
         self.user.user_permissions.add(Permission.objects.get(codename='add_animal'))
         self.user.user_permissions.add(Permission.objects.get(codename='change_animal'))
-
-        pattern_health = re.compile(r'<h3.*>.*Health.*</h3>')
-        pattern_management = re.compile(r'<h3.*>.*Management.*</h3>')
-        pattern_description = re.compile(r'<h3.*>.*Description.*</h3>')
 
         response_create = client.get(reverse_lazy('animals:animal-create'))
         response_update = client.get(reverse_lazy('animals:animal-update', kwargs={'pk': self.animal.pk}))
@@ -165,14 +167,13 @@ class ViewsTests(TestCase):
         self.assertFalse(pattern_management.search(response_update_decoded))
         self.assertFalse(pattern_description.search(response_update_decoded))
 
-        permissions = [Permission.objects.get(codename='add_animalhealth'),
-                       Permission.objects.get(codename='add_animalmanagement'),
-                       Permission.objects.get(codename='add_animaldescription'),
-                       Permission.objects.get(codename='change_animalhealth'),
-                       Permission.objects.get(codename='change_animalmanagement'),
-                       Permission.objects.get(codename='change_animaldescription')]
-        for permission in permissions:
-            self.user.user_permissions.add(permission)
+        # + add {health, management, description} and change {health, management, description}
+        self.user.user_permissions.add(Permission.objects.get(codename='add_animalhealth'))
+        self.user.user_permissions.add(Permission.objects.get(codename='add_animalmanagement'))
+        self.user.user_permissions.add(Permission.objects.get(codename='add_animaldescription'))
+        self.user.user_permissions.add(Permission.objects.get(codename='change_animalhealth'))
+        self.user.user_permissions.add(Permission.objects.get(codename='change_animalmanagement'))
+        self.user.user_permissions.add(Permission.objects.get(codename='change_animaldescription'))
 
         response_create = client.get(reverse_lazy('animals:animal-create'))
         response_update = client.get(reverse_lazy('animals:animal-update', kwargs={'pk': self.animal.pk}))
@@ -185,8 +186,28 @@ class ViewsTests(TestCase):
         self.assertTrue(pattern_management.search(response_update_decoded))
         self.assertTrue(pattern_description.search(response_update_decoded))
 
-        self.user.user_permissions.add(Permission.objects.get(codename='delete_animal'))
+        # + view permission
         self.user.user_permissions.add(Permission.objects.get(codename='view_animal'))
+
+        response_info = client.get(reverse_lazy('animals:animal-info', kwargs={'pk': self.animal.pk}))
+        response_info_decoded = re.sub(' +', ' ', response_info.content.decode('utf-8').strip().replace('\n', ''))
+        self.assertFalse(pattern_health.search(response_info_decoded))
+        self.assertFalse(pattern_management.search(response_info_decoded))
+        self.assertFalse(pattern_description.search(response_info_decoded))
+
+        # + view {health, management, description}
+        self.user.user_permissions.add(Permission.objects.get(codename='view_animalhealth'))
+        self.user.user_permissions.add(Permission.objects.get(codename='view_animalmanagement'))
+        self.user.user_permissions.add(Permission.objects.get(codename='view_animaldescription'))
+
+        response_info = client.get(reverse_lazy('animals:animal-info', kwargs={'pk': self.animal.pk}))
+        response_info_decoded = re.sub(' +', ' ', response_info.content.decode('utf-8').strip().replace('\n', ''))
+        self.assertTrue(pattern_health.search(response_info_decoded))
+        self.assertTrue(pattern_management.search(response_info_decoded))
+        self.assertTrue(pattern_description.search(response_info_decoded))
+
+        # all permissions
+        self.user.user_permissions.add(Permission.objects.get(codename='delete_animal'))
 
         responses = [client.get(reverse_lazy('animals:animal-create'), follow=True),
                      client.get(reverse_lazy('animals:animal-delete', kwargs={'pk': self.animal.pk}), follow=True),
