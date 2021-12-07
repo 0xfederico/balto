@@ -62,9 +62,6 @@ class ArchitecturalConsistencyTests(TestCase):
         self.event.users.add(self.user1.pk, self.user2.pk)
         self.event.animals.add(self.animal1.pk, self.animal2.pk)
 
-    def tearDown(self):
-        tempfile.mkstemp()  # cleaning the created image
-
     def test_objects_are_instances_of_the_expected_class(self):
         self.assertTrue(isinstance(self.box.located_area, Area), 'box.located_area is not an instance of Area.')
         self.assertTrue(isinstance(self.animal1.box, Box), 'animal1.box is not an instance of Box.')
@@ -127,9 +124,6 @@ class ViewsTests(TestCase):
         self.event.save()
         self.event.users.add(self.user.pk)
         self.event.animals.add(self.animal.pk)
-
-    def tearDown(self):
-        tempfile.mkstemp()  # cleaning the created image
 
     # ---------------
     # - Permissions -
