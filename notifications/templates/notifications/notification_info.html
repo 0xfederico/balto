@@ -53,6 +53,7 @@
                                 {% endfor %}
                             </div>
                         </div>
+                        {% if object.creator.pk == request.user.pk %}
                         <br>
                         <div class="row d-flex justify-content-start">
                             <div class="col-7 mb-2">
@@ -73,6 +74,7 @@
                                 {% endfor %}
                             </div>
                         </div>
+                        {% endif %}
                         <hr><br>
                         <div class="row d-flex justify-content-center align-items-center">
                             <div class="col-5 mb-2">
